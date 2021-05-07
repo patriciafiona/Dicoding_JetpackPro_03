@@ -2,10 +2,7 @@ package com.path_studio.moviecatalogue.data.source.remote
 
 import com.path_studio.moviecatalogue.BuildConfig
 import com.path_studio.moviecatalogue.data.source.remote.api.ApiConfig
-import com.path_studio.moviecatalogue.data.source.remote.response.DetailMovieResponse
-import com.path_studio.moviecatalogue.data.source.remote.response.DetailTvShowResponse
-import com.path_studio.moviecatalogue.data.source.remote.response.ResultsItemMovie
-import com.path_studio.moviecatalogue.data.source.remote.response.ResultsItemTvShow
+import com.path_studio.moviecatalogue.data.source.remote.response.*
 import com.path_studio.moviecatalogue.util.EspressoIdlingResource
 import retrofit2.await
 
@@ -63,8 +60,18 @@ class RemoteDataSource {
         }
     }
 
+    suspend fun getSearchResult(searchTitle: String, callback: CallbackLoadSearchResult){
+        EspressoIdlingResource.increment()
+        ApiConfig.getApiService().getSearchResult(searchTitle, API_KEY, language, "1").await().let{
+                listShow -> callback.onSearchResultRecieved((
+                listShow
+                ))
+            EspressoIdlingResource.decrement()
+        }
+    }
+
     interface CallbackLoadDiscoverMovie{
-        fun onMoviesRecieved(movieResponse: List<ResultsItemMovie>)
+        fun onMoviesRecieved(showResponse: List<ResultsItemMovie>)
     }
 
     interface CallbackLoadDiscoverTvShow{
@@ -77,6 +84,10 @@ class RemoteDataSource {
 
     interface CallbackLoadDetailTvShow{
         fun onTvShowDetailsRecieved(showResponse: DetailTvShowResponse)
+    }
+
+    interface CallbackLoadSearchResult{
+        fun onSearchResultRecieved(showResponse: List<SearchResponse>)
     }
 
 }

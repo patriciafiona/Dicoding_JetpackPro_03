@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.path_studio.moviecatalogue.data.*
 import com.path_studio.moviecatalogue.data.source.remote.RemoteDataSource
-import com.path_studio.moviecatalogue.data.source.remote.response.DetailMovieResponse
-import com.path_studio.moviecatalogue.data.source.remote.response.DetailTvShowResponse
-import com.path_studio.moviecatalogue.data.source.remote.response.ResultsItemMovie
-import com.path_studio.moviecatalogue.data.source.remote.response.ResultsItemTvShow
+import com.path_studio.moviecatalogue.data.source.remote.response.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -27,14 +24,42 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
             }
     }
 
+    override fun getSearchResult(searchTitle: String): LiveData<List<SearchEntity>> {
+        _isLoading.value = true
+        val listOfResults = MutableLiveData<List<SearchEntity>>()
+        CoroutineScope(IO).launch{
+            remoteDataSource.getSearchResult(searchTitle, object : RemoteDataSource.CallbackLoadSearchResult {
+                override fun onSearchResultRecieved(showResponse: List<SearchResponse> ) {
+                    val results = ArrayList<SearchEntity>()
+                    for(response in showResponse){
+                        val result = SearchEntity(
+                            response.id,
+                            response.name,
+                            response.posterPath,
+                            response.backdropPath,
+                            response.mediaType,
+                            response.overview,
+                            response.voteAverage,
+                            response.releaseOrAirDate
+                        )
+                        results.add(result)
+                    }
+                    _isLoading.postValue(false)
+                    listOfResults.postValue(results)
+                }
+            })
+        }
+        return listOfResults
+    }
+
     override fun getDiscoverMovies(): LiveData<List<MovieEntity>> {
         _isLoading.value = true
         val listOfMovie = MutableLiveData<List<MovieEntity>>()
         CoroutineScope(IO).launch{
             remoteDataSource.getDiscoverMovie(object : RemoteDataSource.CallbackLoadDiscoverMovie{
-                override fun onMoviesRecieved(movieResponse: List<ResultsItemMovie>) {
+                override fun onMoviesRecieved(showResponse: List<ResultsItemMovie>) {
                     val movies = ArrayList<MovieEntity>()
-                    for(response in movieResponse){
+                    for(response in showResponse){
                         val movie = MovieEntity(
                                 response.overview,
                                 response.originalTitle,

@@ -1,9 +1,6 @@
 package com.path_studio.moviecatalogue.data.source.remote.api
 
-import com.path_studio.moviecatalogue.data.source.remote.response.DetailMovieResponse
-import com.path_studio.moviecatalogue.data.source.remote.response.DetailTvShowResponse
-import com.path_studio.moviecatalogue.data.source.remote.response.DiscoverMovieResponse
-import com.path_studio.moviecatalogue.data.source.remote.response.DiscoverTvShowResponse
+import com.path_studio.moviecatalogue.data.source.remote.response.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -35,5 +32,13 @@ interface ApiService {
         @Query("api_key") api_key: String?,
         @Query("language") language: String
     ): Call<DetailTvShowResponse>
+
+    @GET("search/multi")
+    fun getSearchResult(
+        @Query("api_key") api_key: String?,
+        @Query("language") language: String,
+        @Query("query") query: String,
+        @Query("page") page: String
+    ): Call<List<SearchResponse>>
 
 }
