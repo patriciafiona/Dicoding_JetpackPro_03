@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_movie"
+        android:icon="@drawable/ic_baseline_video_purple"
+        android:title="@string/listMovie" />
+
+    <item
+        android:id="@+id/navigation_favorite"
+        android:icon="@drawable/ic_baseline_favorite_purple"
+        android:title="@string/favorite" />
+
+    <item
+        android:id="@+id/navigation_tvShow"
+        android:icon="@drawable/ic_baseline_live_tv_purple"
+        android:title="@string/listTvShow" />
+</menu>
