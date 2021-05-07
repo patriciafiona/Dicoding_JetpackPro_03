@@ -1,0 +1,84 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+}
+
+def apikeyPropertiesFile = file("apikey.properties")
+def apikeyProperties = new Properties()
+if (apikeyPropertiesFile.canRead()) {
+    apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.path_studio.moviecatalogue"
+        minSdkVersion 24
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "TMDB_API_KEY", apikeyProperties['TMDB_API_KEY'])
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    //kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.core:core-ktx:$coreVersion"
+
+    //ui
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
+    implementation "com.google.android.material:material:$materialVersion"
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.4.0-alpha02'
+    implementation 'com.faltenreich:skeletonlayout:4.0.0'
+    implementation "androidx.activity:activity-ktx:1.2.3"
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
+
+    //testing
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0'
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+
+    androidTestImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test:runner:$androidTestVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation 'androidx.test:rules:1.3.0'
+    androidTestImplementation "androidx.test.ext:junit:1.1.2"
+}
