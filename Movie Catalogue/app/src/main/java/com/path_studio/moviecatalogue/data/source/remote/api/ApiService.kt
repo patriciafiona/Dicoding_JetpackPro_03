@@ -7,6 +7,15 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
+
+    @GET("search/multi")
+    fun getSearchResult(
+        @Query("api_key") api_key: String?,
+        @Query("language") language: String,
+        @Query("query") query: String,
+        @Query("page") page: String
+    ): Call<SearchResponse>
+
     @GET("discover/movie")
     fun getDiscoverMovie(
         @Query("api_key") api_key: String?,
@@ -32,13 +41,5 @@ interface ApiService {
         @Query("api_key") api_key: String?,
         @Query("language") language: String
     ): Call<DetailTvShowResponse>
-
-    @GET("search/multi")
-    fun getSearchResult(
-        @Query("api_key") api_key: String?,
-        @Query("language") language: String,
-        @Query("query") query: String,
-        @Query("page") page: String
-    ): Call<List<SearchResponse>>
 
 }

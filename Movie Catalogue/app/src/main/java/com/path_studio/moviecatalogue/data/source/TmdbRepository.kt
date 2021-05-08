@@ -24,34 +24,6 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
             }
     }
 
-    override fun getSearchResult(searchTitle: String): LiveData<List<SearchEntity>> {
-        _isLoading.value = true
-        val listOfResults = MutableLiveData<List<SearchEntity>>()
-        CoroutineScope(IO).launch{
-            remoteDataSource.getSearchResult(searchTitle, object : RemoteDataSource.CallbackLoadSearchResult {
-                override fun onSearchResultRecieved(showResponse: List<SearchResponse> ) {
-                    val results = ArrayList<SearchEntity>()
-                    for(response in showResponse){
-                        val result = SearchEntity(
-                            response.id,
-                            response.name,
-                            response.posterPath,
-                            response.backdropPath,
-                            response.mediaType,
-                            response.overview,
-                            response.voteAverage,
-                            response.releaseOrAirDate
-                        )
-                        results.add(result)
-                    }
-                    _isLoading.postValue(false)
-                    listOfResults.postValue(results)
-                }
-            })
-        }
-        return listOfResults
-    }
-
     override fun getDiscoverMovies(): LiveData<List<MovieEntity>> {
         _isLoading.value = true
         val listOfMovie = MutableLiveData<List<MovieEntity>>()

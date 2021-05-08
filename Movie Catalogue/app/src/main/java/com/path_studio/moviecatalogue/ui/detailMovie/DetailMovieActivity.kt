@@ -40,7 +40,6 @@ class DetailMovieActivity : AppCompatActivity(){
             val movieId = extras.getLong(EXTRA_MOVIE)
             if (movieId != 0L) {
                 detailMovieViewModel = DetailMovieViewModel(Injection.provideImdbRepository(this))
-                detailMovieViewModel.getDetailMovie(movieId.toString())
                 val showDetails = detailMovieViewModel.getDetailMovie(movieId.toString())
 
                 showDetails.observe(this, { detail ->

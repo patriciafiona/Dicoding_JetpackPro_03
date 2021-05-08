@@ -46,7 +46,6 @@ class DetailTvShowActivity : AppCompatActivity() {
             if (showId != 0L) {
                 detailTvShowViewModel = DetailTvShowViewModel(Injection.provideImdbRepository(this))
                 val showDetails = detailTvShowViewModel.getDetailTvShow(showId.toString())
-
                 val seasonAdapter = SeasonDetailAdapter()
 
                 with(binding.rvSeasonDetail) {

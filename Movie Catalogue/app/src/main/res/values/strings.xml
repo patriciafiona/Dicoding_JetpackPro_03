@@ -39,4 +39,7 @@
     <string name="my_favorites">My Favorites</string>
     <string name="search_image">Search Image</string>
     <string name="search_movie_and_tv_show_here">Search Movie and Tv Show here...</string>
+    <string name="poster_image">poster_image</string>
+    <string name="temp_overview">overview here...</string>
+    <string name="bg_darken">bg_darken</string>
 </resources>
