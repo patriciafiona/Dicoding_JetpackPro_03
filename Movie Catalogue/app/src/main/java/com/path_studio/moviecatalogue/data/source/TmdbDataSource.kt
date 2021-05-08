@@ -8,4 +8,5 @@ interface TmdbDataSource {
     fun getDiscoverTvShow(): LiveData<List<TvShowEntity>>
     fun getDetailMovie(movieId: String): LiveData<DetailMovieEntity>
     fun getDetailTvShow(showId: String): LiveData<DetailTvShowEntity>
+    fun getSearchResult(title: String): LiveData<List<SearchEntity>>
 }

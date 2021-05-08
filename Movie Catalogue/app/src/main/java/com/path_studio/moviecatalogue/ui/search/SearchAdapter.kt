@@ -1,5 +1,6 @@
 package com.path_studio.moviecatalogue.ui.search
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,65 +11,84 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter
 import com.path_studio.moviecatalogue.R
+import com.path_studio.moviecatalogue.data.MovieEntity
 import com.path_studio.moviecatalogue.data.SearchEntity
+import com.path_studio.moviecatalogue.databinding.ItemRowSuggestionBinding
+import com.path_studio.moviecatalogue.databinding.ItemsMovieTvshowBinding
+import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieActivity
+import com.path_studio.moviecatalogue.ui.detailTvShow.DetailTvShowActivity
+import com.path_studio.moviecatalogue.ui.movie.MovieAdapter
+import com.path_studio.moviecatalogue.util.Utils
 
-class SearchAdapter(inflater: LayoutInflater?, val activity: SearchActivity) : SuggestionsAdapter<SearchEntity,
+class SearchAdapter(inflater: LayoutInflater?) : SuggestionsAdapter<SearchEntity,
         SearchAdapter.SuggestionHolder>(inflater) {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): SearchAdapter.SuggestionHolder {
-        val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_row_suggestion, parent, false)
-        return SuggestionHolder(view)
+    private var listResult = ArrayList<SearchEntity>()
+
+    fun setResult(res: List<SearchEntity>) {
+        this.listResult.clear()
+        this.listResult.addAll(res)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SuggestionHolder {
+        val itemSearchBinding = ItemRowSuggestionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return SuggestionHolder(itemSearchBinding)
     }
 
     override fun onBindSuggestionHolder(
         suggestion: SearchEntity,
-        holder: SearchAdapter.SuggestionHolder,
+        holder: SuggestionHolder,
         position: Int
     ) {
-
-        holder.name.text = suggestion.name
-
-        holder.overview.text = suggestion.overview
-
-        if (suggestion.posterPath != null){
-            val posterURL = "https://image.tmdb.org/t/p/w500${suggestion.posterPath}"
-            Glide.with(holder.itemView)
-                .load(posterURL)
-                .apply(RequestOptions().override(500, 500))
-                .into(holder.poster)
-        }else{
-            holder.poster.setImageResource(R.drawable.no_image)
-        }
-
-        if (suggestion.backdropPath != null){
-            val backdropURL = "https://www.themoviedb.org/t/p/w533_and_h300_bestv2${suggestion.backdropPath}"
-            Glide.with(holder.itemView)
-                .load(backdropURL)
-                .apply(RequestOptions().override(500, 500))
-                .into(holder.backDrop)
-        }
-
-//        holder.itemView.setOnClickListener {
-//            //show detail page
-//            val i = Intent(activity, DetailUserActivity::class.java)
-//            i.putExtra(DetailUserActivity.EXTRA_USER, suggestion)
-//            activity.startActivity(i)
-//        }
+        val result = listResult[position]
+        holder.bind(result)
     }
+
+    override fun getItemCount(): Int = listResult.size
 
     override fun getSingleViewHeight(): Int {
         return 60
     }
 
-    inner class SuggestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var name: TextView = itemView.findViewById(R.id.suggestion_title)
-        var overview: TextView = itemView.findViewById(R.id.suggestion_overview)
-        var poster: ImageView = itemView.findViewById(R.id.suggestion_poster)
-        var backDrop: ImageView = itemView.findViewById(R.id.suggestion_backdrop)
-    }
+    class SuggestionHolder(private val binding: ItemRowSuggestionBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(suggestion: SearchEntity) {
+            with(binding) {
+                suggestionTitle.text = suggestion.name
 
+                suggestionOverview.text = suggestion.overview
+
+                if (suggestion.posterPath != null){
+                    val posterURL = "https://image.tmdb.org/t/p/w500${suggestion.posterPath}"
+                    Glide.with(itemView.context)
+                        .load(posterURL)
+                        .apply(RequestOptions().override(500, 500))
+                        .into(suggestionPoster)
+                }else{
+                    suggestionPoster.setImageResource(R.drawable.no_image)
+                }
+
+                if (suggestion.backdropPath != null){
+                    val backdropURL = "https://www.themoviedb.org/t/p/w533_and_h300_bestv2${suggestion.backdropPath}"
+                    Glide.with(itemView.context)
+                        .load(backdropURL)
+                        .apply(RequestOptions().override(500, 500))
+                        .into(suggestionBackdrop)
+                }
+
+                itemView.setOnClickListener {
+                    //show detail page
+                    if(suggestion.mediaType == "tv"){
+                        val intent = Intent(itemView.context, DetailTvShowActivity::class.java)
+                        intent.putExtra(DetailTvShowActivity.EXTRA_TV_SHOW, suggestion.id)
+                        itemView.context.startActivity(intent)
+                    }else{
+                        val intent = Intent(itemView.context, DetailMovieActivity::class.java)
+                        intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, suggestion.id)
+                        itemView.context.startActivity(intent)
+                    }
+
+                }
+            }
+        }
+    }
 }

@@ -15,12 +15,17 @@ import com.path_studio.moviecatalogue.data.SearchEntity
 import com.path_studio.moviecatalogue.data.source.remote.api.ApiConfig
 import com.path_studio.moviecatalogue.data.source.remote.response.SearchResponse
 import com.path_studio.moviecatalogue.databinding.ActivitySearchBinding
+import com.path_studio.moviecatalogue.di.Injection
+import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieViewModel
 import com.path_studio.moviecatalogue.ui.mainPage.MainActivity
+import com.path_studio.moviecatalogue.ui.movie.MovieAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SearchActivity : AppCompatActivity() {
+
+    private lateinit var searchViewModel: SearchViewModel
 
     private lateinit var binding: ActivitySearchBinding
     private lateinit var searchResult: SearchResponse
@@ -53,7 +58,7 @@ class SearchActivity : AppCompatActivity() {
 
         //enable search bar callbacks
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        searchAdapter = SearchAdapter(inflater, this)
+        searchAdapter = SearchAdapter(inflater)
 
         binding.searchBar.setOnSearchActionListener(object : MaterialSearchBar.OnSearchActionListener {
             override fun onSearchStateChanged(enabled: Boolean) {}
@@ -77,8 +82,24 @@ class SearchActivity : AppCompatActivity() {
                 binding.searchBar.setCustomSuggestionAdapter(searchAdapter)
 
                 if (binding.searchBar.text.isNotEmpty()) {
-                    showLoading(true)
-                    getSearchResult(binding.searchBar.text.toString())
+                    searchViewModel = SearchViewModel(Injection.provideImdbRepository(this@SearchActivity))
+                    val results = searchViewModel.getSearchResult(binding.searchBar.text)
+
+                    results.observe(this@SearchActivity, { detail ->
+                        searchAdapter.setResult(detail)
+                        searchAdapter.suggestions = detail
+
+                        searchAdapter.notifyDataSetChanged()
+                        binding.searchBar.showSuggestionsList()
+                    })
+
+                    searchViewModel.getLoading().observe(this@SearchActivity, {
+                        if (it) {
+                            binding.progressBar.visibility = View.VISIBLE
+                        }else{
+                            binding.progressBar.visibility = View.GONE
+                        }
+                    })
                 } else {
                     binding.searchBar.clearSuggestions()
                     binding.searchBar.hideSuggestionsList()
@@ -94,7 +115,7 @@ class SearchActivity : AppCompatActivity() {
         })
     }
 
-    private fun getSearchResult(title: String): ArrayList<SearchEntity>{
+    /*private fun getSearchResult(title: String): ArrayList<SearchEntity>{
         listSearchResult.clear()
 
         ApiConfig.getApiService().getSearchResult(API_KEY, language, title, "1").enqueue(object : Callback<SearchResponse> {
@@ -136,14 +157,6 @@ class SearchActivity : AppCompatActivity() {
 
         })
         return listSearchResult
-    }
-
-    private fun showLoading(state: Boolean) {
-        if (state) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
-    }
+    }*/
 
 }

@@ -20,6 +20,16 @@ class RemoteDataSource {
                 }
     }
 
+    suspend fun getSearchResult(title: String, callback: CallbackLoadSearchResult) {
+        EspressoIdlingResource.increment()
+        ApiConfig.getApiService().getSearchResult(API_KEY, language, title, "1").await().results.let{
+                listResult -> callback.onSearchResultRecieved((
+                listResult
+                ))
+            EspressoIdlingResource.decrement()
+        }
+    }
+
     suspend fun getDiscoverMovie(callback: CallbackLoadDiscoverMovie) {
         EspressoIdlingResource.increment()
         ApiConfig.getApiService().getDiscoverMovie(API_KEY, language).await().results.let{
@@ -74,6 +84,10 @@ class RemoteDataSource {
 
     interface CallbackLoadDetailTvShow{
         fun onTvShowDetailsRecieved(showResponse: DetailTvShowResponse)
+    }
+
+    interface CallbackLoadSearchResult{
+        fun onSearchResultRecieved(showResponse: List<SearchResultsItem?>?)
     }
 
 }

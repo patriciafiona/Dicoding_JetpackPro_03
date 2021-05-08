@@ -24,6 +24,41 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
             }
     }
 
+    override fun getSearchResult(title: String): LiveData<List<SearchEntity>> {
+        _isLoading.value = true
+        val listOfResult = MutableLiveData<List<SearchEntity>>()
+        CoroutineScope(IO).launch{
+            remoteDataSource.getSearchResult(title, object : RemoteDataSource.CallbackLoadSearchResult{
+                override fun onSearchResultRecieved(showResponse: List<SearchResultsItem?>?) {
+                    val res = ArrayList<SearchEntity>()
+                    if (showResponse != null) {
+                        for(responseSearch in showResponse){
+                            if(responseSearch!!.mediaType == "tv" || responseSearch.mediaType == "movie"){
+                                val resSearch = SearchEntity(
+                                    responseSearch.id,
+                                    if(responseSearch.mediaType == "tv") responseSearch.name else responseSearch.title,
+                                    responseSearch.posterPath,
+                                    responseSearch.backdropPath,
+                                    responseSearch.mediaType,
+                                    responseSearch.overview,
+                                    responseSearch.voteAverage,
+                                    if(responseSearch.mediaType == "tv") responseSearch.firstAirDate else responseSearch.releaseDate
+                                )
+
+                                if(!res.contains(resSearch)){
+                                    res.add(resSearch)
+                                }
+                            }
+                        }
+                    }
+                    _isLoading.postValue(false)
+                    listOfResult.postValue(res)
+                }
+            })
+        }
+        return listOfResult
+    }
+
     override fun getDiscoverMovies(): LiveData<List<MovieEntity>> {
         _isLoading.value = true
         val listOfMovie = MutableLiveData<List<MovieEntity>>()

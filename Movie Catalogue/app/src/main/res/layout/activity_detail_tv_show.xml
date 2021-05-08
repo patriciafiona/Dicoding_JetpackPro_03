@@ -36,14 +36,13 @@
         android:id="@+id/showTopTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@string/temp_title"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/btnBackPage"
+        app:layout_constraintStart_toEndOf="@+id/btnBackPage02"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.8" />
 
