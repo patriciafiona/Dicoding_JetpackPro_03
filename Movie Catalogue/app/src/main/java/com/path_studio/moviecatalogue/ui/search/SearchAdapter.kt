@@ -2,23 +2,16 @@ package com.path_studio.moviecatalogue.ui.search
 
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter
 import com.path_studio.moviecatalogue.R
-import com.path_studio.moviecatalogue.data.MovieEntity
-import com.path_studio.moviecatalogue.data.SearchEntity
+import com.path_studio.moviecatalogue.data.entities.SearchEntity
 import com.path_studio.moviecatalogue.databinding.ItemRowSuggestionBinding
-import com.path_studio.moviecatalogue.databinding.ItemsMovieTvshowBinding
 import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieActivity
 import com.path_studio.moviecatalogue.ui.detailTvShow.DetailTvShowActivity
-import com.path_studio.moviecatalogue.ui.movie.MovieAdapter
-import com.path_studio.moviecatalogue.util.Utils
 
 class SearchAdapter(inflater: LayoutInflater?) : SuggestionsAdapter<SearchEntity,
         SearchAdapter.SuggestionHolder>(inflater) {

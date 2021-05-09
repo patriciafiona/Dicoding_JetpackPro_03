@@ -1,10 +1,17 @@
 package com.path_studio.moviecatalogue.data.source.remote
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.path_studio.moviecatalogue.BuildConfig
 import com.path_studio.moviecatalogue.data.source.remote.api.ApiConfig
 import com.path_studio.moviecatalogue.data.source.remote.response.*
 import com.path_studio.moviecatalogue.util.EspressoIdlingResource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 import retrofit2.await
+import java.io.IOException
 
 class RemoteDataSource {
 
@@ -30,17 +37,28 @@ class RemoteDataSource {
         }
     }
 
-    suspend fun getDiscoverMovie(callback: CallbackLoadDiscoverMovie) {
+    suspend fun getDiscoverMovie(): LiveData<ApiResponse<List<DiscoverMovieResponse>>> {
         EspressoIdlingResource.increment()
-        ApiConfig.getApiService().getDiscoverMovie(API_KEY, language).await().results.let{
-                listMovie -> callback.onMoviesRecieved((
-                    listMovie
-                ))
-            EspressoIdlingResource.decrement()
+        val resultMovieResponse = MutableLiveData<ApiResponse<List<DiscoverMovieResponse>>>()
+        CoroutineScope(IO).launch {
+            try{
+                val response = ApiConfig.getApiService().getDiscoverMovie(API_KEY, language).await()
+                resultMovieResponse.postValue(ApiResponse.success(response.results!!))
+            }catch (e: IOException){
+                Log.e("getDiscoverMovie Error", e.message.toString())
+                resultMovieResponse.postValue(
+                    ApiResponse.error(
+                        e.message.toString(),
+                        mutableListOf()
+                    )
+                )
+            }
         }
+        EspressoIdlingResource.decrement()
+        return  resultMovieResponse
     }
 
-    suspend fun getDiscoverTvShow(callback: CallbackLoadDiscoverTvShow){
+    suspend fun getDiscoverTvShow(): LiveData<ApiResponse<List<DiscoverMovieResponse>>> {
         EspressoIdlingResource.increment()
         ApiConfig.getApiService().getDiscoverTvShow(API_KEY, language).await().results.let{
             listShow -> callback.onTvShowRecieved((

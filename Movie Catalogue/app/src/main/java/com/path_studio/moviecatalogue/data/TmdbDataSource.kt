@@ -1,7 +1,7 @@
-package com.path_studio.moviecatalogue.data.source
+package com.path_studio.moviecatalogue.data
 
 import androidx.lifecycle.LiveData
-import com.path_studio.moviecatalogue.data.*
+import com.path_studio.moviecatalogue.data.entities.*
 
 interface TmdbDataSource {
     fun getDiscoverMovies(): LiveData<List<MovieEntity>>

@@ -10,7 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.faltenreich.skeletonlayout.Skeleton
 import com.path_studio.moviecatalogue.R
-import com.path_studio.moviecatalogue.data.DetailMovieEntity
+import com.path_studio.moviecatalogue.data.entities.DetailMovieEntity
 import com.path_studio.moviecatalogue.databinding.ActivityDetailMovieBinding
 import com.path_studio.moviecatalogue.di.Injection
 import com.path_studio.moviecatalogue.util.Utils.changeMinuteToDurationFormat

@@ -2,7 +2,8 @@ package com.path_studio.moviecatalogue.data.source
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.path_studio.moviecatalogue.data.*
+import com.path_studio.moviecatalogue.data.TmdbDataSource
+import com.path_studio.moviecatalogue.data.entities.*
 import com.path_studio.moviecatalogue.data.source.remote.RemoteDataSource
 import com.path_studio.moviecatalogue.data.source.remote.response.DetailMovieResponse
 import com.path_studio.moviecatalogue.data.source.remote.response.DetailTvShowResponse

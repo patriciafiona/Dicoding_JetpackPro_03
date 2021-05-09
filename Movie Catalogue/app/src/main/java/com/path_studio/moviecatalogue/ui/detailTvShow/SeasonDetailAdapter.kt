@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.path_studio.moviecatalogue.R
-import com.path_studio.moviecatalogue.data.TvShowSeasonEntity
+import com.path_studio.moviecatalogue.data.entities.TvShowSeasonEntity
 import com.path_studio.moviecatalogue.databinding.ItemsSeasonDetailBinding
 import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
 

@@ -1,7 +1,7 @@
 package com.path_studio.moviecatalogue.di
 
 import android.content.Context
-import com.path_studio.moviecatalogue.data.source.TmdbRepository
+import com.path_studio.moviecatalogue.data.TmdbRepository
 import com.path_studio.moviecatalogue.data.source.remote.RemoteDataSource
 
 object Injection {

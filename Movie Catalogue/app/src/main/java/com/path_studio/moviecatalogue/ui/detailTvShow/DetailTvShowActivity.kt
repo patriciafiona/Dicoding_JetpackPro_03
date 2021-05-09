@@ -12,7 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.faltenreich.skeletonlayout.Skeleton
 import com.path_studio.moviecatalogue.R
-import com.path_studio.moviecatalogue.data.DetailTvShowEntity
+import com.path_studio.moviecatalogue.data.entities.DetailTvShowEntity
 import com.path_studio.moviecatalogue.databinding.ActivityDetailTvShowBinding
 import com.path_studio.moviecatalogue.di.Injection
 import com.path_studio.moviecatalogue.util.Utils

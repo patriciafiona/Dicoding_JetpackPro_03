@@ -1,15 +1,16 @@
-package com.path_studio.moviecatalogue.data.source
+package com.path_studio.moviecatalogue.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.path_studio.moviecatalogue.data.*
+import com.path_studio.moviecatalogue.data.entities.*
 import com.path_studio.moviecatalogue.data.source.remote.RemoteDataSource
 import com.path_studio.moviecatalogue.data.source.remote.response.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
-class TmdbRepository private constructor(private val remoteDataSource: RemoteDataSource): TmdbDataSource {
+class TmdbRepository private constructor(private val remoteDataSource: RemoteDataSource):
+    TmdbDataSource {
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading

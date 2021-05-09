@@ -1,6 +1,6 @@
 package com.path_studio.moviecatalogue.util
 
-import com.path_studio.moviecatalogue.data.*
+import com.path_studio.moviecatalogue.data.entities.*
 import com.path_studio.moviecatalogue.data.source.remote.response.*
 
 /*
@@ -559,7 +559,8 @@ object DataDummy {
     fun generateDummyMovie(): List<MovieEntity> {
         val movies = ArrayList<MovieEntity>()
 
-        movies.add(MovieEntity(
+        movies.add(
+            MovieEntity(
             "Washed-up MMA fighter Cole Young, unaware of his heritage, and hunted by Emperor Shang Tsung's best warrior, " +
                     "Sub-Zero, seeks out and trains with Earth's greatest champions as he prepares to stand against the enemies of " +
                     "Outworld in a high stakes battle for the universe.",
@@ -570,9 +571,11 @@ object DataDummy {
             "2021-04-07",
             7.9,
             460465
-        ))
+        )
+        )
 
-        movies.add(MovieEntity(
+        movies.add(
+            MovieEntity(
             "In a time when monsters walk the Earth, humanity’s fight for its future sets Godzilla and Kong on a " +
                     "collision course that will see the two most powerful forces of nature on the planet collide in a spectacular battle for the ages.",
             "Godzilla vs. Kong",
@@ -582,9 +585,11 @@ object DataDummy {
             "2021-03-24",
             8.2,
             399566
-        ))
+        )
+        )
 
-        movies.add(MovieEntity(
+        movies.add(
+            MovieEntity(
             "Hutch Mansell, a suburban dad, overlooked husband, nothing neighbor — a \"nobody.\" When two thieves break into his " +
                     "home one night, Hutch's unknown long-simmering rage is ignited and propels him on a brutal path that will uncover dark " +
                     "secrets he fought to leave behind.",
@@ -595,9 +600,11 @@ object DataDummy {
             "2021-03-18",
             8.5,
             615457
-        ))
+        )
+        )
 
-        movies.add(MovieEntity(
+        movies.add(
+            MovieEntity(
             "Determined to ensure Superman's ultimate sacrifice was not in vain, Bruce Wayne aligns forces with Diana Prince with " +
                     "plans to recruit a team of metahumans to protect the world from an approaching threat of catastrophic proportions.",
             "Zack Snyder's Justice League",
@@ -607,9 +614,11 @@ object DataDummy {
             "2021-03-18",
             8.5,
             791373
-        ))
+        )
+        )
 
-        movies.add(MovieEntity(
+        movies.add(
+            MovieEntity(
             "Alice, a young hearing-impaired girl who, after a supposed visitation from the Virgin Mary, " +
                     "is inexplicably able to hear, speak and heal the sick. As word spreads and people from near and " +
                     "far flock to witness her miracles, a disgraced journalist hoping to revive his career visits the " +
@@ -622,9 +631,11 @@ object DataDummy {
             "2021-03-31",
             5.7,
             632357
-        ))
+        )
+        )
 
-        movies.add(MovieEntity(
+        movies.add(
+            MovieEntity(
             "In a world where supervillains are commonplace, two estranged childhood best friends reunite after " +
                     "one devises a treatment that gives them powers to protect their city.",
             "Thunder Force",
@@ -634,9 +645,11 @@ object DataDummy {
             "2021-04-09",
             5.8,
             615678
-        ))
+        )
+        )
 
-        movies.add(MovieEntity(
+        movies.add(
+            MovieEntity(
             "Jim Hanson’s quiet life is suddenly disturbed by two people crossing the US/Mexico border – " +
                     "a woman and her young son – desperate to flee a Mexican cartel. After a shootout leaves the mother " +
                     "dead, Jim becomes the boy’s reluctant defender. He embraces his role as Miguel’s protector and will " +
@@ -648,9 +661,11 @@ object DataDummy {
             "2021-01-15",
             7.3,
             634528
-        ))
+        )
+        )
 
-        movies.add(MovieEntity(
+        movies.add(
+            MovieEntity(
             "Tanjiro Kamado, joined with Inosuke Hashibira, a boy raised by boars who wears a boar's head, and " +
                     "Zenitsu Agatsuma, a scared boy who reveals his true power when he sleeps, boards the Infinity Train on a " +
                     "new mission with the Fire Hashira, Kyojuro Rengoku, to defeat a demon who has been tormenting the people " +
@@ -662,9 +677,11 @@ object DataDummy {
             "2020-10-16",
             8.2,
             635302
-        ))
+        )
+        )
 
-        movies.add(MovieEntity(
+        movies.add(
+            MovieEntity(
             "Two unlikely companions embark on a perilous adventure through the badlands of an unexplored planet " +
                     "as they try to escape a dangerous and disorienting reality, where all inner thoughts are seen and heard by everyone.",
             "Chaos Walking",
@@ -674,9 +691,11 @@ object DataDummy {
             "2021-02-24",
             7.3,
             412656
-        ))
+        )
+        )
 
-        movies.add(MovieEntity(
+        movies.add(
+            MovieEntity(
             "Long ago, in the fantasy world of Kumandra, humans and dragons lived together in harmony. " +
                     "But when an evil force threatened the land, the dragons sacrificed themselves to save humanity. " +
                     "Now, 500 years later, that same evil has returned and it’s up to a lone warrior, Raya, to track " +
@@ -688,7 +707,8 @@ object DataDummy {
             "2021-03-03",
             8.3,
             527774
-        ))
+        )
+        )
 
         return movies
     }
@@ -847,7 +867,8 @@ object DataDummy {
     fun generateDummyDetailMovie(): List<DetailMovieEntity> {
         val detailMovies = ArrayList<DetailMovieEntity>()
 
-        detailMovies.add(DetailMovieEntity(
+        detailMovies.add(
+            DetailMovieEntity(
             460465,
             "Mortal Kombat",
             "/9yBVqNruk6Ykrwc32qrK2TIE5xw.jpg",
@@ -870,7 +891,8 @@ object DataDummy {
         )
         )
 
-        detailMovies.add(DetailMovieEntity(
+        detailMovies.add(
+            DetailMovieEntity(
                 527774,
                 "Raya and the Last Dragon",
                 "/7prYzufdIOy1KCTZKVWpjBFqqNr.jpg",
