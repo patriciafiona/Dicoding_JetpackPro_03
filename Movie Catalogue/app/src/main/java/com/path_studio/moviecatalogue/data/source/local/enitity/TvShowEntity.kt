@@ -28,6 +28,9 @@ data class TvShowEntity(
     @ColumnInfo(name = "voteAverage")
     var voteAverage: Double?,
 
+    @ColumnInfo(name = "firstAirDate")
+    val firstAirDate: String?,
+
     /*@ColumnInfo(name = "genres")
     val genres:ArrayList<String>? = ArrayList(),*/
 

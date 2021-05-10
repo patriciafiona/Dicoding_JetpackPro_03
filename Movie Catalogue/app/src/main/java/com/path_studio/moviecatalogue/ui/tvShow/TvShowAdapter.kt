@@ -12,6 +12,7 @@ import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.databinding.ItemsMovieTvshowBinding
 import com.path_studio.moviecatalogue.ui.detailTvShow.DetailTvShowActivity
+import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
 
 class TvShowAdapter: PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHolder>(TvShowAdapter.DIFF_CALLBACK)  {
 
@@ -44,9 +45,9 @@ class TvShowAdapter: PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHold
             with(binding) {
                 tvItemTitle.text = show.name
 
-                //tvItemDate.text = changeStringToDateFormat(show.firstAirDate!!)
+                tvItemDate.text = changeStringToDateFormat(show.firstAirDate!!)
 
-                //tvItemRating.rating = show.voteAverage!!.toFloat()/2
+                tvItemRating.rating = show.voteAverage!!.toFloat()/2
 
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, DetailTvShowActivity::class.java)

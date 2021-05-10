@@ -52,13 +52,13 @@ class MovieFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
             viewModel.getDiscoverMovies().observe(this, { movies ->
                 if (movies != null) {
                     when (movies.status) {
-                        Status.LOADING -> binding?.progressBar?.visibility = View.VISIBLE
+                        Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
                         Status.SUCCESS -> {
-                            binding?.progressBar?.visibility = View.GONE
+                            binding.progressBar.visibility = View.GONE
                             movieAdapter.submitList(movies.data)
                         }
                         Status.ERROR -> {
-                            binding?.progressBar?.visibility = View.GONE
+                            binding.progressBar.visibility = View.GONE
                             Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
                         }
                     }

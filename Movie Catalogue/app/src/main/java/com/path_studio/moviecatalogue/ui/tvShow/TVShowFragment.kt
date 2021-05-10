@@ -27,12 +27,10 @@ class TVShowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
     private lateinit var textResult: AppCompatTextView
     private lateinit var filterImage: ImageView
 
-    private lateinit var tvShowViewModel: TvShowViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         //set binding
         _binding = FragmentTvShowBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -61,13 +59,13 @@ class TVShowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
             viewModel.getDiscoverTvShow().observe(this, { shows ->
                 if (shows != null) {
                     when (shows.status) {
-                        Status.LOADING -> binding?.progressBar?.visibility = View.VISIBLE
+                        Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
                         Status.SUCCESS -> {
-                            binding?.progressBar?.visibility = View.GONE
+                            binding.progressBar.visibility = View.GONE
                             tvShowAdapter.submitList(shows.data)
                         }
                         Status.ERROR -> {
-                            binding?.progressBar?.visibility = View.GONE
+                            binding.progressBar.visibility = View.GONE
                             Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
                         }
                     }

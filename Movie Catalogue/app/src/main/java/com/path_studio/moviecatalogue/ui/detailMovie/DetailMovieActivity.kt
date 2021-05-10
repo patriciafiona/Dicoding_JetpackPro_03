@@ -2,17 +2,22 @@ package com.path_studio.moviecatalogue.ui.detailMovie
 
 import android.annotation.SuppressLint
 import android.app.ActionBar
+import android.opengl.Visibility
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.path_studio.moviecatalogue.R
+import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.databinding.ActivityDetailMovieBinding
 import com.path_studio.moviecatalogue.di.Injection
 import com.path_studio.moviecatalogue.util.Utils.changeMinuteToDurationFormat
 import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
+import com.path_studio.moviecatalogue.viewmodel.ViewModelFactory
 
 class DetailMovieActivity : AppCompatActivity(){
     private lateinit var detailMovieViewModel: DetailMovieViewModel
@@ -28,8 +33,11 @@ class DetailMovieActivity : AppCompatActivity(){
         binding = ActivityDetailMovieBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*val extras = intent.extras
+        val extras = intent.extras
         if (extras != null) {
+            val factory = ViewModelFactory.getInstance(this)
+            detailMovieViewModel = ViewModelProvider(this, factory)[DetailMovieViewModel::class.java]
+
             val movieId = extras.getLong(EXTRA_MOVIE)
             if (movieId != 0L) {
                 detailMovieViewModel = DetailMovieViewModel(Injection.provideImdbRepository(this))
@@ -40,18 +48,22 @@ class DetailMovieActivity : AppCompatActivity(){
                 })
 
                 detailMovieViewModel.getLoading().observe(this, {
-                    if (it) skeleton.showSkeleton() else skeleton.showOriginal()
+                    if (it) {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }else{
+                        binding.progressBar.visibility = View.GONE
+                    }
                 })
             }
-        }*/
+        }
 
         binding.btnBackPage.setOnClickListener {
-            super.onBackPressed() // or super.finish()
+            super.onBackPressed()
         }
     }
 
-    /*@SuppressLint("UseCompatLoadingForDrawables")
-    private fun showDetailMovie(movieEntity: DetailMovieEntity) {
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun showDetailMovie(movieEntity: MovieEntity) {
         if (!movieEntity.title.equals("") && movieEntity.title != null){
             binding.movieTopTitle.text = movieEntity.title
             binding.movieTitle.text = movieEntity.title
@@ -61,7 +73,7 @@ class DetailMovieActivity : AppCompatActivity(){
 
             binding.movieRating.rating = movieEntity.voteAverage!!.toFloat()/2
 
-            binding.movieDuration.text = changeMinuteToDurationFormat(movieEntity.runtime!!)
+            //binding.movieDuration.text = changeMinuteToDurationFormat(movieEntity.runtime!!)
 
             val posterURL = "https://image.tmdb.org/t/p/w500${movieEntity.posterPath}"
             Glide.with(this)
@@ -84,7 +96,7 @@ class DetailMovieActivity : AppCompatActivity(){
                 .into(binding.movieBackdrop)
             binding.movieBackdrop.alpha = 0.5F
 
-            for (genre in movieEntity.genres!!){
+            /*for (genre in movieEntity.genres!!){
                 //set the properties for button
                 val btnTag = Button(this)
 
@@ -104,8 +116,8 @@ class DetailMovieActivity : AppCompatActivity(){
 
                 //add button to the layout
                 binding.movieGenres.addView(btnTag)
-            }
+            }*/
         }
-    }*/
+    }
 
 }

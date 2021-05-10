@@ -148,7 +148,8 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
                         response.overview,
                         response.posterPath,
                         response.backdropPath,
-                        null,
+                        response.voteAverage,
+                        response.firstAirDate,
                         null,
                         null,
                         false
