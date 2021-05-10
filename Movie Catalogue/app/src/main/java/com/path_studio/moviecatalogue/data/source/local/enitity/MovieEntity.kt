@@ -30,8 +30,8 @@ data class MovieEntity(
     @ColumnInfo(name = "voteAverage")
     var voteAverage: Double,
 
-    @ColumnInfo(name = "genres")
-    val genres:ArrayList<String>?,
+    /*@ColumnInfo(name = "genres")
+    val genres:ArrayList<String>? = ArrayList(),*/
 
     @ColumnInfo(name = "runtime")
     val runtime: Int? = 0,

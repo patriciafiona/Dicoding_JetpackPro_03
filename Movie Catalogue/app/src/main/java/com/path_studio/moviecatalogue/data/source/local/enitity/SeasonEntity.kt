@@ -1,7 +1,10 @@
 package com.path_studio.moviecatalogue.data.source.local.enitity
 
 import androidx.annotation.NonNull
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 
 @Entity(tableName = "season_entities",
     primaryKeys = ["tvShowId", "seasonId"],
@@ -14,27 +17,31 @@ import androidx.room.*
 data class SeasonEntity(
     @NonNull
     @ColumnInfo(name = "seasonId")
-    var seasonId: Int?,
+    var seasonId: Int,
 
     @NonNull
     @ColumnInfo(name = "tvShowId")
     var tvShowId: String,
 
     @ColumnInfo(name = "name")
-    var name: String?,
+    var name: String? ="",
 
     @ColumnInfo(name = "overview")
-    var overview: String?,
+    var overview: String? ="",
 
     @ColumnInfo(name = "airDate")
-    var airDate: String?,
+    var airDate: String? ="",
 
     @ColumnInfo(name = "seasonNumber")
-    var seasonNumber: Int?,
+    var seasonNumber: Int? = 0,
 
     @ColumnInfo(name = "episodeCount")
-    var episodeCount: Int?,
+    var episodeCount: Int? = 0,
 
     @ColumnInfo(name = "posterPath")
-    var posterPath: String?
+    var posterPath: String? = "",
+
+    @NonNull
+    @ColumnInfo(name = "favorite")
+    var favorite: Boolean = false
 )

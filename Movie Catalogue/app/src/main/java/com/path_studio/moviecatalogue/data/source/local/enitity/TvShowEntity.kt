@@ -2,6 +2,7 @@ package com.path_studio.moviecatalogue.data.source.local.enitity
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -25,10 +26,10 @@ data class TvShowEntity(
     var backdropPath: String? = null,
 
     @ColumnInfo(name = "voteAverage")
-    var voteAverage: Double,
+    var voteAverage: Double?,
 
-    @ColumnInfo(name = "genres")
-    val genres:ArrayList<String>?,
+    /*@ColumnInfo(name = "genres")
+    val genres:ArrayList<String>? = ArrayList(),*/
 
     @ColumnInfo(name = "runtime")
     val runtime: Int? = 0,
@@ -39,4 +40,7 @@ data class TvShowEntity(
     @NonNull
     @ColumnInfo(name = "favorite")
     var favorite: Boolean = false
-)
+){
+    @Embedded
+    var contentEntity: ContentEntity? = null
+}

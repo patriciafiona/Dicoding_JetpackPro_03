@@ -1,16 +1,15 @@
 package com.path_studio.moviecatalogue.ui.search
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.mancj.materialsearchbar.MaterialSearchBar
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter
 import com.path_studio.moviecatalogue.BuildConfig
-import com.path_studio.moviecatalogue.data.entities.SearchEntity
 import com.path_studio.moviecatalogue.data.source.remote.response.SearchResponse
 import com.path_studio.moviecatalogue.databinding.ActivitySearchBinding
 import com.path_studio.moviecatalogue.di.Injection
@@ -23,8 +22,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
     private lateinit var searchResult: SearchResponse
 
-    private var listSearchResult: ArrayList<SearchEntity> = ArrayList()
-    private lateinit var searchAdapter: SearchAdapter
+    //private var listSearchResult: ArrayList<SearchEntity> = ArrayList()
+    //private lateinit var searchAdapter: SearchAdapter
 
     companion object {
         private const val API_KEY = BuildConfig.TMDB_API_KEY
@@ -51,7 +50,7 @@ class SearchActivity : AppCompatActivity() {
 
         //enable search bar callbacks
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        searchAdapter = SearchAdapter(inflater)
+        //searchAdapter = SearchAdapter(inflater)
 
         binding.searchBar.setOnSearchActionListener(object : MaterialSearchBar.OnSearchActionListener {
             override fun onSearchStateChanged(enabled: Boolean) {}
@@ -69,7 +68,7 @@ class SearchActivity : AppCompatActivity() {
                 }
             }
         })
-        binding.searchBar.addTextChangeListener(object : TextWatcher {
+        /*binding.searchBar.addTextChangeListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 binding.searchBar.setCustomSuggestionAdapter(searchAdapter)
@@ -100,7 +99,7 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable) {}
-        })
+        })*/
         binding.searchBar.setSuggestionsClickListener(object :
             SuggestionsAdapter.OnItemViewClickListener {
             override fun OnItemClickListener(position: Int, v: View) {}

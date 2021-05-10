@@ -10,9 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.faltenreich.skeletonlayout.Skeleton
 import com.path_studio.moviecatalogue.R
-import com.path_studio.moviecatalogue.data.entities.DetailTvShowEntity
 import com.path_studio.moviecatalogue.databinding.ActivityDetailTvShowBinding
 import com.path_studio.moviecatalogue.di.Injection
 import com.path_studio.moviecatalogue.util.Utils
@@ -23,7 +21,6 @@ class DetailTvShowActivity : AppCompatActivity() {
     private lateinit var detailTvShowViewModel: DetailTvShowViewModel
 
     private lateinit var binding: ActivityDetailTvShowBinding
-    private lateinit var skeleton: Skeleton
 
     companion object {
         const val EXTRA_TV_SHOW = "extra_tv_show"
@@ -34,12 +31,9 @@ class DetailTvShowActivity : AppCompatActivity() {
         binding = ActivityDetailTvShowBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //init Skeleton
-        skeleton = binding.skeletonLayout
-
         //prepare view model for show Tv Show Details
 
-        val extras = intent.extras
+        /*val extras = intent.extras
         if (extras != null) {
             val showId = extras.getLong(EXTRA_TV_SHOW)
             Log.e("showId", showId.toString())
@@ -65,14 +59,14 @@ class DetailTvShowActivity : AppCompatActivity() {
                     if (it) skeleton.showSkeleton() else skeleton.showOriginal()
                 })
             }
-        }
+        }*/
 
         binding.btnBackPage02.setOnClickListener {
             super.onBackPressed() // or super.finish();
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    /*@SuppressLint("UseCompatLoadingForDrawables")
     private fun showDetailShow(tvShowEntity: DetailTvShowEntity) {
         if (!tvShowEntity.name.equals("") && tvShowEntity.name != null){
 
@@ -134,6 +128,6 @@ class DetailTvShowActivity : AppCompatActivity() {
                 binding.showGenres.addView(btnTag)
             }
 
-    }
+    }*/
 
 }

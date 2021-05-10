@@ -1,6 +1,5 @@
 package com.path_studio.moviecatalogue.util
 
-import com.path_studio.moviecatalogue.data.entities.*
 import com.path_studio.moviecatalogue.data.source.remote.response.*
 
 /*
@@ -556,7 +555,7 @@ object DataDummy {
         return showDetailResponse
     }
 
-    fun generateDummyMovie(): List<MovieEntity> {
+    /*fun generateDummyMovie(): List<MovieEntity> {
         val movies = ArrayList<MovieEntity>()
 
         movies.add(
@@ -958,6 +957,6 @@ object DataDummy {
         )
 
         return detailTvShows
-    }
+    }*/
 
 }

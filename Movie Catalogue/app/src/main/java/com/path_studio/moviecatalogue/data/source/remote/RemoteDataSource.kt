@@ -22,28 +22,39 @@ class RemoteDataSource {
         private const val language = "en-US"
 
         fun getInstance(): RemoteDataSource =
-                instance ?: synchronized(this) {
-                    instance ?: RemoteDataSource()
-                }
+            instance ?: synchronized(this) {
+                instance ?: RemoteDataSource()
+            }
     }
 
-    suspend fun getSearchResult(title: String, callback: CallbackLoadSearchResult) {
+    suspend fun getSearchResult(title: String): LiveData<ApiResponse<SearchResponse>> {
         EspressoIdlingResource.increment()
-        ApiConfig.getApiService().getSearchResult(API_KEY, language, title, "1").await().results.let{
-                listResult -> callback.onSearchResultRecieved((
-                listResult
-                ))
-            EspressoIdlingResource.decrement()
+        val resultsSearch = MutableLiveData<ApiResponse<SearchResponse>>()
+        CoroutineScope(IO).launch {
+            try{
+                val response = ApiConfig.getApiService().getSearchResult(API_KEY, language, title, "1").await()
+                resultsSearch.postValue(ApiResponse.success(response))
+            }catch (e: IOException){
+                Log.e("getMovie Error", e.message.toString())
+                resultsSearch.postValue(
+                    ApiResponse.error(
+                        e.message.toString(),
+                        SearchResponse()
+                    )
+                )
+            }
         }
+        EspressoIdlingResource.decrement()
+        return  resultsSearch
     }
 
-    suspend fun getDiscoverMovie(): LiveData<ApiResponse<List<DiscoverMovieResponse>>> {
+    fun getDiscoverMovie(): LiveData<ApiResponse<List<ResultsItemMovie>>> {
         EspressoIdlingResource.increment()
-        val resultMovieResponse = MutableLiveData<ApiResponse<List<DiscoverMovieResponse>>>()
+        val resultMovieResponse = MutableLiveData<ApiResponse<List<ResultsItemMovie>>>()
         CoroutineScope(IO).launch {
             try{
                 val response = ApiConfig.getApiService().getDiscoverMovie(API_KEY, language).await()
-                resultMovieResponse.postValue(ApiResponse.success(response.results!!))
+                resultMovieResponse.postValue(ApiResponse.success(response.results))
             }catch (e: IOException){
                 Log.e("getDiscoverMovie Error", e.message.toString())
                 resultMovieResponse.postValue(
@@ -58,54 +69,67 @@ class RemoteDataSource {
         return  resultMovieResponse
     }
 
-    suspend fun getDiscoverTvShow(): LiveData<ApiResponse<List<DiscoverMovieResponse>>> {
+    fun getDiscoverTvShow(): LiveData<ApiResponse<List<ResultsItemTvShow>>> {
         EspressoIdlingResource.increment()
-        ApiConfig.getApiService().getDiscoverTvShow(API_KEY, language).await().results.let{
-            listShow -> callback.onTvShowRecieved((
-                listShow
-                ))
-            EspressoIdlingResource.decrement()
+        val resultTvShowResponse = MutableLiveData<ApiResponse<List<ResultsItemTvShow>>>()
+        CoroutineScope(IO).launch {
+            try{
+                val response = ApiConfig.getApiService().getDiscoverTvShow(API_KEY, language).await()
+                resultTvShowResponse.postValue(ApiResponse.success(response.results))
+            }catch (e: IOException){
+                Log.e("getDiscoverTvShow Error", e.message.toString())
+                resultTvShowResponse.postValue(
+                    ApiResponse.error(
+                        e.message.toString(),
+                        mutableListOf()
+                    )
+                )
+            }
         }
+        EspressoIdlingResource.decrement()
+        return  resultTvShowResponse
     }
 
-    suspend fun getMovie(movieId: String, callback: CallbackLoadDetailMovie){
+    suspend fun getMovie(movieId: String): LiveData<ApiResponse<DetailMovieResponse>> {
         EspressoIdlingResource.increment()
-        ApiConfig.getApiService().getDetailMovie(movieId, API_KEY, language).await().let{
-            movie -> callback.onMovieDetailsRecieved((
-                movie
-                ))
-            EspressoIdlingResource.decrement()
+        val resultsItemMovie = MutableLiveData<ApiResponse<DetailMovieResponse>>()
+        CoroutineScope(IO).launch {
+            try{
+                val response = ApiConfig.getApiService().getDetailMovie(movieId, API_KEY, language).await()
+                resultsItemMovie.postValue(ApiResponse.success(response))
+            }catch (e: IOException){
+                Log.e("getMovie Error", e.message.toString())
+                resultsItemMovie.postValue(
+                    ApiResponse.error(
+                        e.message.toString(),
+                        DetailMovieResponse()
+                    )
+                )
+            }
         }
+        EspressoIdlingResource.decrement()
+        return  resultsItemMovie
     }
 
-    suspend fun getTvShow(showId: String, callback: CallbackLoadDetailTvShow){
+    suspend fun getTvShow(showId: String): LiveData<ApiResponse<DetailTvShowResponse>> {
         EspressoIdlingResource.increment()
-        ApiConfig.getApiService().getDetailTvShow(showId, API_KEY, language).await().let{
-            show -> callback.onTvShowDetailsRecieved((
-                show
-                ))
-            EspressoIdlingResource.decrement()
+        val resultsItemTvShow = MutableLiveData<ApiResponse<DetailTvShowResponse>>()
+        CoroutineScope(IO).launch {
+            try{
+                val response = ApiConfig.getApiService().getDetailTvShow(showId, API_KEY, language).await()
+                resultsItemTvShow.postValue(ApiResponse.success(response))
+            }catch (e: IOException){
+                Log.e("getMovie Error", e.message.toString())
+                resultsItemTvShow.postValue(
+                    ApiResponse.error(
+                        e.message.toString(),
+                        DetailTvShowResponse()
+                    )
+                )
+            }
         }
-    }
-
-    interface CallbackLoadDiscoverMovie{
-        fun onMoviesRecieved(showResponse: List<ResultsItemMovie>)
-    }
-
-    interface CallbackLoadDiscoverTvShow{
-        fun onTvShowRecieved(showResponse: List<ResultsItemTvShow>)
-    }
-
-    interface CallbackLoadDetailMovie{
-        fun onMovieDetailsRecieved(showResponse: DetailMovieResponse)
-    }
-
-    interface CallbackLoadDetailTvShow{
-        fun onTvShowDetailsRecieved(showResponse: DetailTvShowResponse)
-    }
-
-    interface CallbackLoadSearchResult{
-        fun onSearchResultRecieved(showResponse: List<SearchResultsItem?>?)
+        EspressoIdlingResource.decrement()
+        return  resultsItemTvShow
     }
 
 }

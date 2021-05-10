@@ -8,20 +8,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.faltenreich.skeletonlayout.Skeleton
 import com.path_studio.moviecatalogue.R
-import com.path_studio.moviecatalogue.data.entities.DetailMovieEntity
 import com.path_studio.moviecatalogue.databinding.ActivityDetailMovieBinding
 import com.path_studio.moviecatalogue.di.Injection
 import com.path_studio.moviecatalogue.util.Utils.changeMinuteToDurationFormat
 import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
 
-
 class DetailMovieActivity : AppCompatActivity(){
     private lateinit var detailMovieViewModel: DetailMovieViewModel
 
     private lateinit var binding: ActivityDetailMovieBinding
-    private lateinit var skeleton: Skeleton
 
     companion object {
         const val EXTRA_MOVIE = "extra_movie"
@@ -32,10 +28,7 @@ class DetailMovieActivity : AppCompatActivity(){
         binding = ActivityDetailMovieBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //init Skeleton
-        skeleton = binding.skeletonLayout
-
-        val extras = intent.extras
+        /*val extras = intent.extras
         if (extras != null) {
             val movieId = extras.getLong(EXTRA_MOVIE)
             if (movieId != 0L) {
@@ -50,14 +43,14 @@ class DetailMovieActivity : AppCompatActivity(){
                     if (it) skeleton.showSkeleton() else skeleton.showOriginal()
                 })
             }
-        }
+        }*/
 
         binding.btnBackPage.setOnClickListener {
             super.onBackPressed() // or super.finish()
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    /*@SuppressLint("UseCompatLoadingForDrawables")
     private fun showDetailMovie(movieEntity: DetailMovieEntity) {
         if (!movieEntity.title.equals("") && movieEntity.title != null){
             binding.movieTopTitle.text = movieEntity.title
@@ -113,6 +106,6 @@ class DetailMovieActivity : AppCompatActivity(){
                 binding.movieGenres.addView(btnTag)
             }
         }
-    }
+    }*/
 
 }

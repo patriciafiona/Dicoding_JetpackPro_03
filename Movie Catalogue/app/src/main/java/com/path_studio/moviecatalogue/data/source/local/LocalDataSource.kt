@@ -1,9 +1,11 @@
 package com.path_studio.moviecatalogue.data.source.local
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.SeasonEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
+import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowWithSeason
 import com.path_studio.moviecatalogue.data.source.local.room.TmdbDao
 
 class LocalDataSource private constructor(private val mTmdbDao: TmdbDao) {
@@ -15,37 +17,37 @@ class LocalDataSource private constructor(private val mTmdbDao: TmdbDao) {
             INSTANCE ?: LocalDataSource(tmdbDao)
     }
 
-    fun getAllMovies(): LiveData<List<MovieEntity>> = mTmdbDao.getDiscoverMovie()
+    fun getAllMovies(): DataSource.Factory<Int, MovieEntity> = mTmdbDao.getDiscoverMovie()
 
     fun getMovieById(movieId: String): LiveData<MovieEntity> =
         mTmdbDao.getMovieById(movieId)
 
-    fun getFavoriteMovie(): LiveData<List<MovieEntity>> = mTmdbDao.getFavoriteMovie()
+    fun getFavoriteMovie(): DataSource.Factory<Int, MovieEntity> = mTmdbDao.getFavoriteMovie()
 
-    fun getAllTvShow(): LiveData<List<TvShowEntity>> = mTmdbDao.getDiscoverTvShow()
+    fun getAllTvShow(): DataSource.Factory<Int, TvShowEntity> = mTmdbDao.getDiscoverTvShow()
 
     fun getTvShowById(showId: String): LiveData<TvShowEntity> =
         mTmdbDao.getTvShowById(showId)
 
-    fun getFavoriteTvShow(): LiveData<List<TvShowEntity>> = mTmdbDao.getFavoriteTvShow()
+    fun getFavoriteTvShow(): DataSource.Factory<Int, TvShowEntity> = mTmdbDao.getFavoriteTvShow()
 
-    fun getTvShowWithSeason(showId: String): LiveData<List<SeasonEntity>> =
+    fun getTvShowWithSeason(showId: String): LiveData<TvShowWithSeason> =
         mTmdbDao.getSeasonByTvShowId(showId)
 
-    fun insertMovies(movies: List<MovieEntity>) = mTmdbDao.insertMovie(movies)
+    fun insertMovies(movies: ArrayList<MovieEntity>) = mTmdbDao.insertMovie(movies)
 
-    fun insertTvShow(tvShows: List<TvShowEntity>) = mTmdbDao.insertTvShow(tvShows)
+    fun insertTvShow(tvShows: ArrayList<TvShowEntity>) = mTmdbDao.insertTvShow(tvShows)
 
     fun insertSeason(seasons: List<SeasonEntity>) = mTmdbDao.insertSeason(seasons)
 
-    fun setMovieFavorite(movie: MovieEntity, newState: Boolean) {
-        movie.favorite = newState
+    fun setMovieFavorite(movie : MovieEntity) {
+        movie.favorite = !movie.favorite
         mTmdbDao.updateMovie(movie)
     }
 
-    fun setTvShowFavorite(show: TvShowEntity, newState: Boolean) {
-        show.favorite = newState
-        mTmdbDao.updateTvShow(show)
+    fun setTvShowFavorite(tvShow : TvShowEntity) {
+        tvShow.favorite = !tvShow.favorite
+        mTmdbDao.updateTvShow(tvShow)
     }
 
 }

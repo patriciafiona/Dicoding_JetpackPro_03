@@ -6,19 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.path_studio.moviecatalogue.R
-import com.path_studio.moviecatalogue.data.entities.TvShowSeasonEntity
 import com.path_studio.moviecatalogue.databinding.ItemsSeasonDetailBinding
 import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
 
+/*
 class SeasonDetailAdapter: RecyclerView.Adapter<SeasonDetailAdapter.SeasonViewHolder>() {
-
-    private var listSeason = ArrayList<TvShowSeasonEntity>()
-
-    fun setSeason(season: List<TvShowSeasonEntity>) {
-        if (season == null) return
-        this.listSeason.clear()
-        this.listSeason.addAll(season)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeasonViewHolder {
         val itemsSeasonDetailBinding = ItemsSeasonDetailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,8 +21,6 @@ class SeasonDetailAdapter: RecyclerView.Adapter<SeasonDetailAdapter.SeasonViewHo
         val season = listSeason[position]
         holder.bind(season)
     }
-
-    override fun getItemCount(): Int = listSeason.size
 
 
     class SeasonViewHolder(private val binding: ItemsSeasonDetailBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -58,4 +48,4 @@ class SeasonDetailAdapter: RecyclerView.Adapter<SeasonDetailAdapter.SeasonViewHo
         }
     }
 
-}
+}*/

@@ -5,15 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.databinding.FragmentTvShowBinding
-import com.path_studio.moviecatalogue.di.Injection.provideImdbRepository
 import com.path_studio.moviecatalogue.ui.bottomSheet.OnBottomSheetCallbacks
 import com.path_studio.moviecatalogue.ui.mainPage.MainActivity
+import com.path_studio.moviecatalogue.viewmodel.ViewModelFactory
+import com.path_studio.moviecatalogue.vo.Status
 
 class TVShowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
 
@@ -51,18 +54,24 @@ class TVShowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
         (activity as MainActivity).closeBottomSheet()
 
         if (activity != null) {
-            tvShowViewModel = TvShowViewModel(provideImdbRepository(activity as MainActivity))
-            val shows = tvShowViewModel.getDiscoverTvShow()
+            val factory = ViewModelFactory.getInstance(requireActivity())
+            val viewModel = ViewModelProvider(this, factory)[TvShowViewModel::class.java]
 
             val tvShowAdapter = TvShowAdapter()
-
-            shows.observe(this, { show ->
-                tvShowAdapter.setTvShow(show)
-                tvShowAdapter.notifyDataSetChanged()
-            })
-
-            tvShowViewModel.getLoading().observe(this, {
-                binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
+            viewModel.getDiscoverTvShow().observe(this, { shows ->
+                if (shows != null) {
+                    when (shows.status) {
+                        Status.LOADING -> binding?.progressBar?.visibility = View.VISIBLE
+                        Status.SUCCESS -> {
+                            binding?.progressBar?.visibility = View.GONE
+                            tvShowAdapter.submitList(shows.data)
+                        }
+                        Status.ERROR -> {
+                            binding?.progressBar?.visibility = View.GONE
+                            Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             })
 
             with(binding.rvTvShow) {
