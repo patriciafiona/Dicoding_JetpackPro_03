@@ -4,17 +4,23 @@ import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.path_studio.moviecatalogue.R
+import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.databinding.ActivityDetailTvShowBinding
 import com.path_studio.moviecatalogue.di.Injection
+import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieActivity
+import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieViewModel
 import com.path_studio.moviecatalogue.util.Utils
 import com.path_studio.moviecatalogue.util.Utils.changeStringDateToYear
+import com.path_studio.moviecatalogue.viewmodel.ViewModelFactory
 
 class DetailTvShowActivity : AppCompatActivity() {
 
@@ -33,56 +39,54 @@ class DetailTvShowActivity : AppCompatActivity() {
 
         //prepare view model for show Tv Show Details
 
-        /*val extras = intent.extras
+        val extras = intent.extras
         if (extras != null) {
+            val factory = ViewModelFactory.getInstance(this)
+            detailTvShowViewModel = ViewModelProvider(this, factory)[DetailTvShowViewModel::class.java]
+
             val showId = extras.getLong(EXTRA_TV_SHOW)
             Log.e("showId", showId.toString())
             if (showId != 0L) {
                 detailTvShowViewModel = DetailTvShowViewModel(Injection.provideImdbRepository(this))
                 val showDetails = detailTvShowViewModel.getDetailTvShow(showId.toString())
-                val seasonAdapter = SeasonDetailAdapter()
-
-                with(binding.rvSeasonDetail) {
-                    layoutManager = LinearLayoutManager(context)
-                    setHasFixedSize(true)
-                    adapter = seasonAdapter
-                }
 
                 showDetails.observe(this, { detail ->
-                    val listOfSeason = detail.seasons
-                    seasonAdapter.setSeason(listOfSeason!!)
-
                     showDetailShow(detail)
                 })
 
                 detailTvShowViewModel.getLoading().observe(this, {
-                    if (it) skeleton.showSkeleton() else skeleton.showOriginal()
+                    if (it) {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }else{
+                        binding.progressBar.visibility = View.GONE
+                    }
                 })
             }
-        }*/
+        }
 
         binding.btnBackPage02.setOnClickListener {
             super.onBackPressed() // or super.finish();
         }
     }
 
-    /*@SuppressLint("UseCompatLoadingForDrawables")
-    private fun showDetailShow(tvShowEntity: DetailTvShowEntity) {
-        if (!tvShowEntity.name.equals("") && tvShowEntity.name != null){
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun showDetailShow(tvShowEntity: TvShowEntity) {
+        if (!tvShowEntity.name.equals("") && tvShowEntity.name != null) {
 
             binding.showTopTitle.text = tvShowEntity.name
             binding.showTitle.text = tvShowEntity.name
             binding.showSinopsis.text = tvShowEntity.overview
 
-            binding.showReleaseDate.text = changeStringDateToYear(tvShowEntity.releaseDate!!).toString()
+            /*binding.showReleaseDate.text =
+                changeStringDateToYear(tvShowEntity.releaseDate!!).toString()*/
 
-            binding.showRating.rating = tvShowEntity.voteAverage!!.toFloat()/2
+            binding.showRating.rating = tvShowEntity.voteAverage!!.toFloat() / 2
 
-            binding.showDuration.text =
+            /*binding.showDuration.text =
                 Utils.changeMinuteToDurationFormat(
                     tvShowEntity.runtime?.get(0)!!
                 )
-            }
+            }*/
 
             val posterURL = "https://image.tmdb.org/t/p/w500${tvShowEntity.posterPath}"
             Glide.with(this)
@@ -95,7 +99,8 @@ class DetailTvShowActivity : AppCompatActivity() {
                 .into(binding.showPoster)
 
 
-            val backdropURL = "https://www.themoviedb.org/t/p/w533_and_h300_bestv2${tvShowEntity.backdropPath}"
+            val backdropURL =
+                "https://www.themoviedb.org/t/p/w533_and_h300_bestv2${tvShowEntity.backdropPath}"
             Glide.with(this)
                 .load(backdropURL)
                 .transform(RoundedCorners(20))
@@ -106,7 +111,7 @@ class DetailTvShowActivity : AppCompatActivity() {
                 .into(binding.showBackdrop)
             binding.showBackdrop.alpha = 0.5F
 
-            for (genre in tvShowEntity.genres!!){
+            /*for (genre in tvShowEntity.genres!!){
                 //set the properties for button
                 val btnTag = Button(this)
 
@@ -126,8 +131,9 @@ class DetailTvShowActivity : AppCompatActivity() {
 
                 //add button to the layout
                 binding.showGenres.addView(btnTag)
-            }
+            }*/
+        }
 
-    }*/
+    }
 
 }
