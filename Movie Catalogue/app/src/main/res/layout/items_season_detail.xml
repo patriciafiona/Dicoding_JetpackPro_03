@@ -42,7 +42,7 @@
             android:maxLines="2"
             android:text="@string/temp_season"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:gravity="center_vertical"
             app:layout_constraintWidth_percent="0.25"

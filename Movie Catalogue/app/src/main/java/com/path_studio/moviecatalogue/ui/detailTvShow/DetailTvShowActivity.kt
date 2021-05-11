@@ -51,6 +51,7 @@ class DetailTvShowActivity : AppCompatActivity() {
                 val factory = ViewModelFactory.getInstance(this)
                 val viewModel = ViewModelProvider(this, factory)[DetailTvShowViewModel::class.java]
 
+                //call this first to get season details
                 viewModel.getDetailTvShow(showId.toString(), isFavStatus).observe(this, { show ->
                     if (show != null) {
                         when (show.status) {
@@ -66,11 +67,25 @@ class DetailTvShowActivity : AppCompatActivity() {
                         }
                     }
                 })
+
+                //Get Season Details
+                val seasonAdapter = SeasonDetailAdapter()
+                viewModel.getDetailTvShowWithSeason(showId.toString()).observe(this, { detail ->
+                    if (detail != null) {
+                        seasonAdapter.setResult(detail.mSeason)
+                    }
+                })
+
+                with(binding.rvSeasonDetail) {
+                    layoutManager = LinearLayoutManager(context)
+                    setHasFixedSize(true)
+                    adapter = seasonAdapter
+                }
             }
         }
 
         binding.btnBackPage02.setOnClickListener {
-            super.onBackPressed() // or super.finish();
+            super.onBackPressed()
         }
     }
 

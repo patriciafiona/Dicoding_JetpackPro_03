@@ -6,11 +6,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.path_studio.moviecatalogue.R
+import com.path_studio.moviecatalogue.data.entities.SearchEntity
+import com.path_studio.moviecatalogue.data.source.local.enitity.SeasonEntity
 import com.path_studio.moviecatalogue.databinding.ItemsSeasonDetailBinding
 import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
 
-/*
 class SeasonDetailAdapter: RecyclerView.Adapter<SeasonDetailAdapter.SeasonViewHolder>() {
+
+    private var listSeason = ArrayList<SeasonEntity>()
+
+    fun setResult(res: List<SeasonEntity>) {
+        this.listSeason.clear()
+        this.listSeason.addAll(res)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeasonViewHolder {
         val itemsSeasonDetailBinding = ItemsSeasonDetailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -22,22 +30,27 @@ class SeasonDetailAdapter: RecyclerView.Adapter<SeasonDetailAdapter.SeasonViewHo
         holder.bind(season)
     }
 
+    override fun getItemCount(): Int = listSeason.size
 
     class SeasonViewHolder(private val binding: ItemsSeasonDetailBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(season: TvShowSeasonEntity) {
+        fun bind(season: SeasonEntity) {
             with(binding) {
-                val temp1 = "Season ${season.season_number}"
+                val temp1 = "Season ${season.seasonNumber}"
                 seasonNumber.text = temp1
 
-                val temp2 = "${changeStringToDateFormat(season.air_date!!)}| ${season.episode_count} Eps."
+                val temp2 = "${season.airDate?.let { changeStringToDateFormat(it) }}| ${season.episodeCount} Eps."
                 seasonYearAndTotalEpisode.text = temp2
 
-                val temp3 = "Season ${season.season_number} premiered on ${changeStringToDateFormat(season.air_date!!)}."
+                val temp3 = "Season ${season.seasonNumber} premiered on ${season.airDate?.let {
+                    changeStringToDateFormat(
+                        it
+                    )
+                }}."
                 seasonPremierDetail.text = temp3
 
                 seasonOverview.text = season.overview
 
-                val posterURL = "https://image.tmdb.org/t/p/w500/${season.poster_path}"
+                val posterURL = "https://image.tmdb.org/t/p/w500/${season.posterPath}"
                 Glide.with(itemView.context)
                         .load(posterURL)
                         .apply(
@@ -48,4 +61,4 @@ class SeasonDetailAdapter: RecyclerView.Adapter<SeasonDetailAdapter.SeasonViewHo
         }
     }
 
-}*/
+}

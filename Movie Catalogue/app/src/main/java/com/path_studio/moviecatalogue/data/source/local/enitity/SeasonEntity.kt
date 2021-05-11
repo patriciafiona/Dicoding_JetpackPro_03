@@ -17,7 +17,7 @@ import androidx.room.Index
 data class SeasonEntity(
     @NonNull
     @ColumnInfo(name = "seasonId")
-    var seasonId: Int,
+    var seasonId: String,
 
     @NonNull
     @ColumnInfo(name = "tvShowId")
@@ -41,7 +41,6 @@ data class SeasonEntity(
     @ColumnInfo(name = "posterPath")
     var posterPath: String? = "",
 
-    @NonNull
     @ColumnInfo(name = "favorite")
     var favorite: Boolean = false
 )

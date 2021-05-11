@@ -6,7 +6,9 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.path_studio.moviecatalogue.data.source.local.LocalDataSource
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
+import com.path_studio.moviecatalogue.data.source.local.enitity.SeasonEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
+import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowWithSeason
 import com.path_studio.moviecatalogue.data.source.remote.ApiResponse
 import com.path_studio.moviecatalogue.data.source.remote.RemoteDataSource
 import com.path_studio.moviecatalogue.data.source.remote.response.*
@@ -203,37 +205,8 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
         }.asLiveData()
     }
 
-    /*override fun getTvShowWithSeason(showId: String): LiveData<Resource<TvShowWithSeason>> {
-        return object : NetworkBoundResource<TvShowWithSeason, List<SeasonsItem>>(appExecutors) {
-            override fun loadFromDB(): LiveData<TvShowWithSeason> =
-                localDataSource.getTvShowWithSeason(showId)
-
-            override fun shouldFetch(data: TvShowWithSeason?): Boolean =
-                data?.mSeason == null || data.mSeason.isEmpty()
-
-            override suspend fun createCall(): LiveData<ApiResponse<DetailTvShowResponse>> =
-                remoteDataSource.getTvShow(showId)
-
-            override fun saveCallResult(data: List<SeasonsItem>) {
-                val seasonList = ArrayList<SeasonEntity>()
-                for (response in data) {
-                    val season = SeasonEntity(
-                        response.id,
-                        "0",
-                        response.name,
-                        response.overview,
-                        response.airDate,
-                        response.seasonNumber,
-                        response.episodeCount,
-                        response.posterPath.toString())
-
-                    seasonList.add(season)
-                }
-
-                localDataSource.insertSeason(seasonList)
-            }
-        }.asLiveData()
-    }*/
+    override fun getTvShowWithSeason(showId: String): LiveData<TvShowWithSeason> =
+        localDataSource.getTvShowWithSeason(showId)
 
     override fun getDetailTvShow(showId: String, currentFav: Boolean): LiveData<Resource<TvShowEntity>> {
         return object: NetworkBoundResource<TvShowEntity, DetailTvShowResponse>(appExecutors) {
@@ -247,10 +220,26 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
 
             public override fun saveCallResult(data: DetailTvShowResponse) {
                 val listOfGenre = ArrayList<String>()
+                val listOfSeason = ArrayList<SeasonEntity>()
 
                 for (genre in (data.genres)!!){
                     listOfGenre.add(genre!!.name!!)
                 }
+
+                for(season in(data.seasons)!!){
+                    val s = SeasonEntity(
+                        season!!.id.toString(),
+                        data.id!!.toString(),
+                        season.name,
+                        season.overview,
+                        season.airDate,
+                        season.seasonNumber,
+                        season.episodeCount,
+                        season.posterPath.toString()
+                    )
+                    listOfSeason.add(s)
+                }
+
                 val show = TvShowEntity(
                     data.id!!.toLong(),
                     data.name!!,
@@ -264,6 +253,7 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
                     currentFav
                 )
                 localDataSource.updateTvShow(show)
+                localDataSource.insertSeason(listOfSeason)
             }
         }.asLiveData()
     }

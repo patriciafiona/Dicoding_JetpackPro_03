@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
+import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowWithSeason
 import com.path_studio.moviecatalogue.vo.Resource
 
 interface TmdbDataSource {
@@ -11,7 +12,7 @@ interface TmdbDataSource {
     fun getDiscoverTvShow(): LiveData<Resource<PagedList<TvShowEntity>>>
     fun getDetailMovie(movieId: String, currentFav: Boolean): LiveData<Resource<MovieEntity>>
     fun getDetailTvShow(showId: String, currentFav: Boolean): LiveData<Resource<TvShowEntity>>
-    //fun getTvShowWithSeason(showId: String): LiveData<Resource<TvShowWithSeason>>
+    fun getTvShowWithSeason(showId: String): LiveData<TvShowWithSeason>
     //fun getSearchResult(title: String): LiveData<Resource<List<SearchEntity>>>
     fun getFavoriteMovie(): LiveData<PagedList<MovieEntity>>
     fun getFavoriteTvShow(): LiveData<PagedList<TvShowEntity>>
