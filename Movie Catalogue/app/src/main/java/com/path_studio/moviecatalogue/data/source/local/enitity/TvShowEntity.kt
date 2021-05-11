@@ -31,14 +31,11 @@ data class TvShowEntity(
     @ColumnInfo(name = "firstAirDate")
     val firstAirDate: String?,
 
-    /*@ColumnInfo(name = "genres")
-    val genres:ArrayList<String>? = ArrayList(),*/
+    @ColumnInfo(name = "genres")
+    val genres: String? = null,
 
     @ColumnInfo(name = "runtime")
     val runtime: Int? = 0,
-
-    @ColumnInfo(name = "releaseDate")
-    val releaseDate: String? = "",
 
     @NonNull
     @ColumnInfo(name = "favorite")

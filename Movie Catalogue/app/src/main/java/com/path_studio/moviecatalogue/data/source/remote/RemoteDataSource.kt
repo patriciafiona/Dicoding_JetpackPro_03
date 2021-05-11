@@ -27,7 +27,7 @@ class RemoteDataSource {
             }
     }
 
-    suspend fun getSearchResult(title: String): LiveData<ApiResponse<SearchResponse>> {
+    fun getSearchResult(title: String): LiveData<ApiResponse<SearchResponse>> {
         EspressoIdlingResource.increment()
         val resultsSearch = MutableLiveData<ApiResponse<SearchResponse>>()
         CoroutineScope(IO).launch {
@@ -90,7 +90,7 @@ class RemoteDataSource {
         return  resultTvShowResponse
     }
 
-    suspend fun getMovie(movieId: String): LiveData<ApiResponse<DetailMovieResponse>> {
+    fun getMovie(movieId: String): LiveData<ApiResponse<DetailMovieResponse>> {
         EspressoIdlingResource.increment()
         val resultsItemMovie = MutableLiveData<ApiResponse<DetailMovieResponse>>()
         CoroutineScope(IO).launch {
@@ -111,7 +111,7 @@ class RemoteDataSource {
         return  resultsItemMovie
     }
 
-    suspend fun getTvShow(showId: String): LiveData<ApiResponse<DetailTvShowResponse>> {
+    fun getTvShow(showId: String): LiveData<ApiResponse<DetailTvShowResponse>> {
         EspressoIdlingResource.increment()
         val resultsItemTvShow = MutableLiveData<ApiResponse<DetailTvShowResponse>>()
         CoroutineScope(IO).launch {

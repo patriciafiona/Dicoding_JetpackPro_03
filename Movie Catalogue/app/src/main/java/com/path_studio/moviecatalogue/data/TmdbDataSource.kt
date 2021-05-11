@@ -9,8 +9,8 @@ import com.path_studio.moviecatalogue.vo.Resource
 interface TmdbDataSource {
     fun getDiscoverMovies(): LiveData<Resource<PagedList<MovieEntity>>>
     fun getDiscoverTvShow(): LiveData<Resource<PagedList<TvShowEntity>>>
-    fun getDetailMovie(movieId: String): LiveData<MovieEntity>
-    fun getDetailTvShow(showId: String): LiveData<TvShowEntity>
+    fun getDetailMovie(movieId: String, currentFav: Boolean): LiveData<Resource<MovieEntity>>
+    fun getDetailTvShow(showId: String, currentFav: Boolean): LiveData<Resource<TvShowEntity>>
     //fun getTvShowWithSeason(showId: String): LiveData<Resource<TvShowWithSeason>>
     //fun getSearchResult(title: String): LiveData<Resource<List<SearchEntity>>>
     fun getFavoriteMovie(): LiveData<PagedList<MovieEntity>>

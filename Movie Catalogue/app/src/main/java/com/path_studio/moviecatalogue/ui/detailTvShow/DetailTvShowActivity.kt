@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,8 @@ import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieViewModel
 import com.path_studio.moviecatalogue.util.Utils
 import com.path_studio.moviecatalogue.util.Utils.changeStringDateToYear
 import com.path_studio.moviecatalogue.viewmodel.ViewModelFactory
+import com.path_studio.moviecatalogue.vo.Status
+import org.json.JSONArray
 
 class DetailTvShowActivity : AppCompatActivity() {
 
@@ -41,24 +44,26 @@ class DetailTvShowActivity : AppCompatActivity() {
 
         val extras = intent.extras
         if (extras != null) {
-            val factory = ViewModelFactory.getInstance(this)
-            detailTvShowViewModel = ViewModelProvider(this, factory)[DetailTvShowViewModel::class.java]
-
             val showId = extras.getLong(EXTRA_TV_SHOW)
-            Log.e("showId", showId.toString())
+            val isFavStatus = extras.getBoolean(DetailMovieActivity.IS_FAVORITE)
+
             if (showId != 0L) {
-                detailTvShowViewModel = DetailTvShowViewModel(Injection.provideImdbRepository(this))
-                val showDetails = detailTvShowViewModel.getDetailTvShow(showId.toString())
+                val factory = ViewModelFactory.getInstance(this)
+                val viewModel = ViewModelProvider(this, factory)[DetailTvShowViewModel::class.java]
 
-                showDetails.observe(this, { detail ->
-                    showDetailShow(detail)
-                })
-
-                detailTvShowViewModel.getLoading().observe(this, {
-                    if (it) {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }else{
-                        binding.progressBar.visibility = View.GONE
+                viewModel.getDetailTvShow(showId.toString(), isFavStatus).observe(this, { show ->
+                    if (show != null) {
+                        when (show.status) {
+                            Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
+                            Status.SUCCESS -> {
+                                binding.progressBar.visibility = View.GONE
+                                showDetailShow(show.data!!)
+                            }
+                            Status.ERROR -> {
+                                binding.progressBar.visibility = View.GONE
+                                Toast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     }
                 })
             }
@@ -71,22 +76,22 @@ class DetailTvShowActivity : AppCompatActivity() {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun showDetailShow(tvShowEntity: TvShowEntity) {
-        if (!tvShowEntity.name.equals("") && tvShowEntity.name != null) {
+        if (tvShowEntity.name != "") {
 
             binding.showTopTitle.text = tvShowEntity.name
             binding.showTitle.text = tvShowEntity.name
             binding.showSinopsis.text = tvShowEntity.overview
 
-            /*binding.showReleaseDate.text =
-                changeStringDateToYear(tvShowEntity.releaseDate!!).toString()*/
+            binding.showReleaseDate.text =
+                changeStringDateToYear(tvShowEntity.firstAirDate!!).toString()
 
             binding.showRating.rating = tvShowEntity.voteAverage!!.toFloat() / 2
 
-            /*binding.showDuration.text =
+            binding.showDuration.text =
                 Utils.changeMinuteToDurationFormat(
-                    tvShowEntity.runtime?.get(0)!!
+                    tvShowEntity.runtime!!
                 )
-            }*/
+            }
 
             val posterURL = "https://image.tmdb.org/t/p/w500${tvShowEntity.posterPath}"
             Glide.with(this)
@@ -111,7 +116,13 @@ class DetailTvShowActivity : AppCompatActivity() {
                 .into(binding.showBackdrop)
             binding.showBackdrop.alpha = 0.5F
 
-            /*for (genre in tvShowEntity.genres!!){
+            val listGenre = ArrayList<String>()
+            val jArray = JSONArray(tvShowEntity.genres)
+            for (i in 0 until jArray.length()) {
+                listGenre.add(jArray.getString(i))
+            }
+
+            for (genre in listGenre){
                 //set the properties for button
                 val btnTag = Button(this)
 
@@ -131,9 +142,7 @@ class DetailTvShowActivity : AppCompatActivity() {
 
                 //add button to the layout
                 binding.showGenres.addView(btnTag)
-            }*/
-        }
-
+            }
     }
 
 }

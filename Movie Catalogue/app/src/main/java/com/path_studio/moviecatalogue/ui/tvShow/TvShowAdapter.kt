@@ -11,6 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.databinding.ItemsMovieTvshowBinding
+import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieActivity.Companion.IS_FAVORITE
 import com.path_studio.moviecatalogue.ui.detailTvShow.DetailTvShowActivity
 import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
 
@@ -28,12 +29,12 @@ class TvShowAdapter: PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHold
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowAdapter.TvShowViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowViewHolder {
         val itemsTvShowBinding = ItemsMovieTvshowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return TvShowAdapter.TvShowViewHolder(itemsTvShowBinding)
+        return TvShowViewHolder(itemsTvShowBinding)
     }
 
-    override fun onBindViewHolder(holder: TvShowAdapter.TvShowViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TvShowViewHolder, position: Int) {
         val show = getItem(position)
         if (show != null) {
             holder.bind(show)
@@ -52,6 +53,7 @@ class TvShowAdapter: PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHold
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, DetailTvShowActivity::class.java)
                     intent.putExtra(DetailTvShowActivity.EXTRA_TV_SHOW, show.tvShowId)
+                    intent.putExtra(IS_FAVORITE, show.favorite)
                     itemView.context.startActivity(intent)
                 }
 

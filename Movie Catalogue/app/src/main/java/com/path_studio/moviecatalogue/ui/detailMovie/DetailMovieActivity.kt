@@ -2,10 +2,11 @@ package com.path_studio.moviecatalogue.ui.detailMovie
 
 import android.annotation.SuppressLint
 import android.app.ActionBar
-import android.opengl.Visibility
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -14,10 +15,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.databinding.ActivityDetailMovieBinding
-import com.path_studio.moviecatalogue.di.Injection
 import com.path_studio.moviecatalogue.util.Utils.changeMinuteToDurationFormat
 import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
 import com.path_studio.moviecatalogue.viewmodel.ViewModelFactory
+import com.path_studio.moviecatalogue.vo.Status
+import org.json.JSONArray
 
 class DetailMovieActivity : AppCompatActivity(){
     private lateinit var detailMovieViewModel: DetailMovieViewModel
@@ -26,6 +28,7 @@ class DetailMovieActivity : AppCompatActivity(){
 
     companion object {
         const val EXTRA_MOVIE = "extra_movie"
+        const val IS_FAVORITE = "is_favorite"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,19 +42,24 @@ class DetailMovieActivity : AppCompatActivity(){
             detailMovieViewModel = ViewModelProvider(this, factory)[DetailMovieViewModel::class.java]
 
             val movieId = extras.getLong(EXTRA_MOVIE)
+            val isFavStatus = extras.getBoolean(IS_FAVORITE)
             if (movieId != 0L) {
-                detailMovieViewModel = DetailMovieViewModel(Injection.provideImdbRepository(this))
-                val showDetails = detailMovieViewModel.getDetailMovie(movieId.toString())
+                val factory = ViewModelFactory.getInstance(this)
+                val viewModel = ViewModelProvider(this, factory)[DetailMovieViewModel::class.java]
 
-                showDetails.observe(this, { detail ->
-                    showDetailMovie(detail)
-                })
-
-                detailMovieViewModel.getLoading().observe(this, {
-                    if (it) {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }else{
-                        binding.progressBar.visibility = View.GONE
+                viewModel.getDetailMovie(movieId.toString(), isFavStatus).observe(this, { movie ->
+                    if (movie != null) {
+                        when (movie.status) {
+                            Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
+                            Status.SUCCESS -> {
+                                binding.progressBar.visibility = View.GONE
+                                showDetailMovie(movie.data!!)
+                            }
+                            Status.ERROR -> {
+                                binding.progressBar.visibility = View.GONE
+                                Toast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     }
                 })
             }
@@ -64,16 +72,16 @@ class DetailMovieActivity : AppCompatActivity(){
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun showDetailMovie(movieEntity: MovieEntity) {
-        if (!movieEntity.title.equals("") && movieEntity.title != null){
+        if (movieEntity.title != ""){
             binding.movieTopTitle.text = movieEntity.title
             binding.movieTitle.text = movieEntity.title
             binding.movieSinopsis.text = movieEntity.overview
 
             binding.movieReleaseDate.text = movieEntity.releaseDate?.let { changeStringToDateFormat(it) }
 
-            binding.movieRating.rating = movieEntity.voteAverage!!.toFloat()/2
+            binding.movieRating.rating = movieEntity.voteAverage.toFloat()/2
 
-            //binding.movieDuration.text = changeMinuteToDurationFormat(movieEntity.runtime!!)
+            binding.movieDuration.text = changeMinuteToDurationFormat(movieEntity.runtime!!)
 
             val posterURL = "https://image.tmdb.org/t/p/w500${movieEntity.posterPath}"
             Glide.with(this)
@@ -96,7 +104,13 @@ class DetailMovieActivity : AppCompatActivity(){
                 .into(binding.movieBackdrop)
             binding.movieBackdrop.alpha = 0.5F
 
-            /*for (genre in movieEntity.genres!!){
+            val listGenre = ArrayList<String>()
+            val jArray = JSONArray(movieEntity.genres)
+            for (i in 0 until jArray.length()) {
+                listGenre.add(jArray.getString(i))
+            }
+
+            for (genre in listGenre){
                 //set the properties for button
                 val btnTag = Button(this)
 
@@ -116,7 +130,7 @@ class DetailMovieActivity : AppCompatActivity(){
 
                 //add button to the layout
                 binding.movieGenres.addView(btnTag)
-            }*/
+            }
         }
     }
 

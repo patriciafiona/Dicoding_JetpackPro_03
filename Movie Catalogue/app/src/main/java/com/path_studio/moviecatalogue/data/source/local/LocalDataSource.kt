@@ -50,4 +50,12 @@ class LocalDataSource private constructor(private val mTmdbDao: TmdbDao) {
         mTmdbDao.updateTvShow(tvShow)
     }
 
+    fun updateMovie(movie: MovieEntity){
+        mTmdbDao.updateMovie(movie)
+    }
+
+    fun updateTvShow(tvShow: TvShowEntity){
+        mTmdbDao.updateTvShow(tvShow)
+    }
+
 }
