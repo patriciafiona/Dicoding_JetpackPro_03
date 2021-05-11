@@ -3,7 +3,6 @@ package com.path_studio.moviecatalogue.ui.detailTvShow
 import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -16,9 +15,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.databinding.ActivityDetailTvShowBinding
-import com.path_studio.moviecatalogue.di.Injection
-import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieActivity
-import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieViewModel
 import com.path_studio.moviecatalogue.util.Utils
 import com.path_studio.moviecatalogue.util.Utils.changeStringDateToYear
 import com.path_studio.moviecatalogue.viewmodel.ViewModelFactory
@@ -27,6 +23,7 @@ import org.json.JSONArray
 
 class DetailTvShowActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailTvShowBinding
+    private var currentFavState = false
 
     companion object {
         const val EXTRA_TV_SHOW = "extra_tv_show"
@@ -39,13 +36,13 @@ class DetailTvShowActivity : AppCompatActivity() {
 
         //prepare view model for show Tv Show Details
 
+        val factory = ViewModelFactory.getInstance(this)
+        val viewModel = ViewModelProvider(this, factory)[DetailTvShowViewModel::class.java]
+
         val extras = intent.extras
         if (extras != null) {
             val showId = extras.getLong(EXTRA_TV_SHOW)
             if (showId != 0L) {
-                val factory = ViewModelFactory.getInstance(this)
-                val viewModel = ViewModelProvider(this, factory)[DetailTvShowViewModel::class.java]
-
                 //call this first to get season details
                 viewModel.getDetailTvShow(showId.toString()).observe(this, { show ->
                     if (show != null) {
@@ -53,6 +50,8 @@ class DetailTvShowActivity : AppCompatActivity() {
                             Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
                             Status.SUCCESS -> {
                                 show.data?.let { showDetailShow(it) }
+                                currentFavState = show.data!!.favorite
+                                setFavoriteState(currentFavState)
                                 binding.progressBar.visibility = View.GONE
                             }
                             Status.ERROR -> {
@@ -81,6 +80,20 @@ class DetailTvShowActivity : AppCompatActivity() {
 
         binding.btnBackPage02.setOnClickListener {
             super.onBackPressed()
+        }
+
+        binding.btnFavoriteshow.setOnClickListener {
+            viewModel.setFavorite()
+            currentFavState = !currentFavState
+            setFavoriteState(currentFavState)
+        }
+    }
+
+    private fun setFavoriteState(state: Boolean){
+        if (state) {
+            binding.btnFavoriteshow.setImageResource(R.drawable.ic_baseline_favorite_red)
+        } else {
+            binding.btnFavoriteshow.setImageResource(R.drawable.ic_baseline_favorite_white)
         }
     }
 

@@ -4,8 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.databinding.FragmentFavoriteBinding
 import com.path_studio.moviecatalogue.ui.bottomSheet.OnBottomSheetCallbacks
@@ -17,6 +21,14 @@ class FavoriteFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
     private val binding get() = _binding as FragmentFavoriteBinding
     private var currentState: Int = BottomSheetBehavior.STATE_HALF_EXPANDED
 
+    companion object {
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.movie,
+            R.string.tv_show
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,7 +39,21 @@ class FavoriteFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
 
         //set bottomSheet Callbacks
         (activity as MainActivity).setOnBottomSheetCallbacks(this)
+
+        //set Tab
+        setTab()
+
         return view
+    }
+
+    private fun setTab(){
+        val sectionsPagerAdapter = FavoriteTabsAdapter(activity as MainActivity)
+        val viewPager: ViewPager2 = binding.followViewPager
+        viewPager.adapter = sectionsPagerAdapter
+        val tabs: TabLayout = binding.followTabs
+        TabLayoutMediator(tabs, viewPager) { tab, position ->
+            tab.text = resources.getString(TAB_TITLES[position])
+        }.attach()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

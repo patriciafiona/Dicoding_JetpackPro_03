@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -12,14 +11,10 @@ import com.mancj.materialsearchbar.MaterialSearchBar
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter
 import com.path_studio.moviecatalogue.BuildConfig
 import com.path_studio.moviecatalogue.data.entities.SearchEntity
-import com.path_studio.moviecatalogue.data.source.remote.api.ApiConfig
 import com.path_studio.moviecatalogue.data.source.remote.response.SearchResponse
 import com.path_studio.moviecatalogue.databinding.ActivitySearchBinding
 import com.path_studio.moviecatalogue.di.Injection
 import com.path_studio.moviecatalogue.ui.mainPage.MainActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SearchActivity : AppCompatActivity() {
 

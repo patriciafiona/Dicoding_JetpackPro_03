@@ -1,26 +1,30 @@
 package com.path_studio.moviecatalogue.ui.detailTvShow
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.path_studio.moviecatalogue.data.TmdbRepository
-import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowWithSeason
 import com.path_studio.moviecatalogue.vo.Resource
 
 class DetailTvShowViewModel(private val tmdbRepository: TmdbRepository): ViewModel() {
 
-    fun getDetailTvShow(showId: String): LiveData<Resource<TvShowEntity>> = tmdbRepository.getDetailTvShow(showId)
+    private lateinit var tvShowData: LiveData<Resource<TvShowEntity>>
 
-    fun getDetailTvShowWithSeason(showId: String): LiveData<TvShowWithSeason>{
-        return tmdbRepository.getTvShowWithSeason(showId)
+    fun getDetailTvShow(showId: String): LiveData<Resource<TvShowEntity>>{
+        tvShowData = tmdbRepository.getDetailTvShow(showId)
+        return tvShowData
     }
 
+    fun getDetailTvShowWithSeason(showId: String): LiveData<TvShowWithSeason> = tmdbRepository.getTvShowWithSeason(showId)
 
-//    fun setFavorite() {
-//       tmdbRepository.setFavoriteTvShow()
-//    }
+    fun setFavorite() {
+        val tvShowResource = tvShowData.value
+        if (tvShowResource != null) {
+            val tvShowDetail = tvShowResource.data
+            val newState = !tvShowDetail!!.favorite
+            tmdbRepository.setFavoriteTvShow(tvShowDetail, newState)
+        }
+    }
 
 }

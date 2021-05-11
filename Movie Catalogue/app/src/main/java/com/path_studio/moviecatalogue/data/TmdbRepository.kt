@@ -104,8 +104,7 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
                         response.releaseDate,
                         response.voteAverage,
                         null,
-                        null,
-                         false
+                        null
                     )
                     movies.add(movie)
                 }
@@ -195,8 +194,7 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
                         response.voteAverage,
                         response.firstAirDate,
                         null,
-                        null,
-                        false
+                        null
                     )
                     shows.add(show)
                 }
@@ -257,15 +255,15 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
         }.asLiveData()
     }
 
-    override fun setFavoriteMovie(movie: MovieEntity){
+    override fun setFavoriteMovie(movie: MovieEntity, newState: Boolean){
         CoroutineScope(IO).launch {
-            localDataSource.setMovieFavorite(movie)
+            localDataSource.setMovieFavorite(movie, newState)
         }
     }
 
-    override fun setFavoriteTvShow(tvShow: TvShowEntity){
+    override fun setFavoriteTvShow(tvShow: TvShowEntity, newState: Boolean){
         CoroutineScope(IO).launch {
-            localDataSource.setTvShowFavorite(tvShow)
+            localDataSource.setTvShowFavorite(tvShow, newState)
         }
     }
 

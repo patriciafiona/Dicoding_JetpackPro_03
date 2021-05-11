@@ -16,7 +16,7 @@ interface TmdbDataSource {
     fun getTvShowWithSeason(showId: String): LiveData<TvShowWithSeason>
     fun getFavoriteMovie(): LiveData<PagedList<MovieEntity>>
     fun getFavoriteTvShow(): LiveData<PagedList<TvShowEntity>>
-    fun setFavoriteMovie(movie: MovieEntity)
-    fun setFavoriteTvShow(tvShow: TvShowEntity)
+    fun setFavoriteMovie(movie: MovieEntity, newState: Boolean)
+    fun setFavoriteTvShow(tvShow: TvShowEntity, newState: Boolean)
     fun getSearchResult(title: String): LiveData<List<SearchEntity>>
 }

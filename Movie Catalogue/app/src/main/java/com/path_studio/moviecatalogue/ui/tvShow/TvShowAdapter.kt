@@ -11,7 +11,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.databinding.ItemsMovieTvshowBinding
-import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieActivity.Companion.IS_FAVORITE
 import com.path_studio.moviecatalogue.ui.detailTvShow.DetailTvShowActivity
 import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
 

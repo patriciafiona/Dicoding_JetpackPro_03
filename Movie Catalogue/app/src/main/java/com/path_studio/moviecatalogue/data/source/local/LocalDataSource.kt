@@ -40,13 +40,13 @@ class LocalDataSource private constructor(private val mTmdbDao: TmdbDao) {
 
     fun insertSeason(seasons: List<SeasonEntity>) = mTmdbDao.insertSeason(seasons)
 
-    fun setMovieFavorite(movie : MovieEntity) {
-        movie.favorite = !movie.favorite
+    fun setMovieFavorite(movie : MovieEntity, newState: Boolean) {
+        movie.favorite = newState
         mTmdbDao.updateMovie(movie)
     }
 
-    fun setTvShowFavorite(tvShow : TvShowEntity) {
-        tvShow.favorite = !tvShow.favorite
+    fun setTvShowFavorite(tvShow : TvShowEntity, newState: Boolean) {
+        tvShow.favorite = newState
         mTmdbDao.updateTvShow(tvShow)
     }
 

@@ -3,7 +3,6 @@ package com.path_studio.moviecatalogue.ui.detailMovie
 import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -25,10 +24,10 @@ class DetailMovieActivity : AppCompatActivity(){
     private lateinit var detailMovieViewModel: DetailMovieViewModel
 
     private lateinit var binding: ActivityDetailMovieBinding
+    private var currentFavState = false
 
     companion object {
         const val EXTRA_MOVIE = "extra_movie"
-        const val IS_FAVORITE = "is_favorite"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,11 +35,11 @@ class DetailMovieActivity : AppCompatActivity(){
         binding = ActivityDetailMovieBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val factory = ViewModelFactory.getInstance(this)
+        detailMovieViewModel = ViewModelProvider(this, factory)[DetailMovieViewModel::class.java]
+
         val extras = intent.extras
         if (extras != null) {
-            val factory = ViewModelFactory.getInstance(this)
-            detailMovieViewModel = ViewModelProvider(this, factory)[DetailMovieViewModel::class.java]
-
             val movieId = extras.getLong(EXTRA_MOVIE)
             if (movieId != 0L) {
                 val factory = ViewModelFactory.getInstance(this)
@@ -53,6 +52,8 @@ class DetailMovieActivity : AppCompatActivity(){
                             Status.SUCCESS -> {
                                 binding.progressBar.visibility = View.GONE
                                 showDetailMovie(movie.data!!)
+                                currentFavState = movie.data.favorite
+                                setFavoriteState(currentFavState)
                             }
                             Status.ERROR -> {
                                 binding.progressBar.visibility = View.GONE
@@ -66,6 +67,20 @@ class DetailMovieActivity : AppCompatActivity(){
 
         binding.btnBackPage.setOnClickListener {
             super.onBackPressed()
+        }
+
+        binding.btnFavoriteMovie.setOnClickListener {
+            detailMovieViewModel.setFavorite()
+            currentFavState = !currentFavState
+            setFavoriteState(currentFavState)
+        }
+    }
+
+    private fun setFavoriteState(state: Boolean){
+        if (state) {
+            binding.btnFavoriteMovie.setImageResource(R.drawable.ic_baseline_favorite_red)
+        } else {
+            binding.btnFavoriteMovie.setImageResource(R.drawable.ic_baseline_favorite_white)
         }
     }
 

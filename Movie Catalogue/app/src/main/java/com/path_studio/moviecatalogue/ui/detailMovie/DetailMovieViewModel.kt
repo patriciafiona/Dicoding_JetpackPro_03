@@ -7,5 +7,20 @@ import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.vo.Resource
 
 class DetailMovieViewModel(private val tmdbRepository: TmdbRepository): ViewModel() {
-    fun getDetailMovie(movieId: String): LiveData<Resource<MovieEntity>> = tmdbRepository.getDetailMovie(movieId)
+
+    private lateinit var movieData: LiveData<Resource<MovieEntity>>
+
+    fun getDetailMovie(movieId: String): LiveData<Resource<MovieEntity>>{
+        movieData = tmdbRepository.getDetailMovie(movieId)
+        return movieData
+    }
+
+    fun setFavorite() {
+        val movieResource = movieData.value
+        if (movieResource != null) {
+            val movieDetail = movieResource.data
+            val newState = !movieDetail!!.favorite
+            tmdbRepository.setFavoriteMovie(movieDetail, newState)
+        }
+    }
 }
