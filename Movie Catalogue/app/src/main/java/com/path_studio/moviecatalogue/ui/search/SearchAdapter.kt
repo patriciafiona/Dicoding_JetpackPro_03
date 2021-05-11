@@ -8,11 +8,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter
 import com.path_studio.moviecatalogue.R
+import com.path_studio.moviecatalogue.data.entities.SearchEntity
 import com.path_studio.moviecatalogue.databinding.ItemRowSuggestionBinding
 import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieActivity
 import com.path_studio.moviecatalogue.ui.detailTvShow.DetailTvShowActivity
 
-/*
 class SearchAdapter(inflater: LayoutInflater?) : SuggestionsAdapter<SearchEntity,
         SearchAdapter.SuggestionHolder>(inflater) {
 
@@ -84,4 +84,4 @@ class SearchAdapter(inflater: LayoutInflater?) : SuggestionsAdapter<SearchEntity
             }
         }
     }
-}*/
+}

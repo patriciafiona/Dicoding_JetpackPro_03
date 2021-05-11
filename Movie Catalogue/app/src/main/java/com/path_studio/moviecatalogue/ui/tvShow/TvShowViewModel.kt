@@ -9,5 +9,4 @@ import com.path_studio.moviecatalogue.vo.Resource
 
 class TvShowViewModel(private val tmdbRepository: TmdbRepository): ViewModel() {
     fun getDiscoverTvShow(): LiveData<Resource<PagedList<TvShowEntity>>> = tmdbRepository.getDiscoverTvShow()
-    fun getLoading():LiveData<Boolean> = tmdbRepository.isLoading
 }

@@ -26,9 +26,6 @@ import com.path_studio.moviecatalogue.vo.Status
 import org.json.JSONArray
 
 class DetailTvShowActivity : AppCompatActivity() {
-
-    private lateinit var detailTvShowViewModel: DetailTvShowViewModel
-
     private lateinit var binding: ActivityDetailTvShowBinding
 
     companion object {
@@ -45,20 +42,18 @@ class DetailTvShowActivity : AppCompatActivity() {
         val extras = intent.extras
         if (extras != null) {
             val showId = extras.getLong(EXTRA_TV_SHOW)
-            val isFavStatus = extras.getBoolean(DetailMovieActivity.IS_FAVORITE)
-
             if (showId != 0L) {
                 val factory = ViewModelFactory.getInstance(this)
                 val viewModel = ViewModelProvider(this, factory)[DetailTvShowViewModel::class.java]
 
                 //call this first to get season details
-                viewModel.getDetailTvShow(showId.toString(), isFavStatus).observe(this, { show ->
+                viewModel.getDetailTvShow(showId.toString()).observe(this, { show ->
                     if (show != null) {
                         when (show.status) {
                             Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
                             Status.SUCCESS -> {
+                                show.data?.let { showDetailShow(it) }
                                 binding.progressBar.visibility = View.GONE
-                                showDetailShow(show.data!!)
                             }
                             Status.ERROR -> {
                                 binding.progressBar.visibility = View.GONE
@@ -68,7 +63,7 @@ class DetailTvShowActivity : AppCompatActivity() {
                     }
                 })
 
-                //Get Season Details
+                //Get Season Details from Room
                 val seasonAdapter = SeasonDetailAdapter()
                 viewModel.getDetailTvShowWithSeason(showId.toString()).observe(this, { detail ->
                     if (detail != null) {

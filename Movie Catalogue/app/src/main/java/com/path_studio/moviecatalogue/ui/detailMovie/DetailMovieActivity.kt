@@ -42,12 +42,11 @@ class DetailMovieActivity : AppCompatActivity(){
             detailMovieViewModel = ViewModelProvider(this, factory)[DetailMovieViewModel::class.java]
 
             val movieId = extras.getLong(EXTRA_MOVIE)
-            val isFavStatus = extras.getBoolean(IS_FAVORITE)
             if (movieId != 0L) {
                 val factory = ViewModelFactory.getInstance(this)
                 val viewModel = ViewModelProvider(this, factory)[DetailMovieViewModel::class.java]
 
-                viewModel.getDetailMovie(movieId.toString(), isFavStatus).observe(this, { movie ->
+                viewModel.getDetailMovie(movieId.toString()).observe(this, { movie ->
                     if (movie != null) {
                         when (movie.status) {
                             Status.LOADING -> binding.progressBar.visibility = View.VISIBLE

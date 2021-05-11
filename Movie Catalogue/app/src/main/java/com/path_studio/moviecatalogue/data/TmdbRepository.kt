@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.path_studio.moviecatalogue.data.entities.SearchEntity
 import com.path_studio.moviecatalogue.data.source.local.LocalDataSource
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.SeasonEntity
@@ -39,7 +40,7 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
             }
     }
 
-    /*override fun getSearchResult(title: String): LiveData<List<SearchEntity>> {
+    override fun getSearchResult(title: String): LiveData<List<SearchEntity>> {
         _isLoading.value = true
         val listOfResult = MutableLiveData<List<SearchEntity>>()
         CoroutineScope(IO).launch{
@@ -72,7 +73,7 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
             })
         }
         return listOfResult
-    }*/
+    }
 
     override fun getDiscoverMovies(): LiveData<Resource<PagedList<MovieEntity>>> {
         return object: NetworkBoundResource<PagedList<MovieEntity>, List<ResultsItemMovie>>(appExecutors) {
@@ -113,7 +114,7 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
         }.asLiveData()
     }
 
-    override fun getDetailMovie(movieId: String, currentFav: Boolean): LiveData<Resource<MovieEntity>> {
+    override fun getDetailMovie(movieId: String): LiveData<Resource<MovieEntity>> {
         return object: NetworkBoundResource<MovieEntity, DetailMovieResponse>(appExecutors) {
             public override fun loadFromDB(): LiveData<MovieEntity> = localDataSource.getMovieById(movieId)
 
@@ -139,8 +140,7 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
                     data.releaseDate,
                     data.voteAverage!!,
                     JSONArray(listOfGenre).toString(),
-                    data.runtime,
-                    currentFav
+                    data.runtime
                 )
                 localDataSource.updateMovie(movie)
             }
@@ -208,7 +208,7 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
     override fun getTvShowWithSeason(showId: String): LiveData<TvShowWithSeason> =
         localDataSource.getTvShowWithSeason(showId)
 
-    override fun getDetailTvShow(showId: String, currentFav: Boolean): LiveData<Resource<TvShowEntity>> {
+    override fun getDetailTvShow(showId: String): LiveData<Resource<TvShowEntity>> {
         return object: NetworkBoundResource<TvShowEntity, DetailTvShowResponse>(appExecutors) {
             public override fun loadFromDB(): LiveData<TvShowEntity> = localDataSource.getTvShowById(showId)
 
@@ -249,8 +249,7 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
                     data.voteAverage,
                     data.firstAirDate,
                     JSONArray(listOfGenre).toString(),
-                    data.episodeRunTime!![0],
-                    currentFav
+                    data.episodeRunTime!![0]
                 )
                 localDataSource.updateTvShow(show)
                 localDataSource.insertSeason(listOfSeason)

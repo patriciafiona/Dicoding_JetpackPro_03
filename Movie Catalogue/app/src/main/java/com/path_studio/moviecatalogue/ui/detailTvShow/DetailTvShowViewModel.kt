@@ -12,8 +12,7 @@ import com.path_studio.moviecatalogue.vo.Resource
 
 class DetailTvShowViewModel(private val tmdbRepository: TmdbRepository): ViewModel() {
 
-    fun getDetailTvShow(showId: String, currentFav: Boolean): LiveData<Resource<TvShowEntity>> = tmdbRepository.getDetailTvShow(showId, currentFav)
-    fun getLoading():LiveData<Boolean> = tmdbRepository.isLoading
+    fun getDetailTvShow(showId: String): LiveData<Resource<TvShowEntity>> = tmdbRepository.getDetailTvShow(showId)
 
     fun getDetailTvShowWithSeason(showId: String): LiveData<TvShowWithSeason>{
         return tmdbRepository.getTvShowWithSeason(showId)

@@ -53,7 +53,6 @@ class TvShowAdapter: PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHold
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, DetailTvShowActivity::class.java)
                     intent.putExtra(DetailTvShowActivity.EXTRA_TV_SHOW, show.tvShowId)
-                    intent.putExtra(IS_FAVORITE, show.favorite)
                     itemView.context.startActivity(intent)
                 }
 

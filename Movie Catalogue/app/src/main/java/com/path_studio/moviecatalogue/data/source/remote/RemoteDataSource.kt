@@ -27,26 +27,21 @@ class RemoteDataSource {
             }
     }
 
-    fun getSearchResult(title: String): LiveData<ApiResponse<SearchResponse>> {
+    //No need to connect to Room, so keep the code
+    suspend fun getSearchResult(title: String, callback: CallbackLoadSearchResult) {
         EspressoIdlingResource.increment()
-        val resultsSearch = MutableLiveData<ApiResponse<SearchResponse>>()
-        CoroutineScope(IO).launch {
-            try{
-                val response = ApiConfig.getApiService().getSearchResult(API_KEY, language, title, "1").await()
-                resultsSearch.postValue(ApiResponse.success(response))
-            }catch (e: IOException){
-                Log.e("getMovie Error", e.message.toString())
-                resultsSearch.postValue(
-                    ApiResponse.error(
-                        e.message.toString(),
-                        SearchResponse()
-                    )
-                )
-            }
+        ApiConfig.getApiService().getSearchResult(API_KEY, language, title, "1").await().results.let{
+                listResult -> callback.onSearchResultRecieved((
+                listResult
+                ))
+            EspressoIdlingResource.decrement()
         }
-        EspressoIdlingResource.decrement()
-        return  resultsSearch
     }
+
+    interface CallbackLoadSearchResult{
+        fun onSearchResultRecieved(showResponse: List<SearchResultsItem?>?)
+    }
+    //---------------------------------------------------------------------------------------------
 
     fun getDiscoverMovie(): LiveData<ApiResponse<List<ResultsItemMovie>>> {
         EspressoIdlingResource.increment()
