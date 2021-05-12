@@ -42,14 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setBottomNav(){
         val navView = findViewById<BottomNavigationView>(R.id.nav_view)
-        val appBarConfiguration = AppBarConfiguration.Builder(
-            R.id.navigation_movie,
-            R.id.navigation_favorite,
-            R.id.navigation_tvShow
-        )
-            .build()
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
         NavigationUI.setupWithNavController(navView, navController)
     }
 

@@ -3,9 +3,10 @@ package com.path_studio.moviecatalogue.ui.mainPage.tvShow
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.path_studio.moviecatalogue.data.TmdbRepository
-import com.path_studio.moviecatalogue.data.entities.TvShowEntity
-import com.path_studio.moviecatalogue.util.DataDummy
+import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
+import com.path_studio.moviecatalogue.vo.Resource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -25,7 +26,10 @@ class TvShowViewModelTest {
     private lateinit var tmdbRepository: TmdbRepository
 
     @Mock
-    private lateinit var observer: Observer<List<TvShowEntity>>
+    private lateinit var observer: Observer<Resource<PagedList<TvShowEntity>>>
+
+    @Mock
+    private lateinit var pagedList: PagedList<TvShowEntity>
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -37,16 +41,16 @@ class TvShowViewModelTest {
 
     @Test
     fun getTvShows() {
-        val dummyTvShow= DataDummy.generateDummyTvShow()
-        val shows = MutableLiveData<List<TvShowEntity>>()
-        shows.value = DataDummy.generateDummyTvShow()
+        val dummyTvShow= Resource.success(pagedList)
+        Mockito.`when`(dummyTvShow.data?.size).thenReturn(1)
+        val show = MutableLiveData<Resource<PagedList<TvShowEntity>>>()
+        show.value = dummyTvShow
 
-        Mockito.`when`(tmdbRepository.getDiscoverTvShow()).thenReturn(shows)
-
-        val dataListShow = viewModel.getDiscoverTvShow().value
+        Mockito.`when`(tmdbRepository.getDiscoverTvShow()).thenReturn(show)
+        val showEntities = viewModel.getDiscoverTvShow().value?.data
         Mockito.verify(tmdbRepository).getDiscoverTvShow()
-        assertNotNull(dataListShow)
-        assertEquals(10, dataListShow?.size)
+        assertNotNull(showEntities)
+        assertEquals(1, showEntities?.size)
 
         viewModel.getDiscoverTvShow().observeForever(observer)
         Mockito.verify(observer).onChanged(dummyTvShow)

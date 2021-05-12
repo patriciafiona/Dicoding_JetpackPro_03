@@ -1,18 +1,14 @@
 package com.path_studio.moviecatalogue.ui.mainPage.favorite.favoriteTvShow
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.path_studio.moviecatalogue.R
-import com.path_studio.moviecatalogue.databinding.FragmentFavoriteMovieBinding
 import com.path_studio.moviecatalogue.databinding.FragmentFavoriteTvShowBinding
 import com.path_studio.moviecatalogue.ui.mainPage.MainActivity
-import com.path_studio.moviecatalogue.ui.mainPage.favorite.favoriteMovie.FavoriteMovieAdapter
-import com.path_studio.moviecatalogue.ui.mainPage.favorite.favoriteMovie.FavoriteMovieViewModel
 import com.path_studio.moviecatalogue.viewmodel.ViewModelFactory
 
 class FavoriteTvShowFragment : Fragment() {

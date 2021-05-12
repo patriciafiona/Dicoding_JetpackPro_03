@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.path_studio.moviecatalogue.R
@@ -23,12 +22,10 @@ class MovieFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
     private val binding get() = _binding as FragmentMovieBinding
     private var currentState: Int = BottomSheetBehavior.STATE_HALF_EXPANDED
 
-    private lateinit var movieViewModel: MovieViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         //set binding
         _binding = FragmentMovieBinding.inflate(inflater, container, false)

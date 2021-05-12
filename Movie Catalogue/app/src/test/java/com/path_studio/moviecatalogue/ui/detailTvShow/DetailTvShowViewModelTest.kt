@@ -4,10 +4,11 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.path_studio.moviecatalogue.data.TmdbRepository
-import com.path_studio.moviecatalogue.data.entities.DetailTvShowEntity
+import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
+import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
+import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowWithSeason
 import com.path_studio.moviecatalogue.util.DataDummy
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
+import com.path_studio.moviecatalogue.vo.Resource
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,7 +22,8 @@ class DetailTvShowViewModelTest {
 
     private lateinit var viewModel: DetailTvShowViewModel
     private val dummyDetailShow= DataDummy.generateDummyDetailTvShow()[0]
-    private val showId = dummyDetailShow.id
+    private val dummyTvShowWithSeason = DataDummy.generateDummyTvShowWithSeasonDetail()[0]
+    private val showId = dummyDetailShow.tvShowId
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -30,42 +32,33 @@ class DetailTvShowViewModelTest {
     private lateinit var tmdbRepository: TmdbRepository
 
     @Mock
-    private lateinit var observer: Observer<DetailTvShowEntity>
+    private lateinit var observer: Observer<MovieEntity>
 
     @Before
     fun setUp() {
         viewModel = DetailTvShowViewModel(tmdbRepository)
-        viewModel.getDetailTvShow(showId.toString())
     }
 
     @Test
     fun getDetailTvShow() {
-        val showDummy = MutableLiveData<DetailTvShowEntity>()
-        showDummy.value = dummyDetailShow
+        val showDetailDummy = MutableLiveData<Resource<TvShowEntity>>()
+        val resource = Resource.success(dummyDetailShow)
+        showDetailDummy.value = resource
+        Mockito.`when`(tmdbRepository.getDetailTvShow(showId.toString())).thenReturn(showDetailDummy)
 
-        Mockito.`when`(tmdbRepository.getDetailTvShow(showId.toString())).thenReturn(showDummy)
-
-        Mockito.verify(tmdbRepository).getDetailTvShow(showId.toString())
-
-        val showData = viewModel.getDetailTvShow(showId.toString()).value as DetailTvShowEntity
-
-        assertNotNull(showData)
-
-        assertEquals(dummyDetailShow.posterPath, showData.posterPath)
-        assertEquals(dummyDetailShow.backdropPath, showData.backdropPath)
-        assertEquals(dummyDetailShow.id, showData.id)
-        assertEquals(dummyDetailShow.originalName, showData.originalName)
-        assertEquals(dummyDetailShow.name, showData.name)
-        assertEquals(dummyDetailShow.overview, showData.overview)
-        assertEquals(dummyDetailShow.voteAverage, showData.voteAverage)
-        assertEquals(dummyDetailShow.voteCount, showData.voteCount)
-        assertEquals(dummyDetailShow.genres, showData.genres)
-        assertEquals(dummyDetailShow.runtime, showData.runtime)
-        assertEquals(dummyDetailShow.releaseDate, showData.releaseDate)
-        assertEquals(dummyDetailShow.seasons, showData.seasons)
-
+        val observer = Mockito.mock(Observer::class.java) as Observer<Resource<TvShowEntity>>
         viewModel.getDetailTvShow(showId.toString()).observeForever(observer)
-        Mockito.verify(observer).onChanged(dummyDetailShow)
+        Mockito.verify(observer).onChanged(resource)
+    }
+
+    @Test
+    fun getDetailTvShowWithSeason(){
+        val showDetailDummy = MutableLiveData<TvShowWithSeason>()
+        showDetailDummy.value = dummyTvShowWithSeason
+        Mockito.`when`(tmdbRepository.getTvShowWithSeason(showId.toString())).thenReturn(showDetailDummy)
+
+        val observer = Mockito.mock(Observer::class.java) as Observer<TvShowWithSeason>
+        viewModel.getDetailTvShowWithSeason(showId.toString()).observeForever(observer)
     }
 
 }

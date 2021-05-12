@@ -3,7 +3,6 @@ package com.path_studio.moviecatalogue.ui.detailTvShow
 import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast

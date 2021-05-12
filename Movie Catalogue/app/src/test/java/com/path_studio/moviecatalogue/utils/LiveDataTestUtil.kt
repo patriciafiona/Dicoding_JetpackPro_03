@@ -1,4 +1,4 @@
-package com.path_studio.moviecatalogue.util
+package com.path_studio.moviecatalogue.utils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer

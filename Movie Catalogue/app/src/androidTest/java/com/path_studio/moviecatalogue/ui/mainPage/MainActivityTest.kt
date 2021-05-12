@@ -23,7 +23,7 @@ class MainActivityTest{
     private val dummyTvShow = DataDummy.generateDummyTvShow()
 
     private val dummyDetailMovie = DataDummy.generateDummyDetailMovie()
-    private val dummyDetailTvShow = DataDummy.generateDummyDetailTvShow()
+    private val dummyTvShowWithSeason = DataDummy.generateDummyTvShowWithSeasonDetail()[0]
 
     @get:Rule
     var activityRule = ActivityScenarioRule(MainActivity::class.java)
@@ -49,8 +49,9 @@ class MainActivityTest{
     @Test
     fun loadDetailMovie() {
         onView(withId(R.id.navigation_movie)).perform(click())
-        
-        onView(withId(R.id.rv_movie)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+
+        // "Mortal Kombat"
+        onView(withId(R.id.rv_movie)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(3, click()))
 
         onView(withId(R.id.movieTitle)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
         onView(withId(R.id.movieTitle)).check(matches(withText(dummyDetailMovie[0].title)))
@@ -93,38 +94,40 @@ class MainActivityTest{
     fun loadDetailTvShow() {
         onView(withId(R.id.navigation_tvShow)).perform(click())
 
-        onView(withId(R.id.rv_tvShow)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        // "The Falcon and the Winter Soldier"
+        onView(withId(R.id.rv_tvShow)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(7))
+        onView(withId(R.id.rv_tvShow)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(14, click()))
 
         onView(withId(R.id.showTitle)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-        onView(withId(R.id.showTitle)).check(matches(withText(dummyDetailTvShow[0].name)))
+        onView(withId(R.id.showTitle)).check(matches(withText(dummyTvShowWithSeason.mTvShow.name)))
         onView(withId(R.id.showTopTitle)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-        onView(withId(R.id.showTopTitle)).check(matches(withText(dummyDetailTvShow[0].name)))
+        onView(withId(R.id.showTopTitle)).check(matches(withText(dummyTvShowWithSeason.mTvShow.name)))
 
         onView(withId(R.id.showRating)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
 
         onView(withId(R.id.showReleaseDate)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
         onView(withId(R.id.showReleaseDate)).check(matches(withText(
             Utils.changeStringDateToYear(
-                dummyDetailTvShow[0].releaseDate!!
+                dummyTvShowWithSeason.mTvShow.firstAirDate!!
             ).toString()
         )))
 
         onView(withId(R.id.showDuration)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
         onView(withId(R.id.showDuration)).check(matches(withText(
                 Utils.changeMinuteToDurationFormat(
-                    dummyDetailTvShow[0].runtime!![0]!!
+                    dummyTvShowWithSeason.mTvShow.runtime!!
                 )
         )))
 
         onView(withId(R.id.showSinopsis)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-        onView(withId(R.id.showSinopsis)).check(matches(withText(dummyDetailTvShow[0].overview)))
+        onView(withId(R.id.showSinopsis)).check(matches(withText(dummyTvShowWithSeason.mTvShow.overview)))
         onView(withId(R.id.btnFavoriteshow)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
         onView(withId(R.id.showPoster)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
         onView(withId(R.id.showBackdrop)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
 
         onView(withId(R.id.rv_seasonDetail)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_seasonDetail)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-            dummyDetailTvShow[0].seasons!!.size))
+            dummyTvShowWithSeason.mSeason.size))
 
         onView(withId(R.id.btnBackPage02)).perform(click())
     }
