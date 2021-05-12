@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
+import com.path_studio.moviecatalogue.databinding.ItemGridMovieTvshowBinding
 import com.path_studio.moviecatalogue.databinding.ItemsMovieTvshowBinding
 import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieActivity
 import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
@@ -29,7 +30,7 @@ class MovieAdapter: PagedListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        val itemsMovieBinding = ItemsMovieTvshowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemsMovieBinding = ItemGridMovieTvshowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieViewHolder(itemsMovieBinding)
     }
 
@@ -40,7 +41,7 @@ class MovieAdapter: PagedListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(
         }
     }
 
-    class MovieViewHolder(private val binding: ItemsMovieTvshowBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MovieViewHolder(private val binding: ItemGridMovieTvshowBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(movie: MovieEntity) {
             with(binding) {
                 tvItemTitle.text = movie.title

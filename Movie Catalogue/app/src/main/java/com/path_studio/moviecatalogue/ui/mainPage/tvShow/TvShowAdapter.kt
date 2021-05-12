@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
+import com.path_studio.moviecatalogue.databinding.ItemGridMovieTvshowBinding
 import com.path_studio.moviecatalogue.databinding.ItemsMovieTvshowBinding
 import com.path_studio.moviecatalogue.ui.detailTvShow.DetailTvShowActivity
 import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
@@ -29,7 +30,7 @@ class TvShowAdapter: PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHold
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowViewHolder {
-        val itemsTvShowBinding = ItemsMovieTvshowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemsTvShowBinding = ItemGridMovieTvshowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TvShowViewHolder(itemsTvShowBinding)
     }
 
@@ -40,7 +41,7 @@ class TvShowAdapter: PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHold
         }
     }
 
-    class TvShowViewHolder(private val binding: ItemsMovieTvshowBinding) : RecyclerView.ViewHolder(binding.root) {
+    class TvShowViewHolder(private val binding: ItemGridMovieTvshowBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(show: TvShowEntity) {
             with(binding) {
                 tvItemTitle.text = show.name

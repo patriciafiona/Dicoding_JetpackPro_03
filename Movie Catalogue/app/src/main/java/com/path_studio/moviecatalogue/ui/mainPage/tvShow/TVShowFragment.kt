@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -73,7 +74,7 @@ class TVShowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
             })
 
             with(binding.rvTvShow) {
-                layoutManager = LinearLayoutManager(context)
+                binding.rvTvShow.layoutManager = GridLayoutManager(activity, 2)
                 setHasFixedSize(true)
                 adapter = tvShowAdapter
             }
