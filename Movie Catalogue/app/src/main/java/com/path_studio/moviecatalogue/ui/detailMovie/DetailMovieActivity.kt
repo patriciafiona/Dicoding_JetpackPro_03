@@ -3,6 +3,7 @@ package com.path_studio.moviecatalogue.ui.detailMovie
 import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -35,9 +36,6 @@ class DetailMovieActivity : AppCompatActivity(){
         binding = ActivityDetailMovieBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val factory = ViewModelFactory.getInstance(this)
-        detailMovieViewModel = ViewModelProvider(this, factory)[DetailMovieViewModel::class.java]
-
         val extras = intent.extras
         if (extras != null) {
             val movieId = extras.getLong(EXTRA_MOVIE)
@@ -50,6 +48,7 @@ class DetailMovieActivity : AppCompatActivity(){
                         when (movie.status) {
                             Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
                             Status.SUCCESS -> {
+                                Log.e("result", movie.data.toString())
                                 binding.progressBar.visibility = View.GONE
                                 showDetailMovie(movie.data!!)
                                 currentFavState = movie.data.favorite

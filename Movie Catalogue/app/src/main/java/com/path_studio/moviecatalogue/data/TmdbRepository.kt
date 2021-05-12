@@ -48,42 +48,8 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
                 override fun onSearchResultRecieved(showResponse: List<SearchResultsItem?>?) {
                     val res = ArrayList<SearchEntity>()
                     if (showResponse != null) {
-                        val movies = ArrayList<MovieEntity>()
-                        val shows = ArrayList<TvShowEntity>()
-
                         for(responseSearch in showResponse){
                             if(responseSearch!!.mediaType == "tv" || responseSearch.mediaType == "movie"){
-                                //for save into database
-                                if(responseSearch.mediaType == "tv"){
-                                    shows.add(
-                                        TvShowEntity(
-                                            responseSearch.id!!,
-                                            responseSearch.name!!,
-                                            responseSearch.overview,
-                                            responseSearch.posterPath,
-                                            responseSearch.backdropPath,
-                                            responseSearch.voteAverage,
-                                            responseSearch.firstAirDate,
-                                            null,
-                                            null
-                                        )
-                                    )
-                                } else if(responseSearch.mediaType == "movie"){
-                                    movies.add(
-                                        MovieEntity(
-                                            responseSearch.id!!,
-                                            responseSearch.title!!,
-                                            responseSearch.overview,
-                                            responseSearch.posterPath,
-                                            responseSearch.backdropPath,
-                                            responseSearch.releaseDate,
-                                            responseSearch.voteAverage!!,
-                                            null,
-                                            null
-                                        )
-                                    )
-                                }
-
                                 //for return result
                                 val resSearch = SearchEntity(
                                     responseSearch.id,
@@ -101,8 +67,6 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
                                 }
                             }
                         }
-                        localDataSource.insertMovies(movies)
-                        localDataSource.insertTvShow(shows)
                     }
                     _isLoading.postValue(false)
                     listOfResult.postValue(res)
@@ -178,7 +142,8 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
                     JSONArray(listOfGenre).toString(),
                     data.runtime
                 )
-                localDataSource.updateMovie(movie)
+                //using insert for add search result into db, and use the data for show later
+                localDataSource.insertMovies(arrayListOf(movie))
             }
         }.asLiveData()
     }
@@ -286,7 +251,8 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
                     JSONArray(listOfGenre).toString(),
                     data.episodeRunTime!![0]
                 )
-                localDataSource.updateTvShow(show)
+                //using insert for add search result into db, and use the data for show later
+                localDataSource.insertTvShow(arrayListOf(show))
                 localDataSource.insertSeason(listOfSeason)
             }
         }.asLiveData()
