@@ -1,40 +1,47 @@
-package com.path_studio.moviecatalogue.ui.movie
+package com.path_studio.moviecatalogue.ui.mainPage.tvShow
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.path_studio.moviecatalogue.R
-import com.path_studio.moviecatalogue.databinding.FragmentMovieBinding
+import com.path_studio.moviecatalogue.databinding.FragmentTvShowBinding
 import com.path_studio.moviecatalogue.ui.bottomSheet.OnBottomSheetCallbacks
 import com.path_studio.moviecatalogue.ui.mainPage.MainActivity
 import com.path_studio.moviecatalogue.viewmodel.ViewModelFactory
 import com.path_studio.moviecatalogue.vo.Status
 
-class MovieFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
+class TVShowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
 
-    private var _binding: FragmentMovieBinding? = null
-    private val binding get() = _binding as FragmentMovieBinding
+    private var _binding: FragmentTvShowBinding? = null
+    private val binding get() = _binding as FragmentTvShowBinding
+
     private var currentState: Int = BottomSheetBehavior.STATE_HALF_EXPANDED
-
-    private lateinit var movieViewModel: MovieViewModel
+    private lateinit var textResult: AppCompatTextView
+    private lateinit var filterImage: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         //set binding
-        _binding = FragmentMovieBinding.inflate(inflater, container, false)
+        _binding = FragmentTvShowBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        //init
+        textResult = view.findViewById(R.id.textResult2)
+        filterImage = view.findViewById(R.id.indicatorImage2)
 
         //set bottomSheet Callbacks
         (activity as MainActivity).setOnBottomSheetCallbacks(this)
+
         return view
     }
 
@@ -46,16 +53,16 @@ class MovieFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
 
         if (activity != null) {
             val factory = ViewModelFactory.getInstance(requireActivity())
-            val viewModel = ViewModelProvider(this, factory)[MovieViewModel::class.java]
+            val viewModel = ViewModelProvider(this, factory)[TvShowViewModel::class.java]
 
-            val movieAdapter = MovieAdapter()
-            viewModel.getDiscoverMovies().observe(this, { movies ->
-                if (movies != null) {
-                    when (movies.status) {
+            val tvShowAdapter = TvShowAdapter()
+            viewModel.getDiscoverTvShow().observe(this, { shows ->
+                if (shows != null) {
+                    when (shows.status) {
                         Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
                         Status.SUCCESS -> {
                             binding.progressBar.visibility = View.GONE
-                            movieAdapter.submitList(movies.data)
+                            tvShowAdapter.submitList(shows.data)
                         }
                         Status.ERROR -> {
                             binding.progressBar.visibility = View.GONE
@@ -65,18 +72,18 @@ class MovieFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
                 }
             })
 
-            with(binding.rvMovie) {
+            with(binding.rvTvShow) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
-                adapter = movieAdapter
+                adapter = tvShowAdapter
             }
         }
 
-        binding.textResult.setOnClickListener {
+        textResult.setOnClickListener {
             (activity as MainActivity).openBottomSheet()
         }
 
-        binding.indicatorImage.setOnClickListener {
+        filterImage.setOnClickListener {
             if (currentState == BottomSheetBehavior.STATE_EXPANDED) {
                 (activity as MainActivity).closeBottomSheet()
             } else if (currentState == BottomSheetBehavior.STATE_HALF_EXPANDED){
@@ -89,12 +96,12 @@ class MovieFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
         currentState = newState
         when (newState) {
             BottomSheetBehavior.STATE_EXPANDED -> {
-                binding.textResult.text = this.getString(R.string.results)
-                binding.indicatorImage.setImageResource(R.drawable.ic_baseline_expand_more_purple)
+                textResult.text = this.getString(R.string.results)
+                filterImage.setImageResource(R.drawable.ic_baseline_expand_more_purple)
             }
             BottomSheetBehavior.STATE_HALF_EXPANDED -> {
-                binding.textResult.text = this.getString(R.string.list_of_movies)
-                binding.indicatorImage.setImageResource(R.drawable.ic_baseline_expand_less_purple)
+                textResult.text = this.getString(R.string.list_of_tv_shows)
+                filterImage.setImageResource(R.drawable.ic_baseline_expand_less_purple)
             }
         }
     }

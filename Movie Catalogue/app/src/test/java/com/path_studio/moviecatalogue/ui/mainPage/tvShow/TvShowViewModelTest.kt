@@ -1,4 +1,4 @@
-package com.path_studio.moviecatalogue.ui.tvShow
+package com.path_studio.moviecatalogue.ui.mainPage.tvShow
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData

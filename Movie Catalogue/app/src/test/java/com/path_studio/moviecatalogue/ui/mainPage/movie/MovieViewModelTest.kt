@@ -1,4 +1,4 @@
-package com.path_studio.moviecatalogue.ui.movie
+package com.path_studio.moviecatalogue.ui.mainPage.movie
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData

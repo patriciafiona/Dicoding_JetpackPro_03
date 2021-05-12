@@ -6,17 +6,17 @@
     app:startDestination="@id/navigation_movie">
     <fragment
         android:id="@+id/navigation_movie"
-        android:name="com.path_studio.moviecatalogue.ui.movie.MovieFragment"
+        android:name="com.path_studio.moviecatalogue.ui.mainPage.movie.MovieFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_movie" />
     <fragment
         android:id="@+id/navigation_favorite"
-        android:name="com.path_studio.moviecatalogue.ui.favorite.FavoriteFragment"
+        android:name="com.path_studio.moviecatalogue.ui.mainPage.favorite.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/navigation_tvShow"
-        android:name="com.path_studio.moviecatalogue.ui.tvShow.TVShowFragment"
+        android:name="com.path_studio.moviecatalogue.ui.mainPage.tvShow.TVShowFragment"
         android:label="fragment_list_user"
         tools:layout="@layout/fragment_tv_show" />
 </navigation>

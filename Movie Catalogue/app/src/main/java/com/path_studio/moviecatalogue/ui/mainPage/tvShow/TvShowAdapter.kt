@@ -1,4 +1,4 @@
-package com.path_studio.moviecatalogue.ui.tvShow
+package com.path_studio.moviecatalogue.ui.mainPage.tvShow
 
 import android.content.Intent
 import android.view.LayoutInflater

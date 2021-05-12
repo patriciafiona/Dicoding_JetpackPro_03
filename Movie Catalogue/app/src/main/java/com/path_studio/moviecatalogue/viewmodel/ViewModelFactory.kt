@@ -7,8 +7,11 @@ import com.path_studio.moviecatalogue.data.TmdbRepository
 import com.path_studio.moviecatalogue.di.Injection
 import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieViewModel
 import com.path_studio.moviecatalogue.ui.detailTvShow.DetailTvShowViewModel
-import com.path_studio.moviecatalogue.ui.movie.MovieViewModel
-import com.path_studio.moviecatalogue.ui.tvShow.TvShowViewModel
+import com.path_studio.moviecatalogue.ui.mainPage.favorite.favoriteMovie.FavoriteMovieViewModel
+import com.path_studio.moviecatalogue.ui.mainPage.favorite.favoriteTvShow.FavoriteTvShowAdapter
+import com.path_studio.moviecatalogue.ui.mainPage.favorite.favoriteTvShow.FavoriteTvShowViewModel
+import com.path_studio.moviecatalogue.ui.mainPage.movie.MovieViewModel
+import com.path_studio.moviecatalogue.ui.mainPage.tvShow.TvShowViewModel
 
 class ViewModelFactory private constructor(private val mTmdbRepository: TmdbRepository) : ViewModelProvider.NewInstanceFactory() {
 
@@ -38,6 +41,12 @@ class ViewModelFactory private constructor(private val mTmdbRepository: TmdbRepo
             }
             modelClass.isAssignableFrom(DetailTvShowViewModel::class.java) -> {
                 DetailTvShowViewModel(mTmdbRepository) as T
+            }
+            modelClass.isAssignableFrom(FavoriteMovieViewModel::class.java) -> {
+                FavoriteMovieViewModel(mTmdbRepository) as T
+            }
+            modelClass.isAssignableFrom(FavoriteTvShowViewModel::class.java) -> {
+                FavoriteTvShowViewModel(mTmdbRepository) as T
             }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }

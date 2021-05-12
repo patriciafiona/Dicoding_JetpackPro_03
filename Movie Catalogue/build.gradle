@@ -16,7 +16,7 @@ buildscript {
         mockitoKotlinVersion = '2.2.0'
         roomVersion = '2.2.3'
         roomRuntimeVersion = '2.3.0'
-        pagingVersion = '3.0.0'
+        pagingVersion = '2.1.2'
 
         materialVersion = '1.2.1'
         recyclerViewVersion = '1.2.0'

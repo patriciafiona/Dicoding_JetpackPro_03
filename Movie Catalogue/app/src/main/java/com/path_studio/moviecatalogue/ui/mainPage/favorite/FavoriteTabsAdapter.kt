@@ -1,10 +1,10 @@
-package com.path_studio.moviecatalogue.ui.favorite
+package com.path_studio.moviecatalogue.ui.mainPage.favorite
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.path_studio.moviecatalogue.ui.favorite.favoriteMovie.FavoriteMovieFragment
-import com.path_studio.moviecatalogue.ui.favorite.favoriteTvShow.FavoriteTvShowFragment
+import com.path_studio.moviecatalogue.ui.mainPage.favorite.favoriteMovie.FavoriteMovieFragment
+import com.path_studio.moviecatalogue.ui.mainPage.favorite.favoriteTvShow.FavoriteTvShowFragment
 
 class FavoriteTabsAdapter (activity: AppCompatActivity) : FragmentStateAdapter(activity) {
     override fun createFragment(position: Int): Fragment {

@@ -1,4 +1,4 @@
-package com.path_studio.moviecatalogue.ui.favorite
+package com.path_studio.moviecatalogue.ui.mainPage.favorite
 
 import android.os.Bundle
 import android.view.LayoutInflater

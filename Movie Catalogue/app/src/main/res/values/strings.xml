@@ -42,4 +42,6 @@
     <string name="poster_image">poster_image</string>
     <string name="temp_overview">overview here...</string>
     <string name="bg_darken">bg_darken</string>
+    <string name="my_favorite_movie">My Favorite Movie</string>
+    <string name="my_favorite_tv_show">My Favorite Tv Show</string>
 </resources>
