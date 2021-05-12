@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.path_studio.moviecatalogue.data.TmdbRepository
-import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowWithSeason
 import com.path_studio.moviecatalogue.util.DataDummy
@@ -30,9 +29,6 @@ class DetailTvShowViewModelTest {
 
     @Mock
     private lateinit var tmdbRepository: TmdbRepository
-
-    @Mock
-    private lateinit var observer: Observer<MovieEntity>
 
     @Before
     fun setUp() {
