@@ -40,6 +40,78 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
             }
     }
 
+    override fun getSearchResult(title: String): LiveData<List<SearchEntity>> {
+        _isLoading.value = true
+        val listOfResult = MutableLiveData<List<SearchEntity>>()
+        CoroutineScope(IO).launch{
+            remoteDataSource.getSearchResult(title, object : RemoteDataSource.CallbackLoadSearchResult{
+                override fun onSearchResultRecieved(showResponse: List<SearchResultsItem?>?) {
+                    val res = ArrayList<SearchEntity>()
+                    if (showResponse != null) {
+                        val movies = ArrayList<MovieEntity>()
+                        val shows = ArrayList<TvShowEntity>()
+
+                        for(responseSearch in showResponse){
+                            if(responseSearch!!.mediaType == "tv" || responseSearch.mediaType == "movie"){
+                                //for save into database
+                                if(responseSearch.mediaType == "tv"){
+                                    shows.add(
+                                        TvShowEntity(
+                                            responseSearch.id!!,
+                                            responseSearch.name!!,
+                                            responseSearch.overview,
+                                            responseSearch.posterPath,
+                                            responseSearch.backdropPath,
+                                            responseSearch.voteAverage,
+                                            responseSearch.firstAirDate,
+                                            null,
+                                            null
+                                        )
+                                    )
+                                } else if(responseSearch.mediaType == "movie"){
+                                    movies.add(
+                                        MovieEntity(
+                                            responseSearch.id!!,
+                                            responseSearch.title!!,
+                                            responseSearch.overview,
+                                            responseSearch.posterPath,
+                                            responseSearch.backdropPath,
+                                            responseSearch.releaseDate,
+                                            responseSearch.voteAverage!!,
+                                            null,
+                                            null
+                                        )
+                                    )
+                                }
+
+                                //for return result
+                                val resSearch = SearchEntity(
+                                    responseSearch.id,
+                                    if(responseSearch.mediaType == "tv") responseSearch.name else responseSearch.title,
+                                    responseSearch.posterPath,
+                                    responseSearch.backdropPath,
+                                    responseSearch.mediaType,
+                                    responseSearch.overview,
+                                    responseSearch.voteAverage,
+                                    if(responseSearch.mediaType == "tv") responseSearch.firstAirDate else responseSearch.releaseDate
+                                )
+
+                                if(!res.contains(resSearch)){
+                                    res.add(resSearch)
+                                }
+                            }
+                        }
+                        localDataSource.insertMovies(movies)
+                        localDataSource.insertTvShow(shows)
+                    }
+                    _isLoading.postValue(false)
+                    listOfResult.postValue(res)
+                }
+            })
+        }
+        return listOfResult
+    }
+
     override fun getDiscoverMovies(): LiveData<Resource<PagedList<MovieEntity>>> {
         return object: NetworkBoundResource<PagedList<MovieEntity>, List<ResultsItemMovie>>(appExecutors) {
             public override fun loadFromDB(): LiveData<PagedList<MovieEntity>> {
@@ -230,41 +302,6 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
         CoroutineScope(IO).launch {
             localDataSource.setTvShowFavorite(tvShow, newState)
         }
-    }
-
-    override fun getSearchResult(title: String): LiveData<List<SearchEntity>> {
-        _isLoading.value = true
-        val listOfResult = MutableLiveData<List<SearchEntity>>()
-        CoroutineScope(IO).launch{
-            remoteDataSource.getSearchResult(title, object : RemoteDataSource.CallbackLoadSearchResult{
-                override fun onSearchResultRecieved(showResponse: List<SearchResultsItem?>?) {
-                    val res = ArrayList<SearchEntity>()
-                    if (showResponse != null) {
-                        for(responseSearch in showResponse){
-                            if(responseSearch!!.mediaType == "tv" || responseSearch.mediaType == "movie"){
-                                val resSearch = SearchEntity(
-                                    responseSearch.id,
-                                    if(responseSearch.mediaType == "tv") responseSearch.name else responseSearch.title,
-                                    responseSearch.posterPath,
-                                    responseSearch.backdropPath,
-                                    responseSearch.mediaType,
-                                    responseSearch.overview,
-                                    responseSearch.voteAverage,
-                                    if(responseSearch.mediaType == "tv") responseSearch.firstAirDate else responseSearch.releaseDate
-                                )
-
-                                if(!res.contains(resSearch)){
-                                    res.add(resSearch)
-                                }
-                            }
-                        }
-                    }
-                    _isLoading.postValue(false)
-                    listOfResult.postValue(res)
-                }
-            })
-        }
-        return listOfResult
     }
 
 }
