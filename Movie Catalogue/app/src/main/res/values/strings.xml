@@ -34,8 +34,6 @@
     <string name="temp_season_premiere_detail">Season {number} of {Tv Show name} premiered on {Premiere Date}.</string>
     <string name="search">Search</string>
     <string name="favorite">Favorite</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="my_favorites">My Favorites</string>
     <string name="search_image">Search Image</string>
     <string name="search_movie_and_tv_show_here">Search Movie and Tv Show here...</string>
@@ -44,4 +42,7 @@
     <string name="bg_darken">bg_darken</string>
     <string name="my_favorite_movie">My Favorite Movie</string>
     <string name="my_favorite_tv_show">My Favorite Tv Show</string>
+    <string name="successAddedToDatabase">Success Added to the Database</string>
+    <string name="successRemovedToDatabase">Success Removed to the Database</string>
+    <string name="no_data_img">no data img</string>
 </resources>

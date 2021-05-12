@@ -46,12 +46,11 @@ class MovieAdapter: PagedListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(
                 tvItemTitle.text = movie.title
                 tvItemDate.text = changeStringToDateFormat(movie.releaseDate!!)
 
-                tvItemRating.rating = movie.voteAverage!!.toFloat()/2
+                tvItemRating.rating = movie.voteAverage.toFloat()/2
 
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, DetailMovieActivity::class.java)
                     intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, movie.movieId)
-                    //intent.putExtra(DetailMovieActivity.IS_FAVORITE, movie.favorite)
                     itemView.context.startActivity(intent)
                 }
 

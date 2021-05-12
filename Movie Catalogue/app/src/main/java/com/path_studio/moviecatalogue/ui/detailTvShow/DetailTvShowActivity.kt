@@ -3,6 +3,7 @@ package com.path_studio.moviecatalogue.ui.detailTvShow
 import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -49,7 +50,20 @@ class DetailTvShowActivity : AppCompatActivity() {
                         when (show.status) {
                             Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
                             Status.SUCCESS -> {
-                                show.data?.let { showDetailShow(it) }
+                                //Get Season Details from Room
+                                val seasonAdapter = SeasonDetailAdapter()
+                                viewModel.getDetailTvShowWithSeason(showId.toString()).observe(this, { detail ->
+                                    if (detail != null) {
+                                        showDetailShow(detail.mTvShow)
+                                        seasonAdapter.setResult(detail.mSeason)
+                                    }
+                                })
+
+                                with(binding.rvSeasonDetail) {
+                                    layoutManager = LinearLayoutManager(context)
+                                    setHasFixedSize(true)
+                                    adapter = seasonAdapter
+                                }
                                 currentFavState = show.data!!.favorite
                                 setFavoriteState(currentFavState)
                                 binding.progressBar.visibility = View.GONE
@@ -61,20 +75,6 @@ class DetailTvShowActivity : AppCompatActivity() {
                         }
                     }
                 })
-
-                //Get Season Details from Room
-                val seasonAdapter = SeasonDetailAdapter()
-                viewModel.getDetailTvShowWithSeason(showId.toString()).observe(this, { detail ->
-                    if (detail != null) {
-                        seasonAdapter.setResult(detail.mSeason)
-                    }
-                })
-
-                with(binding.rvSeasonDetail) {
-                    layoutManager = LinearLayoutManager(context)
-                    setHasFixedSize(true)
-                    adapter = seasonAdapter
-                }
             }
         }
 
@@ -91,8 +91,10 @@ class DetailTvShowActivity : AppCompatActivity() {
 
     private fun setFavoriteState(state: Boolean){
         if (state) {
+            Toast.makeText(this, R.string.successAddedToDatabase, Toast.LENGTH_SHORT).show()
             binding.btnFavoriteshow.setImageResource(R.drawable.ic_baseline_favorite_red)
         } else {
+            Toast.makeText(this, R.string.successRemovedToDatabase, Toast.LENGTH_SHORT).show()
             binding.btnFavoriteshow.setImageResource(R.drawable.ic_baseline_favorite_white)
         }
     }
@@ -100,7 +102,6 @@ class DetailTvShowActivity : AppCompatActivity() {
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun showDetailShow(tvShowEntity: TvShowEntity) {
         if (tvShowEntity.name != "") {
-
             binding.showTopTitle.text = tvShowEntity.name
             binding.showTitle.text = tvShowEntity.name
             binding.showSinopsis.text = tvShowEntity.overview

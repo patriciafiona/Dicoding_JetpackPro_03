@@ -37,7 +37,7 @@ interface TmdbDao {
     @Query("SELECT * FROM tv_show_entities WHERE tvShowId = :tvShowId")
     fun getTvShowById(tvShowId: String): LiveData<TvShowEntity>
 
-    @Query("SELECT * FROM season_entities WHERE tvShowId = :tvShowId")
+    @Query("SELECT * FROM season_entities INNER JOIN tv_show_entities ON tv_show_entities.tvShowId = season_entities.tvShowId WHERE season_entities.tvShowId = :tvShowId")
     fun getSeasonByTvShowId(tvShowId: String): LiveData<TvShowWithSeason>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -78,8 +78,10 @@ class DetailMovieActivity : AppCompatActivity(){
 
     private fun setFavoriteState(state: Boolean){
         if (state) {
+            Toast.makeText(this, R.string.successAddedToDatabase, Toast.LENGTH_SHORT).show()
             binding.btnFavoriteMovie.setImageResource(R.drawable.ic_baseline_favorite_red)
         } else {
+            Toast.makeText(this, R.string.successRemovedToDatabase, Toast.LENGTH_SHORT).show()
             binding.btnFavoriteMovie.setImageResource(R.drawable.ic_baseline_favorite_white)
         }
     }

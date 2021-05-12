@@ -37,6 +37,7 @@ class FavoriteMovieFragment : Fragment() {
             binding?.progressBar?.visibility = View.VISIBLE
             viewModel.getMovieFav().observe(activity as MainActivity, { movies ->
                 binding?.progressBar?.visibility = View.GONE
+                if (movies.isEmpty()) binding?.noDataImg?.visibility = View.VISIBLE else binding?.noDataImg?.visibility = View.GONE
                 adapter.setFavMovies(movies)
                 adapter.notifyDataSetChanged()
             })

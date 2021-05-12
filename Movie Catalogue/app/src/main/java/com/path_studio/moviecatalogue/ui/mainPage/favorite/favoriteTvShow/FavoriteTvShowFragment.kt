@@ -38,6 +38,7 @@ class FavoriteTvShowFragment : Fragment() {
             binding?.progressBar?.visibility = View.VISIBLE
             viewModel.getTvShowFav().observe(activity as MainActivity, { shows ->
                 binding?.progressBar?.visibility = View.GONE
+                if (shows.isEmpty()) binding?.noDataImg?.visibility = View.VISIBLE else binding?.noDataImg?.visibility = View.GONE
                 adapter.setFavShows(shows)
                 adapter.notifyDataSetChanged()
             })

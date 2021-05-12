@@ -40,7 +40,4 @@ data class TvShowEntity(
     @NonNull
     @ColumnInfo(name = "favorite")
     var favorite: Boolean = false
-){
-    @Embedded
-    var contentEntity: ContentEntity? = null
-}
+)
