@@ -6,7 +6,10 @@ import androidx.lifecycle.Observer
 import com.path_studio.moviecatalogue.data.TmdbRepository
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.util.DataDummy
+import com.path_studio.moviecatalogue.utils.LiveDataTestUtil
 import com.path_studio.moviecatalogue.vo.Resource
+import org.hamcrest.MatcherAssert
+import org.hamcrest.core.IsEqual
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -43,6 +46,42 @@ class DetailMovieViewModelTest {
         val observer = mock(Observer::class.java) as Observer<Resource<MovieEntity>>
         viewModel.getDetailMovie(movieId.toString()).observeForever(observer)
         verify(observer).onChanged(resource)
+    }
+
+    @Test
+    fun addFavoriteMovie(){
+        val movieDummy = MutableLiveData<Resource<MovieEntity>>()
+        val resource = Resource.success(dummyDetailMovie)
+        movieDummy.value = resource
+        `when`(tmdbRepository.getDetailMovie(movieId.toString())).thenReturn(movieDummy)
+
+        val statusFavorite = true
+        tmdbRepository.setFavoriteMovie(dummyDetailMovie, statusFavorite)
+
+        val expectedResult = dummyDetailMovie
+        expectedResult.favorite = statusFavorite
+        viewModel.setFavorite()
+
+        val byId = LiveDataTestUtil.getValue(tmdbRepository.getDetailMovie(dummyDetailMovie.movieId.toString()))
+        MatcherAssert.assertThat(byId.data, IsEqual.equalTo(expectedResult))
+    }
+
+    @Test
+    fun removeFavoriteMovie(){
+        val movieDummy = MutableLiveData<Resource<MovieEntity>>()
+        val resource = Resource.success(dummyDetailMovie)
+        movieDummy.value = resource
+        `when`(tmdbRepository.getDetailMovie(movieId.toString())).thenReturn(movieDummy)
+
+        val statusFavorite = false
+        tmdbRepository.setFavoriteMovie(dummyDetailMovie, statusFavorite)
+
+        val expectedResult = dummyDetailMovie
+        expectedResult.favorite = statusFavorite
+        viewModel.setFavorite()
+
+        val byId = LiveDataTestUtil.getValue(tmdbRepository.getDetailMovie(dummyDetailMovie.movieId.toString()))
+        MatcherAssert.assertThat(byId.data, IsEqual.equalTo(expectedResult))
     }
 
 }

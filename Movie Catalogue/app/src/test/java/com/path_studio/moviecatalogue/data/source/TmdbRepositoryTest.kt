@@ -14,6 +14,8 @@ import com.path_studio.moviecatalogue.util.DataDummy
 import com.path_studio.moviecatalogue.utils.LiveDataTestUtil
 import com.path_studio.moviecatalogue.utils.PagedListUtil
 import com.path_studio.moviecatalogue.vo.Resource
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.IsEqual.equalTo
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Rule
@@ -123,6 +125,70 @@ class TmdbRepositoryTest{
         verify(local).getFavoriteTvShow()
         assertNotNull(showEntity.data)
         assertEquals(listTvShow.size.toLong(), showEntity.data?.size?.toLong())
+    }
+
+    @Test
+    fun addFavoriteMovie() {
+        val dummyMovie = MutableLiveData<MovieEntity>()
+        dummyMovie.value = detailMovie
+        `when`(local.getMovieById(movieId.toString())).thenReturn(dummyMovie)
+
+        val statusFavorite = true
+        tmdbRepository.setFavoriteMovie(detailMovie, statusFavorite)
+
+        val expectedResult = detailMovie
+        expectedResult.favorite = statusFavorite
+
+        val byId = LiveDataTestUtil.getValue(tmdbRepository.getDetailMovie(detailMovie.movieId.toString()))
+        assertThat(byId.data, equalTo(expectedResult))
+    }
+
+    @Test
+    fun addFavoriteTvShow(){
+        val dummyTvShow = MutableLiveData<TvShowEntity>()
+        dummyTvShow.value = detailTvShow
+        `when`(local.getTvShowById(tvShowId.toString())).thenReturn(dummyTvShow)
+
+        val statusFavorite = true
+        tmdbRepository.setFavoriteTvShow(detailTvShow, statusFavorite)
+
+        val expectedResult = detailTvShow
+        expectedResult.favorite = statusFavorite
+
+        val byId = LiveDataTestUtil.getValue(tmdbRepository.getDetailTvShow(detailTvShow.tvShowId.toString()))
+        assertThat(byId.data, equalTo(expectedResult))
+    }
+
+    @Test
+    fun removeFavoriteMovie(){
+        val dummyMovie = MutableLiveData<MovieEntity>()
+        dummyMovie.value = detailMovie
+        `when`(local.getMovieById(movieId.toString())).thenReturn(dummyMovie)
+
+        val statusFavorite = false
+        tmdbRepository.setFavoriteMovie(detailMovie, statusFavorite)
+
+        val expectedResult = detailMovie
+        expectedResult.favorite = statusFavorite
+
+        val byId = LiveDataTestUtil.getValue(tmdbRepository.getDetailMovie(detailMovie.movieId.toString()))
+        assertThat(byId.data, equalTo(expectedResult))
+    }
+
+    @Test
+    fun removeFavoriteTvShow(){
+        val dummyTvShow = MutableLiveData<TvShowEntity>()
+        dummyTvShow.value = detailTvShow
+        `when`(local.getTvShowById(tvShowId.toString())).thenReturn(dummyTvShow)
+
+        val statusFavorite = false
+        tmdbRepository.setFavoriteTvShow(detailTvShow, statusFavorite)
+
+        val expectedResult = detailTvShow
+        expectedResult.favorite = statusFavorite
+
+        val byId = LiveDataTestUtil.getValue(tmdbRepository.getDetailTvShow(detailTvShow.tvShowId.toString()))
+        assertThat(byId.data, equalTo(expectedResult))
     }
 
 }
