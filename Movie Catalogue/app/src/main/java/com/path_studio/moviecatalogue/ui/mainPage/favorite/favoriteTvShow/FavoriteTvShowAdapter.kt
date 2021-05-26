@@ -41,9 +41,9 @@ class FavoriteTvShowAdapter : RecyclerView.Adapter<FavoriteTvShowAdapter.FavTvSh
             with(binding) {
                 tvItemTitle.text = show.name
 
-                tvItemDate.text = Utils.changeStringToDateFormat(show.firstAirDate!!)
+                tvItemDate.text = show.firstAirDate?.let { Utils.changeStringToDateFormat(it) }
 
-                tvItemRating.rating = show.voteAverage!!.toFloat()/2
+                tvItemRating.rating = (show.voteAverage?.toFloat() ?: 0f) /2
 
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, DetailTvShowActivity::class.java)

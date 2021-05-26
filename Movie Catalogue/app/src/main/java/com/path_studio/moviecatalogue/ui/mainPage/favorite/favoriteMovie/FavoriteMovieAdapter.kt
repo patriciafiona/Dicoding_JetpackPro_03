@@ -40,7 +40,7 @@ class FavoriteMovieAdapter : RecyclerView.Adapter<FavoriteMovieAdapter.FavMovieV
         fun bind(movie: MovieEntity) {
             with(binding) {
                 tvItemTitle.text = movie.title
-                tvItemDate.text = Utils.changeStringToDateFormat(movie.releaseDate!!)
+                tvItemDate.text = movie.releaseDate?.let { Utils.changeStringToDateFormat(it) }
 
                 tvItemRating.rating = movie.voteAverage.toFloat()/2
 

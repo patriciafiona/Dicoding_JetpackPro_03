@@ -44,7 +44,7 @@ class MovieAdapter: PagedListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(
         fun bind(movie: MovieEntity) {
             with(binding) {
                 tvItemTitle.text = movie.title
-                tvItemDate.text = changeStringToDateFormat(movie.releaseDate!!)
+                tvItemDate.text = movie.releaseDate?.let { changeStringToDateFormat(it) }
 
                 tvItemRating.rating = movie.voteAverage.toFloat()/2
 

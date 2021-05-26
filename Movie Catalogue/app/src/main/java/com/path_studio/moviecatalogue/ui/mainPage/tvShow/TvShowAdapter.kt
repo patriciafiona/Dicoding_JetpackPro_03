@@ -45,9 +45,9 @@ class TvShowAdapter: PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHold
             with(binding) {
                 tvItemTitle.text = show.name
 
-                tvItemDate.text = changeStringToDateFormat(show.firstAirDate!!)
+                tvItemDate.text = show.firstAirDate?.let { changeStringToDateFormat(it) }
 
-                tvItemRating.rating = show.voteAverage!!.toFloat()/2
+                tvItemRating.rating = (show.voteAverage?.toFloat() ?: 0f) /2
 
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, DetailTvShowActivity::class.java)

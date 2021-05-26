@@ -29,7 +29,6 @@ class FakeTmdbRepository constructor(
 ): TmdbDataSource {
 
     private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
 
     override fun getDiscoverMovies(): LiveData<Resource<PagedList<MovieEntity>>> {
         return object: NetworkBoundResource<PagedList<MovieEntity>, List<ResultsItemMovie>>(appExecutors) {

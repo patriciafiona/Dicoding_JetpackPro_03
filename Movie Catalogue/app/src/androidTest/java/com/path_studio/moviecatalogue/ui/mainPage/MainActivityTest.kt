@@ -9,6 +9,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.google.android.material.tabs.TabLayout
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.util.DataDummy
 import com.path_studio.moviecatalogue.util.EspressoIdlingResource
@@ -45,7 +46,6 @@ class MainActivityTest{
     @Test
     fun loadDetailMovie() {
         onView(withId(R.id.navigation_movie)).perform(click())
-
         onView(withId(R.id.rv_movie)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
 
         onView(withId(R.id.movieTitle)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
@@ -99,5 +99,53 @@ class MainActivityTest{
         onView(withId(R.id.indicatorImage2)).perform(click()) //expand page
         onView(withId(R.id.indicatorImage2)).perform(click())// minimize expand page
     }
+
+    /*@Test
+    fun testAddAndRemoveFavoriteMovie(){
+        onView(withId(R.id.navigation_movie)).perform(click())
+        onView(withId(R.id.rv_movie)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+
+        //Update Current Status favorite
+        onView(withId(R.id.btnFavoriteMovie)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+        onView(withId(R.id.btnFavoriteMovie)).perform(click())
+
+        onView(withId(R.id.btnBackPage)).perform(click())
+        onView(withId(R.id.rv_movie)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+
+        //Re-update the status again so now the status back to first condition before update
+        onView(withId(R.id.btnFavoriteMovie)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+        onView(withId(R.id.btnFavoriteMovie)).perform(click())
+
+        onView(withId(R.id.btnBackPage)).perform(click())
+    }
+
+    @Test
+    fun testAddAndRemoveFavoriteTvShow(){
+        onView(withId(R.id.navigation_tvShow)).perform(click())
+        onView(withId(R.id.rv_tvShow)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+
+        //Update Current Status favorite
+        onView(withId(R.id.btnFavoriteshow)).perform(click())
+        //Re-update the status again so now the status back to first condition before update
+        onView(withId(R.id.btnFavoriteshow)).perform(click())
+
+        onView(withId(R.id.btnBackPage)).perform(click())
+    }*/
+
+    /*@Test
+    fun loadMovieFavoritePage() {
+        onView(withId(R.id.navigation_favorite)).perform(click())
+        onView(withId(R.id.follow_tabs)).perform(click())
+        onView(withId(R.id.rv_movie_favorites)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_movie_favorites)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(dummyMovie.size))
+    }
+
+    @Test
+    fun loadShowFavoritePage() {
+        onView(withId(R.id.navigation_favorite)).perform(click())
+        onView(withId(R.id.follow_tabs)).perform(click()) //still don't know how to choose the tabs
+        onView(withId(R.id.rv_tvShow_favorites)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_tvShow_favorites)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(dummyTvShow.size))
+    }*/
 
 }

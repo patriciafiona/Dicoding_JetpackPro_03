@@ -50,8 +50,8 @@ class DetailMovieActivity : AppCompatActivity(){
                             Status.SUCCESS -> {
                                 Log.e("result", movie.data.toString())
                                 binding.progressBar.visibility = View.GONE
-                                showDetailMovie(movie.data!!)
-                                currentFavState = movie.data.favorite
+                                movie.data?.let { showDetailMovie(it) }
+                                currentFavState = movie.data?.favorite ?: false
                                 setFavoriteState(currentFavState)
                             }
                             Status.ERROR -> {
@@ -103,7 +103,7 @@ class DetailMovieActivity : AppCompatActivity(){
 
             binding.movieRating.rating = movieEntity.voteAverage.toFloat()/2
 
-            binding.movieDuration.text = changeMinuteToDurationFormat(movieEntity.runtime!!)
+            binding.movieDuration.text = movieEntity.runtime?.let { changeMinuteToDurationFormat(it) }
 
             val posterURL = "https://image.tmdb.org/t/p/w500${movieEntity.posterPath}"
             Glide.with(this)

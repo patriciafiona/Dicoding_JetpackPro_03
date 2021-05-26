@@ -49,21 +49,23 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
                     val res = ArrayList<SearchEntity>()
                     if (showResponse != null) {
                         for(responseSearch in showResponse){
-                            if(responseSearch!!.mediaType == "tv" || responseSearch.mediaType == "movie"){
-                                //for return result
-                                val resSearch = SearchEntity(
-                                    responseSearch.id,
-                                    if(responseSearch.mediaType == "tv") responseSearch.name else responseSearch.title,
-                                    responseSearch.posterPath,
-                                    responseSearch.backdropPath,
-                                    responseSearch.mediaType,
-                                    responseSearch.overview,
-                                    responseSearch.voteAverage,
-                                    if(responseSearch.mediaType == "tv") responseSearch.firstAirDate else responseSearch.releaseDate
-                                )
+                            if (responseSearch != null) {
+                                if(responseSearch.mediaType == "tv" || responseSearch.mediaType == "movie"){
+                                    //for return result
+                                    val resSearch = SearchEntity(
+                                        responseSearch.id,
+                                        if(responseSearch.mediaType == "tv") responseSearch.name else responseSearch.title,
+                                        responseSearch.posterPath,
+                                        responseSearch.backdropPath,
+                                        responseSearch.mediaType,
+                                        responseSearch.overview,
+                                        responseSearch.voteAverage,
+                                        if(responseSearch.mediaType == "tv") responseSearch.firstAirDate else responseSearch.releaseDate
+                                    )
 
-                                if(!res.contains(resSearch)){
-                                    res.add(resSearch)
+                                    if(!res.contains(resSearch)){
+                                        res.add(resSearch)
+                                    }
                                 }
                             }
                         }
@@ -127,23 +129,29 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
             public override fun saveCallResult(data: DetailMovieResponse) {
                 val listOfGenre = ArrayList<String>()
 
-                for (genre in (data.genres)!!){
-                    listOfGenre.add(genre!!.name!!)
+                if(data.genres != null){
+                    for (genre in (data.genres)){
+                        if(genre != null){
+                            genre.name?.let { listOfGenre.add(it) }
+                        }
+                    }
                 }
 
                 val movie = MovieEntity(
-                    data.id!!.toLong(),
-                    data.title!!,
+                    if(data.id != null) data.id.toLong() else 0,
+                    data.title ?: "",
                     data.overview,
                     data.posterPath,
                     data.backdropPath,
                     data.releaseDate,
-                    data.voteAverage!!,
+                    data.voteAverage ?: 0.0,
                     JSONArray(listOfGenre).toString(),
                     data.runtime
                 )
+
                 //using insert for add search result into db, and use the data for show later
                 localDataSource.insertMovies(arrayListOf(movie))
+
             }
         }.asLiveData()
     }
@@ -222,27 +230,35 @@ class TmdbRepository private constructor(private val remoteDataSource: RemoteDat
                 val listOfGenre = ArrayList<String>()
                 val listOfSeason = ArrayList<SeasonEntity>()
 
-                for (genre in (data.genres)!!){
-                    listOfGenre.add(genre!!.name!!)
+                if(data.genres != null){
+                    for (genre in (data.genres)){
+                        if(genre != null){
+                            genre.name?.let { listOfGenre.add(it) }
+                        }
+                    }
                 }
 
-                for(season in(data.seasons)!!){
-                    val s = SeasonEntity(
-                        season!!.id.toString(),
-                        data.id!!.toString(),
-                        season.name,
-                        season.overview,
-                        season.airDate,
-                        season.seasonNumber,
-                        season.episodeCount,
-                        season.posterPath.toString()
-                    )
-                    listOfSeason.add(s)
+                if(data.seasons != null){
+                    for(season in(data.seasons)){
+                        if(season !=null){
+                            val s = SeasonEntity(
+                                season.id.toString(),
+                                data.id.toString(),
+                                season.name,
+                                season.overview,
+                                season.airDate,
+                                season.seasonNumber,
+                                season.episodeCount,
+                                season.posterPath.toString()
+                            )
+                            listOfSeason.add(s)
+                        }
+                    }
                 }
 
                 val show = TvShowEntity(
-                    data.id!!.toLong(),
-                    data.name!!,
+                    if(data.id != null) data.id.toLong() else 0,
+                    data.name ?:"",
                     data.overview,
                     data.posterPath,
                     data.backdropPath,

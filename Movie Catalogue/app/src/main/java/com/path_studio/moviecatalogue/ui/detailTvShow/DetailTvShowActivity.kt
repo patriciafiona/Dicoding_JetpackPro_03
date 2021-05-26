@@ -63,7 +63,7 @@ class DetailTvShowActivity : AppCompatActivity() {
                                     setHasFixedSize(true)
                                     adapter = seasonAdapter
                                 }
-                                currentFavState = show.data!!.favorite
+                                currentFavState = show.data?.favorite ?: false
                                 setFavoriteState(currentFavState)
                                 binding.progressBar.visibility = View.GONE
                             }
@@ -113,14 +113,16 @@ class DetailTvShowActivity : AppCompatActivity() {
             binding.showSinopsis.text = tvShowEntity.overview
 
             binding.showReleaseDate.text =
-                changeStringDateToYear(tvShowEntity.firstAirDate!!).toString()
+                tvShowEntity.firstAirDate?.let { changeStringDateToYear(it).toString() }
 
-            binding.showRating.rating = tvShowEntity.voteAverage!!.toFloat() / 2
+            binding.showRating.rating = (tvShowEntity.voteAverage?.toFloat() ?: 0f) / 2
 
             binding.showDuration.text =
-                Utils.changeMinuteToDurationFormat(
-                    tvShowEntity.runtime!!
-                )
+                tvShowEntity.runtime?.let {
+                    Utils.changeMinuteToDurationFormat(
+                        it
+                    )
+                }
             }
 
             val posterURL = "https://image.tmdb.org/t/p/w500${tvShowEntity.posterPath}"

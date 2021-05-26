@@ -21,15 +21,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchViewModel: SearchViewModel
 
     private lateinit var binding: ActivitySearchBinding
-    private lateinit var searchResult: SearchResponse
-
-    private var listSearchResult: ArrayList<SearchEntity> = ArrayList()
     private lateinit var searchAdapter: SearchAdapter
-
-    companion object {
-        private const val API_KEY = BuildConfig.TMDB_API_KEY
-        private const val language = "en-US"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
