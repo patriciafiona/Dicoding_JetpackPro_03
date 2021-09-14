@@ -37,13 +37,14 @@ class DetailMovieActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         val extras = intent.extras
+
+        val factory = ViewModelFactory.getInstance(this)
+        val detailMovieViewModel = ViewModelProvider(this, factory)[DetailMovieViewModel::class.java]
+
         if (extras != null) {
             val movieId = extras.getLong(EXTRA_MOVIE)
             if (movieId != 0L) {
-                val factory = ViewModelFactory.getInstance(this)
-                val viewModel = ViewModelProvider(this, factory)[DetailMovieViewModel::class.java]
-
-                viewModel.getDetailMovie(movieId.toString()).observe(this, { movie ->
+                detailMovieViewModel.getDetailMovie(movieId.toString()).observe(this, { movie ->
                     if (movie != null) {
                         when (movie.status) {
                             Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
