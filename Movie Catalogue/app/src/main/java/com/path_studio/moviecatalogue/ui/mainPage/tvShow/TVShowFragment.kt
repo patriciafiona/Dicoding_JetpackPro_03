@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -15,8 +14,8 @@ import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.databinding.FragmentTvShowBinding
 import com.path_studio.moviecatalogue.ui.bottomSheet.OnBottomSheetCallbacks
 import com.path_studio.moviecatalogue.ui.mainPage.MainActivity
-import com.path_studio.moviecatalogue.viewmodel.ViewModelFactory
 import com.path_studio.moviecatalogue.vo.Status
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TVShowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
 
@@ -26,6 +25,8 @@ class TVShowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
     private var currentState: Int = BottomSheetBehavior.STATE_HALF_EXPANDED
     private lateinit var textResult: AppCompatTextView
     private lateinit var filterImage: ImageView
+
+    private val tvShowViewModel: TvShowViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,11 +53,8 @@ class TVShowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
         (activity as MainActivity).closeBottomSheet()
 
         if (activity != null) {
-            val factory = ViewModelFactory.getInstance(requireActivity())
-            val viewModel = ViewModelProvider(this, factory)[TvShowViewModel::class.java]
-
             val tvShowAdapter = TvShowAdapter()
-            viewModel.getDiscoverTvShow().observe(this, { shows ->
+            tvShowViewModel.getDiscoverTvShow().observe(this) { shows ->
                 if (shows != null) {
                     when (shows.status) {
                         Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
@@ -70,7 +68,7 @@ class TVShowFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
                         }
                     }
                 }
-            })
+            }
 
             with(binding.rvTvShow) {
                 binding.rvTvShow.layoutManager = GridLayoutManager(activity, 2)

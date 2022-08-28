@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -13,14 +12,16 @@ import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.databinding.FragmentMovieBinding
 import com.path_studio.moviecatalogue.ui.bottomSheet.OnBottomSheetCallbacks
 import com.path_studio.moviecatalogue.ui.mainPage.MainActivity
-import com.path_studio.moviecatalogue.viewmodel.ViewModelFactory
 import com.path_studio.moviecatalogue.vo.Status
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
 
     private var _binding: FragmentMovieBinding? = null
     private val binding get() = _binding as FragmentMovieBinding
     private var currentState: Int = BottomSheetBehavior.STATE_HALF_EXPANDED
+
+    private val movieViewModel: MovieViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,11 +44,8 @@ class MovieFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
         (activity as MainActivity).closeBottomSheet()
 
         if (activity != null) {
-            val factory = ViewModelFactory.getInstance(requireActivity())
-            val viewModel = ViewModelProvider(this, factory)[MovieViewModel::class.java]
-
             val movieAdapter = MovieAdapter()
-            viewModel.getDiscoverMovies().observe(this, { movies ->
+            movieViewModel.getDiscoverMovies().observe(this) { movies ->
                 if (movies != null) {
                     when (movies.status) {
                         Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
@@ -61,7 +59,7 @@ class MovieFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
                         }
                     }
                 }
-            })
+            }
 
             with(binding.rvMovie) {
                 binding.rvMovie.layoutManager = GridLayoutManager(activity, 2)

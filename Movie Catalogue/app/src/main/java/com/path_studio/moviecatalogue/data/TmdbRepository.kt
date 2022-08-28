@@ -20,7 +20,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 
-class TmdbRepository private constructor(private val remoteDataSource: RemoteDataSource,
+class TmdbRepository (private val remoteDataSource: RemoteDataSource,
                                          private val localDataSource: LocalDataSource,
                                          private val appExecutors: AppExecutors
 ) : TmdbDataSource {

@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
@@ -17,15 +16,15 @@ import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.databinding.ActivityDetailMovieBinding
 import com.path_studio.moviecatalogue.util.Utils.changeMinuteToDurationFormat
 import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
-import com.path_studio.moviecatalogue.viewmodel.ViewModelFactory
 import com.path_studio.moviecatalogue.vo.Status
 import org.json.JSONArray
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailMovieActivity : AppCompatActivity(){
-    private lateinit var detailMovieViewModel: DetailMovieViewModel
-
     private lateinit var binding: ActivityDetailMovieBinding
     private var currentFavState = false
+
+    private val detailMovieViewModel: DetailMovieViewModel by viewModel()
 
     companion object {
         const val EXTRA_MOVIE = "extra_movie"
@@ -37,9 +36,6 @@ class DetailMovieActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         val extras = intent.extras
-
-        val factory = ViewModelFactory.getInstance(this)
-        val detailMovieViewModel = ViewModelProvider(this, factory)[DetailMovieViewModel::class.java]
 
         if (extras != null) {
             val movieId = extras.getLong(EXTRA_MOVIE)

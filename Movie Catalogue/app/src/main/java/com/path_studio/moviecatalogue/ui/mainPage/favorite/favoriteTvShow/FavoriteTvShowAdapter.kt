@@ -11,7 +11,6 @@ import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.databinding.ItemsMovieTvshowBinding
 import com.path_studio.moviecatalogue.ui.detailTvShow.DetailTvShowActivity
 import com.path_studio.moviecatalogue.util.Utils
-import java.util.*
 
 class FavoriteTvShowAdapter : RecyclerView.Adapter<FavoriteTvShowAdapter.FavTvShowViewHolder>(){
     private val listFavShow = ArrayList<TvShowEntity>()

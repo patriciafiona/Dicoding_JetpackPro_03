@@ -9,16 +9,13 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.mancj.materialsearchbar.MaterialSearchBar
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter
-import com.path_studio.moviecatalogue.BuildConfig
-import com.path_studio.moviecatalogue.data.entities.SearchEntity
-import com.path_studio.moviecatalogue.data.source.remote.response.SearchResponse
 import com.path_studio.moviecatalogue.databinding.ActivitySearchBinding
-import com.path_studio.moviecatalogue.di.Injection
 import com.path_studio.moviecatalogue.ui.mainPage.MainActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
 
-    private lateinit var searchViewModel: SearchViewModel
+    private val searchViewModel: SearchViewModel by viewModel()
 
     private lateinit var binding: ActivitySearchBinding
     private lateinit var searchAdapter: SearchAdapter
@@ -67,24 +64,23 @@ class SearchActivity : AppCompatActivity() {
                 binding.searchBar.setCustomSuggestionAdapter(searchAdapter)
 
                 if (binding.searchBar.text.isNotEmpty()) {
-                    searchViewModel = SearchViewModel(Injection.provideImdbRepository(this@SearchActivity))
                     val results = searchViewModel.getSearchResult(binding.searchBar.text)
 
-                    results.observe(this@SearchActivity, { detail ->
+                    results.observe(this@SearchActivity) { detail ->
                         searchAdapter.setResult(detail)
                         searchAdapter.suggestions = detail
 
                         searchAdapter.notifyDataSetChanged()
                         binding.searchBar.showSuggestionsList()
-                    })
+                    }
 
-                    searchViewModel.getLoading().observe(this@SearchActivity, {
+                    searchViewModel.getLoading().observe(this@SearchActivity) {
                         if (it) {
                             binding.progressBar.visibility = View.VISIBLE
-                        }else{
+                        } else {
                             binding.progressBar.visibility = View.GONE
                         }
-                    })
+                    }
                 } else {
                     binding.searchBar.clearSuggestions()
                     binding.searchBar.hideSuggestionsList()

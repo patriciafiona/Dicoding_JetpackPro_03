@@ -4,7 +4,6 @@ import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.SeasonEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowWithSeason
-import com.path_studio.moviecatalogue.data.source.remote.response.*
 
 /*
   Data Dummy for testing, Show all data already using TMDB API

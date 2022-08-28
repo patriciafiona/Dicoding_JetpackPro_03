@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -17,13 +16,15 @@ import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.databinding.ActivityDetailTvShowBinding
 import com.path_studio.moviecatalogue.util.Utils
 import com.path_studio.moviecatalogue.util.Utils.changeStringDateToYear
-import com.path_studio.moviecatalogue.viewmodel.ViewModelFactory
 import com.path_studio.moviecatalogue.vo.Status
 import org.json.JSONArray
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailTvShowActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailTvShowBinding
     private var currentFavState = false
+
+    private val detailTvShowViewModel: DetailTvShowViewModel by viewModel()
 
     companion object {
         const val EXTRA_TV_SHOW = "extra_tv_show"
@@ -35,23 +36,19 @@ class DetailTvShowActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //prepare view model for show Tv Show Details
-
-        val factory = ViewModelFactory.getInstance(this)
-        val viewModel = ViewModelProvider(this, factory)[DetailTvShowViewModel::class.java]
-
         val extras = intent.extras
         if (extras != null) {
             val showId = extras.getLong(EXTRA_TV_SHOW)
             if (showId != 0L) {
                 //call this first to get season details
-                viewModel.getDetailTvShow(showId.toString()).observe(this) { show ->
+                detailTvShowViewModel.getDetailTvShow(showId.toString()).observe(this) { show ->
                     if (show != null) {
                         when (show.status) {
                             Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
                             Status.SUCCESS -> {
                                 //Get Season Details from Room
                                 val seasonAdapter = SeasonDetailAdapter()
-                                viewModel.getDetailTvShowWithSeason(showId.toString())
+                                detailTvShowViewModel.getDetailTvShowWithSeason(showId.toString())
                                     .observe(this) { detail ->
                                         if (detail != null) {
                                             showDetailShow(detail.mTvShow)
@@ -83,7 +80,7 @@ class DetailTvShowActivity : AppCompatActivity() {
         }
 
         binding.btnFavoriteshow.setOnClickListener {
-            viewModel.setFavorite()
+            detailTvShowViewModel.setFavorite()
             currentFavState = !currentFavState
             setFavoriteState(currentFavState)
             setFavStatusToast(currentFavState)
