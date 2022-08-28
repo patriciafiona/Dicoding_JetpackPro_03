@@ -11,13 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieCatalogue">
-        <activity android:name=".ui.search.SearchActivity"></activity>
+        <activity android:name=".ui.search.SearchActivity" />
         <activity android:name=".ui.detailTvShow.DetailTvShowActivity" />
         <activity android:name=".ui.detailMovie.DetailMovieActivity" />
         <activity android:name=".ui.mainPage.MainActivity" />
         <activity
             android:name=".ui.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

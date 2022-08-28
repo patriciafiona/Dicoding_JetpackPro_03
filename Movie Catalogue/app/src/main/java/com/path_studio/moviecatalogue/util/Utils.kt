@@ -15,7 +15,7 @@ object Utils {
 
             //current date format
             val dateFormat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-            val objDate: Date = dateFormat.parse(strDate)
+            val objDate: Date = dateFormat.parse(strDate) as Date
 
             //Expected date format
             val dateFormat2 = SimpleDateFormat("MMM dd, yyyy")

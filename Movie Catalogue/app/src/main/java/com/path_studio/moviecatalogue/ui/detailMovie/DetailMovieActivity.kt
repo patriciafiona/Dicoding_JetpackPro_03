@@ -44,7 +44,7 @@ class DetailMovieActivity : AppCompatActivity(){
         if (extras != null) {
             val movieId = extras.getLong(EXTRA_MOVIE)
             if (movieId != 0L) {
-                detailMovieViewModel.getDetailMovie(movieId.toString()).observe(this, { movie ->
+                detailMovieViewModel.getDetailMovie(movieId.toString()).observe(this) { movie ->
                     if (movie != null) {
                         when (movie.status) {
                             Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
@@ -61,7 +61,7 @@ class DetailMovieActivity : AppCompatActivity(){
                             }
                         }
                     }
-                })
+                }
             }
         }
 
@@ -133,6 +133,7 @@ class DetailMovieActivity : AppCompatActivity(){
                 listGenre.add(jArray.getString(i))
             }
 
+            binding.movieGenres.removeAllViews()
             for (genre in listGenre){
                 //set the properties for button
                 val btnTag = Button(this)

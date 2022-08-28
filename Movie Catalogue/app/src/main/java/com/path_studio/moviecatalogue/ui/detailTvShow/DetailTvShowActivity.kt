@@ -44,19 +44,20 @@ class DetailTvShowActivity : AppCompatActivity() {
             val showId = extras.getLong(EXTRA_TV_SHOW)
             if (showId != 0L) {
                 //call this first to get season details
-                viewModel.getDetailTvShow(showId.toString()).observe(this, { show ->
+                viewModel.getDetailTvShow(showId.toString()).observe(this) { show ->
                     if (show != null) {
                         when (show.status) {
                             Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
                             Status.SUCCESS -> {
                                 //Get Season Details from Room
                                 val seasonAdapter = SeasonDetailAdapter()
-                                viewModel.getDetailTvShowWithSeason(showId.toString()).observe(this, { detail ->
-                                    if (detail != null) {
-                                        showDetailShow(detail.mTvShow)
-                                        seasonAdapter.setResult(detail.mSeason)
+                                viewModel.getDetailTvShowWithSeason(showId.toString())
+                                    .observe(this) { detail ->
+                                        if (detail != null) {
+                                            showDetailShow(detail.mTvShow)
+                                            seasonAdapter.setResult(detail.mSeason)
+                                        }
                                     }
-                                })
 
                                 with(binding.rvSeasonDetail) {
                                     layoutManager = LinearLayoutManager(context)
@@ -73,7 +74,7 @@ class DetailTvShowActivity : AppCompatActivity() {
                             }
                         }
                     }
-                })
+                }
             }
         }
 
@@ -154,6 +155,7 @@ class DetailTvShowActivity : AppCompatActivity() {
                 listGenre.add(jArray.getString(i))
             }
 
+            binding.showGenres.removeAllViews()
             for (genre in listGenre){
                 //set the properties for button
                 val btnTag = Button(this)
