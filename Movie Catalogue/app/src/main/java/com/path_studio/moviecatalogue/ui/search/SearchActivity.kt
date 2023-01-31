@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mancj.materialsearchbar.MaterialSearchBar
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter
 import com.path_studio.moviecatalogue.databinding.ActivitySearchBinding
-import com.path_studio.moviecatalogue.ui.mainPage.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
@@ -28,11 +27,11 @@ class SearchActivity : AppCompatActivity() {
         //set Material Search Bar
         settingSearch()
 
-        binding.buttonBack.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+//        binding.buttonBack.setOnClickListener {
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
     }
 
     private fun settingSearch() {

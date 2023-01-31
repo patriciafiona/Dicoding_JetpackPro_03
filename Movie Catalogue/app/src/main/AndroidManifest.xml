@@ -25,12 +25,6 @@
         <activity android:name=".ui.search.SearchActivity" />
         <activity android:name=".ui.detailTvShow.DetailTvShowActivity" />
         <activity android:name=".ui.detailMovie.DetailMovieActivity" />
-        <activity android:name=".ui.mainPage.MainActivity" />
-        <activity
-            android:name=".ui.splash.SplashActivity"
-            android:exported="false"
-            android:theme="@style/SplashTheme" >
-        </activity>
     </application>
 
 </manifest>

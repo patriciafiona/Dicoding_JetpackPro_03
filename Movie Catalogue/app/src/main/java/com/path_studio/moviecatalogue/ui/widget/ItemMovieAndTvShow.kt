@@ -28,7 +28,9 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.R
+import com.path_studio.moviecatalogue.data.entities.Movie
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
+import com.path_studio.moviecatalogue.navigations.TmdbScreen
 import com.path_studio.moviecatalogue.util.Utils
 import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
 import com.smarttoolfactory.ratingbar.DefaultColor
@@ -49,7 +51,20 @@ fun ItemMovieAndTvShow(
             .padding(12.dp)
             .background(Color.White)
             .clickable {
-                //
+                val movieParcelable = Movie(
+                    movieId = data.movieId,
+                    title = data.title,
+                    overview = data.overview,
+                    posterPath = data.posterPath,
+                    backdropPath = data.backdropPath,
+                    releaseDate = data.releaseDate,
+                    voteAverage = data.voteAverage,
+                    genres = data.genres,
+                    runtime = data.runtime,
+                    favorite = data.favorite
+                )
+                navController.navigate(TmdbScreen.DetailMovieScreen.route)
+                navController.currentBackStackEntry?.arguments?.putParcelable("movie", movieParcelable)
             },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

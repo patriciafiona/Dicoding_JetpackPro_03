@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.path_studio.moviecatalogue.databinding.FragmentFavoriteTvShowBinding
-import com.path_studio.moviecatalogue.ui.mainPage.MainActivity
 
 class FavoriteTvShowFragment : Fragment() {
 
@@ -27,21 +26,21 @@ class FavoriteTvShowFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (activity != null) {
-            val adapter = FavoriteTvShowAdapter()
-            binding?.progressBar?.visibility = View.VISIBLE
-            favoriteTvShowViewModel.getTvShowFav().observe(activity as MainActivity) { shows ->
-                binding?.progressBar?.visibility = View.GONE
-                if (shows.isEmpty()) binding?.noDataImg?.visibility =
-                    View.VISIBLE else binding?.noDataImg?.visibility = View.GONE
-                adapter.setFavShows(shows)
-                adapter.notifyDataSetChanged()
-            }
-
-            binding?.rvTvShowFavorites?.layoutManager = LinearLayoutManager(context)
-            binding?.rvTvShowFavorites?.setHasFixedSize(true)
-            binding?.rvTvShowFavorites?.adapter = adapter
-        }
+//        if (activity != null) {
+//            val adapter = FavoriteTvShowAdapter()
+//            binding?.progressBar?.visibility = View.VISIBLE
+//            favoriteTvShowViewModel.getTvShowFav().observe(activity as MainActivity) { shows ->
+//                binding?.progressBar?.visibility = View.GONE
+//                if (shows.isEmpty()) binding?.noDataImg?.visibility =
+//                    View.VISIBLE else binding?.noDataImg?.visibility = View.GONE
+//                adapter.setFavShows(shows)
+//                adapter.notifyDataSetChanged()
+//            }
+//
+//            binding?.rvTvShowFavorites?.layoutManager = LinearLayoutManager(context)
+//            binding?.rvTvShowFavorites?.setHasFixedSize(true)
+//            binding?.rvTvShowFavorites?.adapter = adapter
+//        }
     }
 
 }
