@@ -9,7 +9,7 @@ import com.path_studio.moviecatalogue.ui.mainPage.MainScreen
 import com.path_studio.moviecatalogue.ui.splash.SplashScreen
 
 @Composable
-fun NavigationBuilder(appCompatActivity: AppCompatActivity) {
+fun NavigationBuilder() {
     val navigationController = rememberNavController()
 
     NavHost(
@@ -21,10 +21,7 @@ fun NavigationBuilder(appCompatActivity: AppCompatActivity) {
         }
 
         composable(route = TmdbScreen.MainScreen.route) {
-            MainScreen(
-                navController = navigationController,
-                appCompatActivity = appCompatActivity
-            )
+            MainScreen(navController = navigationController)
         }
 
     }
