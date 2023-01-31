@@ -1,5 +1,6 @@
 package com.path_studio.moviecatalogue.ui.mainPage
 
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.appcompat.app.AppCompatActivity
@@ -274,6 +275,7 @@ private fun OnLifecycle(
                 tvShowList.clear()
 
                 movieViewModel.getDiscoverMovies().observe(lifecycleOwner) { movies ->
+                    Log.e("DATA MOVIE", movies.data.toString())
                     if (movies != null) {
                         when (movies.status) {
                             Status.LOADING -> movieAvailability.value = true

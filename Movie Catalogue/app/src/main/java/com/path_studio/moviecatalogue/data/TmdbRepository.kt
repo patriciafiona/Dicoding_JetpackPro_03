@@ -83,8 +83,8 @@ class TmdbRepository (private val remoteDataSource: RemoteDataSource,
             public override fun loadFromDB(): LiveData<PagedList<MovieEntity>> {
                 val config = PagedList.Config.Builder()
                     .setEnablePlaceholders(false)
-                    .setInitialLoadSizeHint(4)
-                    .setPageSize(4)
+                    .setInitialLoadSizeHint(50)
+                    .setPageSize(5)
                     .build()
                 return LivePagedListBuilder(localDataSource.getAllMovies(), config).build()
             }
@@ -180,8 +180,8 @@ class TmdbRepository (private val remoteDataSource: RemoteDataSource,
             public override fun loadFromDB(): LiveData<PagedList<TvShowEntity>> {
                 val config = PagedList.Config.Builder().apply {
                     setEnablePlaceholders(false)
-                    setInitialLoadSizeHint(4)
-                    setPageSize(4)
+                    setInitialLoadSizeHint(50)
+                    setPageSize(5)
                 }.build()
                 return LivePagedListBuilder(localDataSource.getAllTvShow(), config).build()
             }
