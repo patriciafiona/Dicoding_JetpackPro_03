@@ -45,4 +45,5 @@
     <string name="successAddedToDatabase">Success Added to the Database</string>
     <string name="successRemovedToDatabase">Success Removed to the Database</string>
     <string name="no_data_img">no data img</string>
+    <string name="title_activity_tmdb_app">TmdbApp</string>
 </resources>

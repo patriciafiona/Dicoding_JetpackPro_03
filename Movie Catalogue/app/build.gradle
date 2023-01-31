@@ -25,6 +25,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "TMDB_API_KEY", apikeyProperties['TMDB_API_KEY'])
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
 
     buildTypes {
@@ -47,6 +50,12 @@ android {
 
     buildFeatures {
         viewBinding true
+        compose true
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
     }
 }
 
@@ -106,7 +115,10 @@ dependencies {
 
     //Room database
     implementation "androidx.room:room-runtime:2.5.0"
+    implementation 'androidx.activity:activity-compose:1.3.1'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     annotationProcessor "androidx.room:room-compiler:2.5.0"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
     kapt 'androidx.room:room-compiler:2.5.0'
 
     //testing
