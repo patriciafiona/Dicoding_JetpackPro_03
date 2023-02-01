@@ -256,17 +256,31 @@ class TmdbRepository (private val remoteDataSource: RemoteDataSource,
                     }
                 }
 
-                val show = TvShowEntity(
-                    if(data.id != null) data.id.toLong() else 0,
-                    data.name ?:"",
-                    data.overview,
-                    data.posterPath,
-                    data.backdropPath,
-                    data.voteAverage,
-                    data.firstAirDate,
-                    JSONArray(listOfGenre).toString(),
-                    data.episodeRunTime!![0]
-                )
+                val show = if(data.episodeRunTime != null && data.episodeRunTime.isNotEmpty()) {
+                    TvShowEntity(
+                        if (data.id != null) data.id.toLong() else 0,
+                        data.name ?: "",
+                        data.overview,
+                        data.posterPath,
+                        data.backdropPath,
+                        data.voteAverage,
+                        data.firstAirDate,
+                        JSONArray(listOfGenre).toString(),
+                        data.episodeRunTime[0]
+                    )
+                }else{
+                    TvShowEntity(
+                        if (data.id != null) data.id.toLong() else 0,
+                        data.name ?: "",
+                        data.overview,
+                        data.posterPath,
+                        data.backdropPath,
+                        data.voteAverage,
+                        data.firstAirDate,
+                        JSONArray(listOfGenre).toString(),
+                        null
+                    )
+                }
                 //using insert for add search result into db, and use the data for show later
                 localDataSource.insertTvShow(arrayListOf(show))
                 localDataSource.insertSeason(listOfSeason)

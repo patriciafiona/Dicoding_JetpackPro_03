@@ -10,9 +10,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.path_studio.moviecatalogue.di.appModule
-import com.path_studio.moviecatalogue.di.repoModule
-import com.path_studio.moviecatalogue.di.viewModelModule
+import com.path_studio.moviecatalogue.helper.di.appModule
+import com.path_studio.moviecatalogue.helper.di.repoModule
+import com.path_studio.moviecatalogue.helper.di.viewModelModule
 import com.path_studio.moviecatalogue.navigations.NavigationBuilder
 import com.path_studio.moviecatalogue.ui.ui.theme.MovieCatalogueTheme
 import org.koin.android.ext.koin.androidContext

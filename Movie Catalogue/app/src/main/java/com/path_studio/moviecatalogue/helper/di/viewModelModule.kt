@@ -1,9 +1,9 @@
-package com.path_studio.moviecatalogue.di
+package com.path_studio.moviecatalogue.helper.di
 
 import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieViewModel
 import com.path_studio.moviecatalogue.ui.detailTvShow.DetailTvShowViewModel
-import com.path_studio.moviecatalogue.ui.mainPage.favorite.favoriteMovie.FavoriteMovieViewModel
-import com.path_studio.moviecatalogue.ui.mainPage.favorite.favoriteTvShow.FavoriteTvShowViewModel
+import com.path_studio.moviecatalogue.ui.mainPage.favorite.viewModel.FavoriteMovieViewModel
+import com.path_studio.moviecatalogue.ui.mainPage.favorite.viewModel.FavoriteTvShowViewModel
 import com.path_studio.moviecatalogue.ui.mainPage.movie.MovieViewModel
 import com.path_studio.moviecatalogue.ui.mainPage.tvShow.TvShowViewModel
 import com.path_studio.moviecatalogue.ui.search.SearchViewModel

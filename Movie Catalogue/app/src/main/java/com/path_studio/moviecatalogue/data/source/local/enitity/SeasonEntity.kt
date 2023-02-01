@@ -17,17 +17,17 @@ import androidx.room.Index
 data class SeasonEntity(
     @NonNull
     @ColumnInfo(name = "seasonId")
-    var seasonId: String,
+    var seasonId: String = "",
 
     @NonNull
     @ColumnInfo(name = "tvShowId")
-    var tvShowId: String,
+    var tvShowId: String = "",
 
     @ColumnInfo(name = "name")
     var name: String? ="",
 
     @ColumnInfo(name = "overview")
-    var overview: String? ="",
+    var overview: String? ="No description",
 
     @ColumnInfo(name = "airDate")
     var airDate: String? ="",

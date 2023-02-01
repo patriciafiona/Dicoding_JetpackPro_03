@@ -10,10 +10,10 @@ data class TvShowEntity(
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "tvShowId")
-    var tvShowId: Long,
+    var tvShowId: Long = 0L,
 
     @ColumnInfo(name = "name")
-    var name: String,
+    var name: String = "Unknown Name",
 
     @ColumnInfo(name = "overview")
     var overview: String? = null,
@@ -25,10 +25,10 @@ data class TvShowEntity(
     var backdropPath: String? = null,
 
     @ColumnInfo(name = "voteAverage")
-    var voteAverage: Double?,
+    var voteAverage: Double? = 0.0,
 
     @ColumnInfo(name = "firstAirDate")
-    val firstAirDate: String?,
+    val firstAirDate: String? = null,
 
     @ColumnInfo(name = "genres")
     val genres: String? = null,

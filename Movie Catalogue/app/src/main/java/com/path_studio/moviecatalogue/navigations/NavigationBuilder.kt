@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieScreen
+import com.path_studio.moviecatalogue.ui.detailTvShow.DetailTvShowScreen
 import com.path_studio.moviecatalogue.ui.mainPage.MainScreen
 import com.path_studio.moviecatalogue.ui.splash.SplashScreen
 
@@ -31,6 +32,15 @@ fun NavigationBuilder() {
                 DetailMovieScreen(navController = navigationController, movieId = data)
             }else{
                 DetailMovieScreen(navController = navigationController, movieId = null)
+            }
+        }
+
+        composable(route = TmdbScreen.DetailTvShowScreen.route) { previousBackStackEntry ->
+            val data = previousBackStackEntry.arguments?.getLong("tvShowId")
+            if (data != null) {
+                DetailTvShowScreen(navController = navigationController, tvShowId = data)
+            }else{
+                DetailTvShowScreen(navController = navigationController, tvShowId = null)
             }
         }
 

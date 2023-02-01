@@ -46,10 +46,7 @@ import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.data.source.remote.response.DetailMovieResponse
 import com.path_studio.moviecatalogue.ui.ui.theme.*
-import com.path_studio.moviecatalogue.ui.widget.ExpandableText
-import com.path_studio.moviecatalogue.ui.widget.ItemGenre
-import com.path_studio.moviecatalogue.ui.widget.Loader
-import com.path_studio.moviecatalogue.ui.widget.NotFoundAnimation
+import com.path_studio.moviecatalogue.ui.widget.*
 import com.path_studio.moviecatalogue.util.Utils
 import com.path_studio.moviecatalogue.vo.Status
 import com.smarttoolfactory.ratingbar.RatingBar
@@ -355,37 +352,6 @@ fun MainContent(
         }
 
         Spacer(modifier = Modifier.height(50.dp))
-    }
-}
-
-@Composable
-fun TitleSection(title: String) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
-    ) {
-        Box(
-            modifier = Modifier
-                .background(Purple700)
-                .width(5.dp)
-                .height(20.dp)
-        )
-
-        Spacer(modifier = Modifier.width(5.dp))
-
-        Text(
-            text = title,
-            style = TextStyle(
-                color = Color.Black,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            ),
-             modifier = Modifier
-                 .weight(1f)
-        )
     }
 }
 

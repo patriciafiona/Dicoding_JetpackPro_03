@@ -49,4 +49,5 @@
     <string name="list_of_movie">List of Movie</string>
     <string name="description">description</string>
     <string name="back">Back</string>
+    <string name="no_data">No Data</string>
 </resources>

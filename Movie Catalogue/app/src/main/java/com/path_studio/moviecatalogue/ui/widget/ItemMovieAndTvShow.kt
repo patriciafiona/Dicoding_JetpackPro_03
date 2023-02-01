@@ -117,7 +117,8 @@ fun ItemMovieAndTvShow(
             .padding(12.dp)
             .background(Color.White)
             .clickable {
-                //
+                navController.navigate(TmdbScreen.DetailTvShowScreen.route)
+                navController.currentBackStackEntry?.arguments?.putLong("tvShowId", data.tvShowId)
             },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

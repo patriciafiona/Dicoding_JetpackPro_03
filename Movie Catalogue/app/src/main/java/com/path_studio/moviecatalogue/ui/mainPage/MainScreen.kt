@@ -1,9 +1,7 @@
 package com.path_studio.moviecatalogue.ui.mainPage
 
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,6 +34,8 @@ import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.navigations.bottomNav.BottomNavItem
 import com.path_studio.moviecatalogue.ui.mainPage.favorite.FavoriteTab
+import com.path_studio.moviecatalogue.ui.mainPage.favorite.viewModel.FavoriteMovieViewModel
+import com.path_studio.moviecatalogue.ui.mainPage.favorite.viewModel.FavoriteTvShowViewModel
 import com.path_studio.moviecatalogue.ui.mainPage.movie.MovieTab
 import com.path_studio.moviecatalogue.ui.mainPage.movie.MovieViewModel
 import com.path_studio.moviecatalogue.ui.mainPage.tvShow.TvShowTab
@@ -49,6 +49,8 @@ import org.koin.androidx.compose.koinViewModel
 
 private lateinit var movieViewModel: MovieViewModel
 private lateinit var tvShowViewModel: TvShowViewModel
+private lateinit var favoriteMovieViewModel: FavoriteMovieViewModel
+private lateinit var favoriteTvShowViewModel: FavoriteTvShowViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -60,6 +62,8 @@ fun MainScreen(
 
     movieViewModel = koinViewModel()
     tvShowViewModel = koinViewModel()
+    favoriteMovieViewModel = koinViewModel()
+    favoriteTvShowViewModel = koinViewModel()
 
     val backdropScaffoldState = rememberBackdropScaffoldState(
         BackdropValue.Concealed
@@ -71,10 +75,21 @@ fun MainScreen(
         mutableStateListOf<MovieEntity>()
     }
     val movieAvailability = remember { mutableStateOf(false) }
+
     val tvShowList = remember {
         mutableStateListOf<TvShowEntity>()
     }
     val tvShowAvailability = remember { mutableStateOf(false) }
+
+    val favoriteMovieList = remember {
+        mutableStateListOf<MovieEntity>()
+    }
+    val favoriteMovieAvailability = remember { mutableStateOf(false) }
+
+    val favoriteTvShowList = remember {
+        mutableStateListOf<TvShowEntity>()
+    }
+    val favoriteTvShowAvailability = remember { mutableStateOf(false) }
 
     //bottomNavigation
     val currentBottomTab = remember { mutableStateOf(0) }
@@ -107,10 +122,14 @@ fun MainScreen(
     OnLifecycle(
         movieList = movieList,
         tvShowList = tvShowList,
+        favoriteMovieList = favoriteMovieList,
+        favoriteTvShowList = favoriteTvShowList,
         lifecycleOwner = lifecycleOwner,
         isLoading = isLoading,
         movieAvailability = movieAvailability,
-        tvShowAvailability = tvShowAvailability
+        tvShowAvailability = tvShowAvailability,
+        favoriteMovieAvailability = favoriteMovieAvailability,
+        favoriteTvShowAvailability = favoriteTvShowAvailability
     )
 
     //View Section
@@ -220,7 +239,11 @@ fun MainScreen(
                             1 -> {
                                 FavoriteTab(
                                     navController = navController,
-                                    backdropScaffoldState = backdropScaffoldState
+                                    backdropScaffoldState = backdropScaffoldState,
+                                    favoriteMovieList = favoriteMovieList,
+                                    favoriteTvShowList = favoriteTvShowList,
+                                    favoriteMovieAvailability = favoriteMovieAvailability,
+                                    favoriteTvShowAvailability = favoriteTvShowAvailability
                                 )
                             }
                             2 -> {
@@ -284,22 +307,31 @@ fun MainScreen(
 private fun OnLifecycle(
     movieList: SnapshotStateList<MovieEntity>,
     tvShowList: SnapshotStateList<TvShowEntity>,
+    favoriteMovieList: SnapshotStateList<MovieEntity>,
+    favoriteTvShowList: SnapshotStateList<TvShowEntity>,
     lifecycleOwner: LifecycleOwner,
     isLoading: MutableState<Boolean>,
     movieAvailability: MutableState<Boolean>,
-    tvShowAvailability: MutableState<Boolean>
+    favoriteMovieAvailability: MutableState<Boolean>,
+    tvShowAvailability: MutableState<Boolean>,
+    favoriteTvShowAvailability: MutableState<Boolean>
 ) {
     OnLifecycleEvent { _, event ->
         // do stuff on event
         when (event) {
             Lifecycle.Event.ON_RESUME -> {
                 isLoading.value = true
+
                 movieAvailability.value = false
                 tvShowAvailability.value = false
+                favoriteMovieAvailability.value = false
+                favoriteTvShowAvailability.value = false
 
                 //Clear all list first
                 movieList.clear()
                 tvShowList.clear()
+                favoriteMovieList.clear()
+                favoriteTvShowList.clear()
 
                 movieViewModel.getDiscoverMovies().observe(lifecycleOwner) { movies ->
                     if (movies != null) {
@@ -336,6 +368,20 @@ private fun OnLifecycle(
                                 isLoading.value = false
                             }
                         }
+                    }
+                }
+
+                favoriteMovieViewModel.getMovieFav().observe(lifecycleOwner) { movies ->
+                    favoriteMovieAvailability.value = true
+                    movies.forEach {
+                        favoriteMovieList.add(it)
+                    }
+                }
+
+                favoriteTvShowViewModel.getTvShowFav().observe(lifecycleOwner) { shows ->
+                    favoriteTvShowAvailability.value = true
+                    shows.forEach {
+                        favoriteTvShowList.add(it)
                     }
                 }
             }
