@@ -10,7 +10,6 @@ import com.mancj.materialsearchbar.adapter.SuggestionsAdapter
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.entities.SearchEntity
 import com.path_studio.moviecatalogue.databinding.ItemRowSuggestionBinding
-import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieActivity
 import com.path_studio.moviecatalogue.ui.detailTvShow.DetailTvShowActivity
 
 class SearchAdapter(inflater: LayoutInflater?) : SuggestionsAdapter<SearchEntity,
@@ -75,9 +74,9 @@ class SearchAdapter(inflater: LayoutInflater?) : SuggestionsAdapter<SearchEntity
                         intent.putExtra(DetailTvShowActivity.EXTRA_TV_SHOW, suggestion.id)
                         itemView.context.startActivity(intent)
                     }else{
-                        val intent = Intent(itemView.context, DetailMovieActivity::class.java)
-                        intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, suggestion.id)
-                        itemView.context.startActivity(intent)
+//                        val intent = Intent(itemView.context, DetailMovieActivity::class.java)
+//                        intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, suggestion.id)
+//                        itemView.context.startActivity(intent)
                     }
 
                 }

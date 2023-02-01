@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.path_studio.moviecatalogue" >
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -24,7 +25,6 @@
         </activity>
         <activity android:name=".ui.search.SearchActivity" />
         <activity android:name=".ui.detailTvShow.DetailTvShowActivity" />
-        <activity android:name=".ui.detailMovie.DetailMovieActivity" />
     </application>
 
 </manifest>

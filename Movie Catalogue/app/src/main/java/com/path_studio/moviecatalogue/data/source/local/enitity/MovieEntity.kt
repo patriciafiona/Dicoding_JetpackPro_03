@@ -10,10 +10,10 @@ data class MovieEntity(
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "movieId")
-    var movieId: Long,
+    var movieId: Long = 0L,
 
     @ColumnInfo(name = "title")
-    var title: String,
+    var title: String = "Unknown title",
 
     @ColumnInfo(name = "overview")
     var overview: String? = null,
@@ -28,7 +28,7 @@ data class MovieEntity(
     var releaseDate: String? = null,
 
     @ColumnInfo(name = "voteAverage")
-    var voteAverage: Double,
+    var voteAverage: Double = 0.0,
 
     @ColumnInfo(name = "genres")
     val genres: String? = null,

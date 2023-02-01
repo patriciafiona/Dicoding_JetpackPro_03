@@ -56,7 +56,7 @@ fun FavoriteTab(
                     Icons.Default.ArrowDropUp
                 } ,
                 tint = Purple700,
-                contentDescription = "Expand icon"
+                contentDescription = stringResource(id = R.string.show_indicator)
             )
         }
     }

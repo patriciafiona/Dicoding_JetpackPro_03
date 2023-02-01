@@ -1,13 +1,10 @@
 package com.path_studio.moviecatalogue.navigations
 
-import android.provider.ContactsContract
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Movie
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.path_studio.moviecatalogue.data.entities.Movie
-import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieScreen
 import com.path_studio.moviecatalogue.ui.mainPage.MainScreen
 import com.path_studio.moviecatalogue.ui.splash.SplashScreen
@@ -29,11 +26,11 @@ fun NavigationBuilder() {
         }
 
         composable(route = TmdbScreen.DetailMovieScreen.route) { previousBackStackEntry ->
-            val data = previousBackStackEntry.arguments?.getParcelable<Movie>("movie")
+            val data = previousBackStackEntry.arguments?.getLong("movieId")
             if (data != null) {
-                DetailMovieScreen(navController = navigationController, data = data)
+                DetailMovieScreen(navController = navigationController, movieId = data)
             }else{
-                DetailMovieScreen(navController = navigationController, data = null)
+                DetailMovieScreen(navController = navigationController, movieId = null)
             }
         }
 

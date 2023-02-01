@@ -21,7 +21,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
@@ -63,7 +65,7 @@ fun MainScreen(
         BackdropValue.Concealed
     )
 
-    val isLoading = remember { mutableStateOf(false) }
+    val isLoading = remember { mutableStateOf(true) }
 
     val movieList = remember {
         mutableStateListOf<MovieEntity>()
@@ -133,31 +135,57 @@ fun MainScreen(
                         .fillMaxSize()
                 )
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .padding(10.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.tmdb),
-                        contentDescription = "TMDB logo",
-                        contentScale = ContentScale.Crop,
+                Column {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
                         modifier = Modifier
-                            .fillMaxWidth(.4f)
-                    )
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    IconButton(
-                        onClick = { /*TODO*/ }
+                            .padding(10.dp)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "Search Icon"
+                        Image(
+                            painter = painterResource(id = R.drawable.tmdb),
+                            contentDescription = stringResource(id = R.string.app_logo),
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .fillMaxWidth(.4f)
+                        )
+
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        IconButton(
+                            onClick = { /*TODO*/ }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Search Icon"
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Column(
+                        modifier = Modifier.padding(24.dp)
+                    ) {
+                        Text(
+                            stringResource(id = R.string.welcome),
+                            style = TextStyle (
+                                color = Color.White,
+                                fontSize = 34.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
+                        Spacer(modifier = Modifier.height(5.dp))
+                        Text(
+                            stringResource(id = R.string.welcome_details),
+                            style = TextStyle (
+                                color = Color.White,
+                                fontSize = 16.sp,
+                            )
                         )
                     }
                 }
+
             }
         },
         frontLayerContent = {
@@ -165,7 +193,7 @@ fun MainScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.DarkGray.copy(alpha = .8f))
+                        .background(Color.White)
                 ){
                     Loader(
                         modifier = Modifier
@@ -274,7 +302,6 @@ private fun OnLifecycle(
                 tvShowList.clear()
 
                 movieViewModel.getDiscoverMovies().observe(lifecycleOwner) { movies ->
-                    Log.e("DATA MOVIE", movies.data.toString())
                     if (movies != null) {
                         when (movies.status) {
                             Status.LOADING -> movieAvailability.value = true

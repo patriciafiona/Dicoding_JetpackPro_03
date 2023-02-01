@@ -9,7 +9,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.databinding.ItemsMovieTvshowBinding
-import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieActivity
 import com.path_studio.moviecatalogue.util.Utils
 
 class FavoriteMovieAdapter : RecyclerView.Adapter<FavoriteMovieAdapter.FavMovieViewHolder>(){
@@ -43,11 +42,11 @@ class FavoriteMovieAdapter : RecyclerView.Adapter<FavoriteMovieAdapter.FavMovieV
 
                 tvItemRating.rating = movie.voteAverage.toFloat()/2
 
-                itemView.setOnClickListener {
-                    val intent = Intent(itemView.context, DetailMovieActivity::class.java)
-                    intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, movie.movieId)
-                    itemView.context.startActivity(intent)
-                }
+//                itemView.setOnClickListener {
+//                    val intent = Intent(itemView.context, DetailMovieActivity::class.java)
+//                    intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, movie.movieId)
+//                    itemView.context.startActivity(intent)
+//                }
 
                 val posterURL = "https://image.tmdb.org/t/p/w500/${movie.posterPath}"
                 Glide.with(itemView.context)

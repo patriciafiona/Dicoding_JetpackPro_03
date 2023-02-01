@@ -1,15 +1,13 @@
 package com.path_studio.moviecatalogue.ui.widget
 
+import android.graphics.Movie
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -28,14 +26,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.R
-import com.path_studio.moviecatalogue.data.entities.Movie
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.navigations.TmdbScreen
-import com.path_studio.moviecatalogue.util.Utils
 import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
-import com.smarttoolfactory.ratingbar.DefaultColor
 import com.smarttoolfactory.ratingbar.RatingBar
-import com.smarttoolfactory.ratingbar.model.Shimmer
 
 @Composable
 fun ItemMovieAndTvShow(
@@ -51,20 +45,8 @@ fun ItemMovieAndTvShow(
             .padding(12.dp)
             .background(Color.White)
             .clickable {
-                val movieParcelable = Movie(
-                    movieId = data.movieId,
-                    title = data.title,
-                    overview = data.overview,
-                    posterPath = data.posterPath,
-                    backdropPath = data.backdropPath,
-                    releaseDate = data.releaseDate,
-                    voteAverage = data.voteAverage,
-                    genres = data.genres,
-                    runtime = data.runtime,
-                    favorite = data.favorite
-                )
                 navController.navigate(TmdbScreen.DetailMovieScreen.route)
-                navController.currentBackStackEntry?.arguments?.putParcelable("movie", movieParcelable)
+                navController.currentBackStackEntry?.arguments?.putLong("movieId", data.movieId)
             },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

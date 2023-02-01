@@ -25,3 +25,31 @@ fun Loader(modifier: Modifier = Modifier) {
         )
     }
 }
+
+@Composable
+fun NotFoundAnimation(modifier: Modifier = Modifier) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.not_found))
+    Box(modifier = Modifier.fillMaxWidth()){
+        LottieAnimation(
+            composition = composition,
+            modifier = modifier
+                .align(Alignment.Center)
+                .fillMaxWidth(),
+            iterations = LottieConstants.IterateForever,
+        )
+    }
+}
+
+@Composable
+fun NoConnectionAnimation(modifier: Modifier = Modifier) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.not_found))
+    Box(modifier = Modifier.fillMaxWidth()){
+        LottieAnimation(
+            composition = composition,
+            modifier = modifier
+                .align(Alignment.Center)
+                .fillMaxWidth(),
+            iterations = LottieConstants.IterateForever,
+        )
+    }
+}

@@ -44,11 +44,11 @@ class FavoriteTvShowAdapter : RecyclerView.Adapter<FavoriteTvShowAdapter.FavTvSh
 
                 tvItemRating.rating = (show.voteAverage?.toFloat() ?: 0f) /2
 
-                itemView.setOnClickListener {
-                    val intent = Intent(itemView.context, DetailTvShowActivity::class.java)
-                    intent.putExtra(DetailTvShowActivity.EXTRA_TV_SHOW, show.tvShowId)
-                    itemView.context.startActivity(intent)
-                }
+//                itemView.setOnClickListener {
+//                    val intent = Intent(itemView.context, DetailTvShowActivity::class.java)
+//                    intent.putExtra(DetailTvShowActivity.EXTRA_TV_SHOW, show.tvShowId)
+//                    itemView.context.startActivity(intent)
+//                }
 
                 val posterURL = "https://image.tmdb.org/t/p/w500/${show.posterPath}"
                 Glide.with(itemView.context)

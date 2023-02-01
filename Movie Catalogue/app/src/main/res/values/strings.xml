@@ -48,4 +48,5 @@
     <string name="title_activity_tmdb_app">TmdbApp</string>
     <string name="list_of_movie">List of Movie</string>
     <string name="description">description</string>
+    <string name="back">Back</string>
 </resources>
