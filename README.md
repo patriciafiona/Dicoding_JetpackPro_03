@@ -1,178 +1,58 @@
-# Dicoding_JetpackPro_03
+# Compose Champion Indonesia 2023: Compose Migration Champion Challenge - Dicoding_JetpackPro_03
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/32255348/133293265-34c734c7-64f2-4884-b3c4-7ab2150d918b.gif" width="300" />
+  <img src="https://user-images.githubusercontent.com/32255348/215633542-18788b1b-b002-41e9-8d0c-eb42d8a0f8bc.png" width="400"/>
 </p>
+<p align="center"><i><b>Figure 1</b> Compose Champion Indonesia 2023 - Challenge banner</i></p>
 
-<p align="center"><i><b>Figure 1</b> Preview of The Movie Database App</i></p>
+## About the Challenge
+For the last 2 years, the Android team from Google has developed a new UI Toolkit that revolutionizes the current paradigm 
+for developing interfaces with a declarative, composable approach, namely Jetpack Compose.
 
-<br/>
+Jetpack Compose is a modern toolkit for creating Android User Interface (UI) with better and latest mechanics. This framework 
+simplifies and accelerates UI development on Android with less code, powerful tools support, and of course built with an intuitive Kotlin API.
 
-Result of my Dicoding: "Belajar Android Jetpack Pro" Certificate (Submission 03: Kelola Data)
+After successfully holding Compose Champion Indonesia 2022: Compose Migration Champion Challenge, this year Google and Dicoding 
+Indonesia are collaborating again to hold Compose Champion Indonesia 2023, a challenge with prizes with the aim of producing superior 
+Android Developers in the future. This challenge is called Compose Migration Champion and the target for this challenge is all Android 
+Developers who already have applications to migrate their UI to Jetpack Compose.
 
-## Information
+## App Information
 <p align="center">
-  <img src="https://www.xda-developers.com/files/2021/03/Android-Jetpack.jpg" width="500"/>
+  <img src="https://img.tek.id/img/content/2019/08/23/19621/google-resmi-umumkan-nama-android-terbaru-3BlX51XEX7.jpg" width="300"/>
 </p>
-<p align="center"><i><b>Figure 2</b> Android Jetpack Logo</i></p>
+<p align="center"><i><b>Figure 2</b> Android Logo</i></p>
 
-Type                  : Submission 03 - Final
+```diff
+Type                        : Portofolio
 
-Platform              : Mobile - [Android](https://www.android.com/intl/id_id/)
+Information                 : Project results for Compose Champion Indonesia 2023: Compose Migration Champion Challenge
 
-Programming Language  : [Kotlin](https://developer.android.com/kotlin?hl=id)
+Platform                    : Android - [Android](https://www.android.com/)
 
-Dicoding Class        : [Belajar Android Jetpack Pro](https://www.dicoding.com/academies/129)
+Programming Language        : [Kotlin](https://kotlinlang.org/)
+
+Current version             : V2.0.0
+
+Before migration result     : [Repository link](https://github.com/patriciafiona/Dicoding_JetpackPro_03/tree/c31c93aba8cab89d488f16fb126223108b166410)
+
+Dicoding Class              : [Belajar Android Jetpack Pro](https://www.dicoding.com/academies/129)
+
+Challenge reference         : [Dicoding Challenge] (https://www.dicoding.com/challenges/785)
+```
+
+## Usefull references
+| Description      | Link  |
+| :-: | :-: |
+| TMDB Github Repository - Main Branch | Comming soon |
+| TMDB Github Repository - TMDB-Compose-Migration Branch | Comming soon |
+| TMDB .apk release v2.0.0 | Comming soon |
+| TMDB PPT & more | Comming soon |
 
 ## Results for App 
 | Action                            | Result                                  | Action                            | Result                                  |
 | -------------                     |------------------                       | -------------                     |------------------                       |
-| Movie List                        | <img src="https://user-images.githubusercontent.com/32255348/133293622-7d7324e1-0f24-4545-a629-6f5754ab5c02.gif" width="200" />      | TV Show List             | <img src="https://user-images.githubusercontent.com/32255348/133293705-5d421bd0-b124-4c77-a3df-68d3609bcc7e.gif" width="200" />      |
-| Detail Page & Favorite Button     | <img src="https://user-images.githubusercontent.com/32255348/133293863-312f89dc-342b-438c-95ef-9ababa884733.gif" width="200" />      | Search Feature             | <img src="https://user-images.githubusercontent.com/32255348/133293943-9f7ef7c7-3736-415b-aa5d-3a241aa0b5e0.gif" width="200" />      |
-
-## Testing Schenario - Indonesia language
-- DetailMovieViewModelTest
-  - Memuat Movie
-    -	Memanipulasi data ketika pemanggilan data movie di kelas repository.
-    -	Memastikan metode di kelas repository terpanggil.
-    -	Melakukan pengecekan data movie apakah null atau tidak.
-    -	Membandingkan data movie sudah sesuai dengan yang diharapkan atau tidak.
-    
-  -	Menambahkan movie ke dalam favorit
-    -	Mengubah status favorit dalam movie ke dalam menjadi true (difavoritkan)
-    -	Melakukan pengecekan data dalam database apakah sudah sesuai atau belum
-    
-  -	Menghapus movie dari daftar favorit
-    -	Mengubah status favorit dalam movie ke dalam menjadi false (tidak difavoritkan)
-    -	Melakukan pengecekan data dalam database apakah sudah sesuai atau belum
-    
--	DetailTvShowViewModelTest
-  -	Memuat Tv Show
-    -	Memanipulasi data ketika pemanggilan data tv show di kelas repository.
-    -	Memastikan metode di kelas repository terpanggil.
-    -	Melakukan pengecekan data tv show apakah null atau tidak.
-    -	Membandingkan data tv show sudah sesuai dengan yang diharapkan atau tidak.
-    
-  -	Memuat Tv Show with Season Detail
-    -	Memanipulasi data ketika pemanggilan data tv show with season detail di kelas repository.
-    -	Memastikan metode di kelas repository terpanggil.
-    -	Melakukan pengecekan data tv show with season detail apakah null atau tidak.
-    -	Membandingkan data tv show with season detail sudah sesuai dengan yang diharapkan atau tidak.
-  -	Menambahkan tv show ke dalam favorit
-    -	Mengubah status favorit dalam tv show ke dalam menjadi true (difavoritkan)
-    -	Melakukan pengecekan data dalam database apakah sudah sesuai atau belum
-  -	Menghapus tv show dari daftar favorit
-    -	Mengubah status favorit dalam tv show ke dalam menjadi false (tidak difavoritkan)
-    -	Melakukan pengecekan data dalam database apakah sudah sesuai atau belum
-
--	MovieViewModelTest
-  -	Memuat list movie
-    -	Memanipulasi data ketika pemanggilan data list movie di kelas repository.
-    -	Memastikan metode di kelas repository terpanggil.
-    -	Melakukan pengecekan data list movie apakah null atau tidak.
-    -	Melakukan pengecekan jumlah data movie apakah sudah sesuai atau belum.
--	TvShowViewModelTest
-  -	Memuat list tv show
-    -	Memanipulasi data ketika pemanggilan data list tv show di kelas repository.
-    -	Memastikan metode di kelas repository terpanggil.
-    -	Melakukan pengecekan data list tv show apakah null atau tidak.
-    -	Melakukan pengecekan jumlah data list tv show apakah sudah sesuai atau belum.
-
--	TmdbRepositoryTest
-  -	Memuat List Movie
-    -	Memanipulasi data ketika pemanggilan list movie dengan data dummy
-    -	Memastikan metode pemanggilan list movie terpanggil
-    -	Melakukan pengecekan data list movie apakah null atau tidak
-    -	Melakukan pengecekan jumlah list movie apakah sudah sesuai atau belum
-  -	Memuat List Tv Show
-    -	Memanipulasi data ketika pemanggilan list tv show dengan data dummy
-    -	Memastikan metode pemanggilan list tv show terpanggil
-    -	Melakukan pengecekan data list tv show apakah null atau tidak
-    -	Melakukan pengecekan jumlah list tv show apakah sudah sesuai atau belum
-  -	Memuat Detail Movie
-    -	Memanipulasi data ketika pemanggilan detail movie dengan data dummy
-    -	Memastikan metode pemanggilan detail movie terpanggil
-    -	Melakukan pengecekan data detail movie apakah null atau tidak
-    -	Melakukan pengecekan Id Movie pada detail movie apakah sudah sesuai atau belum
-  -	Memuat Detail Tv Show
-    -	Memanipulasi data ketika pemanggilan detail tv show dengan data dummy
-    -	Memastikan metode pemanggilan detail tv show terpanggil
-    -	Melakukan pengecekan data detail tv show apakah null atau tidak
-    -	Melakukan pengecekan Id Tv Show pada detail tv show apakah sudah sesuai atau belum
-  -	Memuat Detail Tv Show dengan Season Detail
-    -	Memanipulasi data ketika pemanggilan Tv Show with Season Detail dengan data dummy
-    -	Memastikan metode pemanggilan Tv Show with Season Detail terpanggil
-    -	Melakukan pengecekan data Tv Show with Season Detail apakah null atau tidak
-    -	Melakukan pengecekan Id Tv Show pada Tv Show with Season Detail apakah sudah sesuai atau belum
-  -	Memuat List Favorite Movie
-    -	Memanipulasi data ketika pemanggilan list movie favorite dengan data dummy
-    -	Memastikan metode pemanggilan list movie favorite terpanggil
-    -	Melakukan pengecekan data list movie favorite apakah null atau tidak
-    -	Melakukan pengecekan Id movie pada list movie favorite apakah sudah sesuai atau belum
-  -	Memuat List Favorite Tv Show
-    -	Memanipulasi data ketika pemanggilan list tv show favorite dengan data dummy
-    -	Memastikan metode pemanggilan list tv show favorite terpanggil
-    -	Melakukan pengecekan data list tv show favorite apakah null atau tidak
-    -	Melakukan pengecekan Id tv show pada list tv show favorite apakah sudah sesuai atau belum
-  -	Menambahkan movie ke dalam favorit Movie
-    -	Mengubah status favorit dalam data movie menjadi true
-    -	Melakukan pengecekan data dalam database apakah sudah sesuai atau belum
-  -	Menambahkan tv show ke dalam favorit Tv show
-    -	Mengubah status favorit dalam data tv show menjadi true
-    -	Melakukan pengecekan data dalam database apakah sudah sesuai atau belum
-  -	Menghapus movie dari daftar favorit
-    -	Mengubah status favorit dalam data movie menjadi false
-    -	Melakukan pengecekan data dalam database apakah sudah sesuai atau belum
-  -	Menghapus tv show dari daftar favorit Tv show
-    -	Mengubah status favorit dalam data tv show menjadi false
-    -	Melakukan pengecekan data dalam database apakah sudah sesuai atau belum
-    
-------------------------------------------------------------------------------
-
--	Menampilkan data list movie
-    -	Klik bottom navigation untuk bagian movie
-    -	Memastikan rv_movie dalam keadaan tampil
-    -	Gulir rv_movie ke posisi data terakhir
-  
--	Menampilkan halaman detail movie
-    -	Klik bottom navigation untuk bagian movie
-    -	Memberi tindakan klik pada data pertama di rv_movie
-    -	Memastikan TextView untuk keterangan halaman (Top title) dapat ditampilkan
-    -	Memastikan TextView untuk judul movie dapat ditampilkan
-    -	Memastikan RatingBar untuk movie dapat ditampilkan
-    -	Memastikan TextView durasi movie dapat ditampilkan
-    -	Memastikan TextView synopsis movie dapat ditampilkan
-    -	Memastikan ImageButton untuk Movie Favorit dapat ditampilkan
-    -	Memastikan ImageView untuk movie backdrop dapat ditampilkan
-    -	Memastikan ImageView untuk poster movie dapat ditampilkan
-    -	Memberikan Tindakan klik pada tombol back di halaman detail movie
-
--	Menampilkan data list tv show
-    -	Klik bottom navigation untuk bagian Tv Show
-    -	Memastikan rv_tvShow dalam keadaan tampil
-    -	Gulir rv_tvShow ke posisi data terakhir
-  
--	Menampilkan halaman detail tv show
-    -	Klik bottom navigation untuk bagian Tv Show
-    -	Memberi tindakan klik pada data pertama di rv_tvShow
-    -	Memastikan TextView untuk keterangan halaman (Top title) dapat ditampilkan
-    -	Memastikan TextView untuk judul tv show dapat ditampilkan
-    -	Memastikan RatingBar untuk tv show rating dapat ditampilkan
-    -	Memastikan TextView tanggal perilisan tv show dapat ditampilkan
-    -	Memastian TextView durasi dapat ditampilkan
-    -	Memastikan TextView synopsis tv show dapat ditampilkan
-    -	Memastikan ImageButton untuk tv show Favorit dapat ditampilkan
-    -	Memastikan ImageView untuk tv show backdrop dapat ditampilkan
-    -	Memastikan ImageView untuk poster tv show dapat ditampilkan
-    -	Memastikan rv_seasonDetail dapat ditampilkan
-    -	Memberikan Tindakan klik pada tombol back di halaman detail tv show
-
--	Menampilkan hasil ekspansi dan menutup kembali daftar movie
-    -	Klik bottom navigation untuk bagian movie
-    -	Menekan tombol ekspansi pada halaman list movie untuk memperluas tampilan halaman list movie
-    -	Menekan tombol ekspansi kembali pada halaman list movie untuk mengembalikan tampilan halaman list movie (setengah halaman)
-
--	Menampilkan hasil ekspansi dan menutup kembali daftar tv show
-    -	Klik bottom navigation untuk bagian Tv Show
-    -	Menekan tombol ekspansi pada halaman list tv show untuk memperluas tampilan halaman list tv show
-    -	Menekan tombol ekspansi kembali pada halaman list tv show untuk mengembalikan tampilan halaman list tv show (setengah halaman)
+| First Load - Connection Lost      | <img src="https://user-images.githubusercontent.com/32255348/216265362-169e999e-9c71-4c76-a17e-0f36e77c7e4d.gif" width="200" />      | List Movie & TV Show             | <img src="https://user-images.githubusercontent.com/32255348/216265929-68fa981d-6e19-41a7-8ec8-d7a86340570f.gif" width="200" />      |
+| Detail Movie     | <img src="https://user-images.githubusercontent.com/32255348/216266292-b5067a6a-04c2-42cb-a643-057ac02aaf0d.gif" width="200" />      | Detail Tv Show     | <img src="https://user-images.githubusercontent.com/32255348/216266318-8b6c45d0-493b-47cc-b067-37df72533324.gif" width="200" />      |
+| Search Feature             | <img src="https://user-images.githubusercontent.com/32255348/216265966-3851717f-9965-4535-8484-94aac78fbd84.gif" width="200" />      | Favorite Feature             | <img src="https://user-images.githubusercontent.com/32255348/216266526-58b93a1e-f3dd-41db-97bb-87c857d82e9b.gif" width="200" />      |
+| Data availability - Connection lost | <img src="https://user-images.githubusercontent.com/32255348/216266978-6176f48a-4000-4c8f-8e48-d090252a6596.gif" width="200" /> |||
