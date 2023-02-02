@@ -2,7 +2,6 @@ package com.path_studio.moviecatalogue.ui.widget
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -23,6 +22,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.path_studio.moviecatalogue.R
@@ -45,7 +45,13 @@ fun ItemFavorite(
             .fillMaxWidth()
             .padding(10.dp)
             .clickable {
-                navController.navigate(TmdbScreen.DetailMovieScreen.route)
+                navController.navigate(TmdbScreen.DetailMovieScreen.route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
                 navController.currentBackStackEntry?.arguments?.putLong("movieId", data.movieId)
             },
         colors = CardDefaults.cardColors(
@@ -53,7 +59,7 @@ fun ItemFavorite(
         ),
     ) {
         Row {
-            if(data.posterPath != null && data.posterPath != "null") {
+            if(!data.posterPath.isNullOrEmpty() && data.posterPath != "null") {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data("https://image.tmdb.org/t/p/w500/${data.posterPath}")
@@ -118,11 +124,7 @@ fun ItemFavorite(
                 Spacer(modifier = Modifier.height(5.dp))
 
                 Text(
-                    text = if(data.releaseDate == null || data.releaseDate == "") {
-                        "Unknown release date"
-                    }else{
-                        data.releaseDate.let { Utils.changeStringToDateFormat(it!!) }
-                    },
+                    text = data.releaseDate?.let { Utils.changeStringToDateFormat(it) } ?: "Unknown release date",
                     style = TextStyle(
                         color = Color.Gray,
                         fontSize = 12.sp,
@@ -155,7 +157,7 @@ fun ItemFavorite(
         ),
     ) {
         Row {
-            if(data.posterPath != null && data.posterPath != "null") {
+            if(!data.posterPath.isNullOrEmpty() && data.posterPath != "null") {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data("https://image.tmdb.org/t/p/w500/${data.posterPath}")
@@ -220,11 +222,7 @@ fun ItemFavorite(
                 Spacer(modifier = Modifier.height(5.dp))
 
                 Text(
-                    text = if(data.firstAirDate == null || data.firstAirDate == "") {
-                            "Unknown first air date"
-                        }else{
-                            data.firstAirDate.let { Utils.changeStringToDateFormat(it) }
-                     },
+                    text = data.firstAirDate?.let { Utils.changeStringToDateFormat(it) } ?: "Unknown first air date",
                     style = TextStyle(
                         color = Color.Gray,
                         fontSize = 12.sp,

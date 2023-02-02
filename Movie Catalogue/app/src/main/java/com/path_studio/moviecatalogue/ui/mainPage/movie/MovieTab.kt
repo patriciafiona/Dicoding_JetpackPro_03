@@ -24,7 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
@@ -33,7 +32,6 @@ import com.path_studio.moviecatalogue.ui.widget.ItemMovieAndTvShow
 import com.path_studio.moviecatalogue.ui.widget.NoConnectionAnimation
 import com.path_studio.moviecatalogue.ui.widget.NotFoundAnimation
 import com.path_studio.moviecatalogue.util.Utils.isInternetAvailable
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -45,61 +43,61 @@ fun MovieTab(
 ) {
     val context = LocalContext.current
 
-    if(isInternetAvailable(context)) {
-        if(movieAvailability.value) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
+    if(movieAvailability.value) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
-                Row(
+                Text(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .weight(1f),
-                        text = stringResource(id = R.string.list_of_movie),
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                        .weight(1f),
+                    text = stringResource(id = R.string.list_of_movie),
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
                     )
+                )
 
-                    Icon(
-                        imageVector =
-                        if (backdropScaffoldState.isConcealed) {
-                            Icons.Default.ArrowDropDown
-                        } else {
-                            Icons.Default.ArrowDropUp
-                        },
-                        tint = Purple700,
-                        contentDescription = stringResource(id = R.string.show_indicator)
+                Icon(
+                    imageVector =
+                    if (backdropScaffoldState.isConcealed) {
+                        Icons.Default.ArrowDropDown
+                    } else {
+                        Icons.Default.ArrowDropUp
+                    },
+                    tint = Purple700,
+                    contentDescription = stringResource(id = R.string.show_indicator)
+                )
+            }
+
+            LazyVerticalGrid(
+                modifier = Modifier.weight(1f),
+                columns = GridCells.Fixed(2),
+                contentPadding = PaddingValues(
+                    start = 12.dp,
+                    top = 16.dp,
+                    end = 12.dp,
+                    bottom = 16.dp
+                ),
+            ) {
+                items(movies) { movie ->
+                    ItemMovieAndTvShow(
+                        navController = navController,
+                        data = movie
                     )
-                }
-
-                LazyVerticalGrid(
-                    modifier = Modifier.weight(1f),
-                    columns = GridCells.Fixed(2),
-                    contentPadding = PaddingValues(
-                        start = 12.dp,
-                        top = 16.dp,
-                        end = 12.dp,
-                        bottom = 16.dp
-                    ),
-                ) {
-                    items(movies) { movie ->
-                        ItemMovieAndTvShow(
-                            navController = navController,
-                            data = movie
-                        )
-                    }
                 }
             }
-        }else{
+        }
+    }else{
+        if(isInternetAvailable(context)) {
             Column(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -123,30 +121,30 @@ fun MovieTab(
                     )
                 )
             }
-        }
-    }else{
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            NoConnectionAnimation(
+        }else{
+            Column(
                 modifier = Modifier
-                    .fillMaxSize()
-            )
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Text(
-                text = "Connection Lost",
-                style = TextStyle(
-                    color = Color.Black,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
-                    textAlign = TextAlign.Center
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                NoConnectionAnimation(
+                    modifier = Modifier
+                        .fillMaxSize(.7f)
                 )
-            )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Text(
+                    text = "Connection Lost",
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp,
+                        textAlign = TextAlign.Center
+                    )
+                )
+            }
         }
     }
 }

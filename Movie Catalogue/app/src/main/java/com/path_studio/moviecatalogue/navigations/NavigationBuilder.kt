@@ -1,6 +1,5 @@
 package com.path_studio.moviecatalogue.navigations
 
-import android.graphics.Movie
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable

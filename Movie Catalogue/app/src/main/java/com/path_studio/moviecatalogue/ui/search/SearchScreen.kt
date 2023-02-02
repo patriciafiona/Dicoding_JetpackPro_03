@@ -9,7 +9,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -33,6 +32,7 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -45,18 +45,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.entities.SearchEntity
 import com.path_studio.moviecatalogue.helper.SearchDisplay
-import com.path_studio.moviecatalogue.ui.ui.theme.Purple200
 import com.path_studio.moviecatalogue.ui.ui.theme.Purple500
-import com.path_studio.moviecatalogue.ui.ui.theme.Purple900
 import com.path_studio.moviecatalogue.ui.widget.ItemSearch
 import com.path_studio.moviecatalogue.ui.widget.Loader
+import com.path_studio.moviecatalogue.ui.widget.NoConnectionAnimation
 import com.path_studio.moviecatalogue.ui.widget.NotFoundAnimation
+import com.path_studio.moviecatalogue.util.Utils
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
@@ -75,155 +73,182 @@ fun SearchScreen(
     state: SearchState = rememberSearchState(),
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     viewModel = koinViewModel()
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-
-        SearchBar(
-            query = state.query,
-            onQueryChange = { state.query = it },
-            onSearchFocusChange = { state.focused = it },
-            onClearQuery = { state.query = TextFieldValue("") },
-            onBack = { state.query = TextFieldValue("") },
-            searching = state.searching,
-            focused = state.focused,
+    if(Utils.isInternetAvailable(context)) {
+        Column(
             modifier = modifier
-        )
+                .fillMaxSize()
+        ) {
 
-        LaunchedEffect(state.query.text) {
-            state.searching = true
-            delay(100)
+            SearchBar(
+                query = state.query,
+                onQueryChange = { state.query = it },
+                onSearchFocusChange = { state.focused = it },
+                onClearQuery = { state.query = TextFieldValue("") },
+                onBack = { state.query = TextFieldValue("") },
+                searching = state.searching,
+                focused = state.focused,
+                modifier = modifier
+            )
 
-            if(state.query.text.isNotEmpty()) {
-                val results = viewModel.getSearchResult(state.query.text)
-                results.observe(lifecycleOwner) { detail ->
-                    state.searchResults = detail
-                    state.searching = false
+            LaunchedEffect(state.query.text) {
+                state.searching = true
+                delay(100)
+
+                if (state.query.text.isNotEmpty()) {
+                    val results = viewModel.getSearchResult(state.query.text)
+                    results.observe(lifecycleOwner) { detail ->
+                        state.searchResults = detail
+                        state.searching = false
+                    }
                 }
             }
-        }
 
-        when (state.searchDisplay) {
-            SearchDisplay.InitialResults -> {
+            when (state.searchDisplay) {
+                SearchDisplay.InitialResults -> {
 
-            }
-            SearchDisplay.NoResults -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.White)
-                ){
-                    Loader(
+                }
+                SearchDisplay.NoResults -> {
+                    Box(
                         modifier = Modifier
                             .fillMaxSize()
-                    )
-                }
-            }
-
-            SearchDisplay.Suggestions -> {
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(minSize = 150.dp),
-                    contentPadding = PaddingValues(
-                        start = 12.dp,
-                        top = 16.dp,
-                        end = 12.dp,
-                        bottom = 16.dp
-                    ),
-                ) {
-                    items(suggestionsList) {suggestion ->
-                        Box(
+                            .background(Color.White)
+                    ) {
+                        Loader(
                             modifier = Modifier
-                                .padding(vertical = 10.dp, horizontal = 5.dp)
-                                .height(50.dp)
-                                .clip(RoundedCornerShape(50))
-                                .clickable {
-                                    state.query = TextFieldValue(suggestion)
-                                }
-                        ){
-                            Image(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .drawWithCache {
-                                        val gradient = Brush.horizontalGradient(
-                                            colors = listOf(Purple500, Color.Transparent),
-                                            startX = size.width / 3,
-                                            endX = size.width
-                                        )
-                                        onDrawWithContent {
-                                            drawContent()
-                                            drawRect(gradient, blendMode = BlendMode.Multiply)
-                                        }
-                                    },
-                                painter = painterResource(id = R.drawable.cloud_bg),
-                                contentDescription = stringResource(id = R.string.description),
-                                contentScale = ContentScale.Crop
-                            )
+                                .fillMaxSize()
+                        )
+                    }
+                }
 
-                            Column(
-                                modifier = Modifier.fillMaxSize(),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.Start
+                SearchDisplay.Suggestions -> {
+                    LazyVerticalGrid(
+                        columns = GridCells.Adaptive(minSize = 150.dp),
+                        contentPadding = PaddingValues(
+                            start = 12.dp,
+                            top = 16.dp,
+                            end = 12.dp,
+                            bottom = 16.dp
+                        ),
+                    ) {
+                        items(suggestionsList) { suggestion ->
+                            Box(
+                                modifier = Modifier
+                                    .padding(vertical = 10.dp, horizontal = 5.dp)
+                                    .height(50.dp)
+                                    .clip(RoundedCornerShape(50))
+                                    .clickable {
+                                        state.query = TextFieldValue(suggestion)
+                                    }
                             ) {
-                                Text(
+                                Image(
                                     modifier = Modifier
-                                        .padding(vertical = 10.dp, horizontal = 15.dp),
-                                    text = suggestion,
-                                    style = TextStyle(
-                                        color = Color.White,
-                                        fontSize = 12.sp,
-                                        fontWeight = FontWeight.Bold
-                                    ),
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
+                                        .fillMaxSize()
+                                        .drawWithCache {
+                                            val gradient = Brush.horizontalGradient(
+                                                colors = listOf(Purple500, Color.Transparent),
+                                                startX = size.width / 3,
+                                                endX = size.width
+                                            )
+                                            onDrawWithContent {
+                                                drawContent()
+                                                drawRect(gradient, blendMode = BlendMode.Multiply)
+                                            }
+                                        },
+                                    painter = painterResource(id = R.drawable.cloud_bg),
+                                    contentDescription = stringResource(id = R.string.description),
+                                    contentScale = ContentScale.Crop
                                 )
+
+                                Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.Start
+                                ) {
+                                    Text(
+                                        modifier = Modifier
+                                            .padding(vertical = 10.dp, horizontal = 15.dp),
+                                        text = suggestion,
+                                        style = TextStyle(
+                                            color = Color.White,
+                                            fontSize = 12.sp,
+                                            fontWeight = FontWeight.Bold
+                                        ),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            SearchDisplay.Results -> {
-                if(state.searchResults.isNotEmpty()) {
-                    LazyColumn(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        items(state.searchResults) { searchResult ->
-                            ItemSearch(
-                                navController = navController,
-                                searchResult
+                SearchDisplay.Results -> {
+                    if (state.searchResults.isNotEmpty()) {
+                        LazyColumn(
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            items(state.searchResults) { searchResult ->
+                                ItemSearch(
+                                    navController = navController,
+                                    searchResult
+                                )
+                            }
+                        }
+                    } else {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            NotFoundAnimation(
+                                modifier = Modifier
+                                    .fillMaxWidth(.7f)
+                            )
+
+                            Spacer(modifier = Modifier.height(20.dp))
+
+                            androidx.compose.material.Text(
+                                text = "Results Not Found",
+                                style = TextStyle(
+                                    color = Color.Black,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 24.sp,
+                                    textAlign = TextAlign.Center
+                                )
                             )
                         }
                     }
-                }else{
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        NotFoundAnimation(
-                            modifier = Modifier
-                                .fillMaxWidth(.7f)
-                        )
-
-                        Spacer(modifier = Modifier.height(20.dp))
-
-                        androidx.compose.material.Text(
-                            text = "Results Not Found",
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 24.sp,
-                                textAlign = TextAlign.Center
-                            )
-                        )
-                    }
                 }
             }
+        }
+    }else{
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            NoConnectionAnimation(
+                modifier = Modifier
+                    .fillMaxSize(.7f)
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            androidx.compose.material.Text(
+                text = "Connection Lost",
+                style = TextStyle(
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    textAlign = TextAlign.Center
+                )
+            )
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.path_studio.moviecatalogue.ui.detailTvShow
 
 import android.content.Context
-import android.view.View
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -43,10 +42,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
+import com.path_studio.moviecatalogue.R
+import com.path_studio.moviecatalogue.data.source.local.enitity.SeasonEntity
+import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.ui.ui.theme.*
 import com.path_studio.moviecatalogue.ui.widget.*
 import com.path_studio.moviecatalogue.util.Utils
@@ -57,9 +57,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.json.JSONArray
 import org.koin.androidx.compose.koinViewModel
-import com.path_studio.moviecatalogue.R
-import com.path_studio.moviecatalogue.data.source.local.enitity.SeasonEntity
-import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 
 private lateinit var detailTvShowViewModel: DetailTvShowViewModel
 
@@ -178,28 +175,54 @@ fun DetailTvShowScreen(
                 }
             )
         } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                NotFoundAnimation(
+            if(Utils.isInternetAvailable(context)) {
+                Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                )
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Text(
-                    text = "Data Not Found",
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
-                        textAlign = TextAlign.Center
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    NotFoundAnimation(
+                        modifier = Modifier
+                            .fillMaxSize()
                     )
-                )
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Text(
+                        text = "Data Not Found",
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    )
+                }
+            }else{
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    NoConnectionAnimation(
+                        modifier = Modifier
+                            .fillMaxSize(.7f)
+                    )
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    androidx.compose.material.Text(
+                        text = "Connection Lost",
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    )
+                }
             }
         }
     }
@@ -237,18 +260,33 @@ fun MainContent(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data("https://image.tmdb.org/t/p/w500/${data.posterPath}")
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(com.path_studio.moviecatalogue.R.drawable.ic_broken_image_black),
-                contentDescription = stringResource(com.path_studio.moviecatalogue.R.string.poster_image),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .width(100.dp)
-                    .height(150.dp)
-            )
+            if(!data.posterPath.isNullOrEmpty() && data.posterPath != "null") {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("https://image.tmdb.org/t/p/w500/${data.posterPath}")
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(com.path_studio.moviecatalogue.R.drawable.ic_broken_image_black),
+                    contentDescription = stringResource(com.path_studio.moviecatalogue.R.string.poster_image),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(150.dp)
+                )
+            }else{
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png")
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(com.path_studio.moviecatalogue.R.drawable.ic_broken_image_black),
+                    contentDescription = stringResource(com.path_studio.moviecatalogue.R.string.poster_image),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(150.dp)
+                )
+            }
 
             Column(
                 modifier = Modifier
@@ -439,7 +477,9 @@ private fun OnLifecycle(
                                                     detailShow.value = detail.mTvShow
                                                     val listOfSeasons = detail.mSeason
                                                     listOfSeasons.forEach {
-                                                        seasons.add(it)
+                                                        if((seasons.isNotEmpty() && !seasons.contains(it)) || seasons.isEmpty()){
+                                                            seasons.add(it)
+                                                        }
                                                     }
                                                     detailShowAvailability.value = true
 

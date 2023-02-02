@@ -16,6 +16,7 @@
             android:name=".ui.TmdbApp"
             android:exported="true"
             android:label="@string/title_activity_tmdb_app"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MovieCatalogue" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.search.SearchActivity" />
     </application>
 
 </manifest>

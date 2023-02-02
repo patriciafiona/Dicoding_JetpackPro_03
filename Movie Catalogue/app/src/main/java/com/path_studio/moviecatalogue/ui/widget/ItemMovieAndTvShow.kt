@@ -1,6 +1,5 @@
 package com.path_studio.moviecatalogue.ui.widget
 
-import android.graphics.Movie
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,10 +21,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.R
+import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.navigations.TmdbScreen
 import com.path_studio.moviecatalogue.util.Utils.changeStringToDateFormat
@@ -45,24 +45,45 @@ fun ItemMovieAndTvShow(
             .padding(12.dp)
             .background(Color.White)
             .clickable {
-                navController.navigate(TmdbScreen.DetailMovieScreen.route)
+                navController.navigate(TmdbScreen.DetailMovieScreen.route){
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
                 navController.currentBackStackEntry?.arguments?.putLong("movieId", data.movieId)
             },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data("https://image.tmdb.org/t/p/w500/${data.posterPath}")
-                .crossfade(true)
-                .build(),
-            placeholder = painterResource(R.drawable.ic_broken_image_black),
-            contentDescription = stringResource(R.string.description),
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .height(150.dp)
-                .width(100.dp)
-        )
+        if(!data.posterPath.isNullOrEmpty() && data.posterPath != "null") {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data("https://image.tmdb.org/t/p/w500/${data.posterPath}")
+                    .crossfade(true)
+                    .build(),
+                placeholder = painterResource(R.drawable.ic_broken_image_black),
+                contentDescription = stringResource(R.string.description),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .height(150.dp)
+                    .width(100.dp)
+            )
+        }else{
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data("https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png")
+                    .crossfade(true)
+                    .build(),
+                placeholder = painterResource(R.drawable.ic_broken_image_black),
+                contentDescription = stringResource(R.string.description),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .height(150.dp)
+                    .width(100.dp)
+            )
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -117,24 +138,45 @@ fun ItemMovieAndTvShow(
             .padding(12.dp)
             .background(Color.White)
             .clickable {
-                navController.navigate(TmdbScreen.DetailTvShowScreen.route)
+                navController.navigate(TmdbScreen.DetailTvShowScreen.route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
                 navController.currentBackStackEntry?.arguments?.putLong("tvShowId", data.tvShowId)
             },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data("https://image.tmdb.org/t/p/w500/${data.posterPath}")
-                .crossfade(true)
-                .build(),
-            placeholder = painterResource(R.drawable.ic_broken_image_black),
-            contentDescription = stringResource(R.string.description),
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .height(150.dp)
-                .width(100.dp)
-        )
+        if(!data.posterPath.isNullOrEmpty() && data.posterPath != "null") {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data("https://image.tmdb.org/t/p/w500/${data.posterPath}")
+                    .crossfade(true)
+                    .build(),
+                placeholder = painterResource(R.drawable.ic_broken_image_black),
+                contentDescription = stringResource(R.string.description),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .height(150.dp)
+                    .width(100.dp)
+            )
+        }else{
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data("https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png")
+                    .crossfade(true)
+                    .build(),
+                placeholder = painterResource(R.drawable.ic_broken_image_black),
+                contentDescription = stringResource(R.string.description),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .height(150.dp)
+                    .width(100.dp)
+            )
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 

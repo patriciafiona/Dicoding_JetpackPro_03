@@ -5,7 +5,6 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.Tv
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.path_studio.moviecatalogue.R
 
 sealed class BottomNavItem(var index: Int, var title: String, var icon: ImageVector, var screen_route: String){
     object ListMovie : BottomNavItem(0, "List Movie", Icons.Default.Movie,"list_movie_tab")

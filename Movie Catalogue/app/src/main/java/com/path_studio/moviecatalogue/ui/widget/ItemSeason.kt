@@ -91,7 +91,7 @@ fun ItemSeason(
                     Spacer(modifier = Modifier.width(5.dp))
 
                     Text(
-                        text = "${season.airDate?.let { Utils.changeStringToDateFormat(it) }} | ${season.episodeCount}",
+                        text = "${season.airDate?.let { Utils.changeStringToDateFormat(it) } ?: "Unknown first air date"} | ${season.episodeCount}",
                         style = TextStyle(
                             color = Color.Gray,
                             fontSize = 12.sp,
@@ -106,7 +106,7 @@ fun ItemSeason(
                         Utils.changeStringToDateFormat(
                             it
                         )
-                    }}.",
+                    } ?: "Unknown first air date"}.",
                     style = TextStyle(
                         color = Color.Gray,
                         fontSize = 12.sp,

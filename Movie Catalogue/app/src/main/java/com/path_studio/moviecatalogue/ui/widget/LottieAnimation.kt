@@ -42,7 +42,7 @@ fun NotFoundAnimation(modifier: Modifier = Modifier) {
 
 @Composable
 fun NoConnectionAnimation(modifier: Modifier = Modifier) {
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.not_found))
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.connection_lost))
     Box(modifier = Modifier.fillMaxWidth()){
         LottieAnimation(
             composition = composition,

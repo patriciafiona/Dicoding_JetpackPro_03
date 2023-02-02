@@ -44,7 +44,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
-import com.path_studio.moviecatalogue.data.source.remote.response.DetailMovieResponse
 import com.path_studio.moviecatalogue.ui.ui.theme.*
 import com.path_studio.moviecatalogue.ui.widget.*
 import com.path_studio.moviecatalogue.util.Utils
@@ -170,28 +169,54 @@ fun DetailMovieScreen(
                 }
             )
         } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                NotFoundAnimation(
+            if(Utils.isInternetAvailable(context)) {
+                Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                )
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Text(
-                    text = "Data Not Found",
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
-                        textAlign = TextAlign.Center
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    NotFoundAnimation(
+                        modifier = Modifier
+                            .fillMaxSize()
                     )
-                )
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Text(
+                        text = "Data Not Found",
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    )
+                }
+            }else{
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    NoConnectionAnimation(
+                        modifier = Modifier
+                            .fillMaxSize(.7f)
+                    )
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    androidx.compose.material.Text(
+                        text = "Connection Lost",
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    )
+                }
             }
         }
     }
@@ -226,18 +251,33 @@ fun MainContent(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data("https://image.tmdb.org/t/p/w500/${data.posterPath}")
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(R.drawable.ic_broken_image_black),
-                contentDescription = stringResource(R.string.poster_image),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .width(100.dp)
-                    .height(150.dp)
-            )
+            if(!data.posterPath.isNullOrEmpty() && data.posterPath != "null") {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("https://image.tmdb.org/t/p/w500/${data.posterPath}")
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(R.drawable.ic_broken_image_black),
+                    contentDescription = stringResource(R.string.poster_image),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(150.dp)
+                )
+            }else{
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png")
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(R.drawable.ic_broken_image_black),
+                    contentDescription = stringResource(R.string.poster_image),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(150.dp)
+                )
+            }
 
             Column(
                 modifier = Modifier

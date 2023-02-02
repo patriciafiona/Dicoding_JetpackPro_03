@@ -1,9 +1,7 @@
 package com.path_studio.moviecatalogue.ui.widget
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -133,11 +131,7 @@ fun ItemSearch(
                 Spacer(modifier = Modifier.height(5.dp))
 
                 Text(
-                    text = if(data.releaseOrAirDate == null || data.releaseOrAirDate == "") {
-                        "Unknown release date"
-                    }else{
-                        data.releaseOrAirDate.let { Utils.changeStringToDateFormat(it) }
-                    },
+                    text = data.releaseOrAirDate?.let { Utils.changeStringToDateFormat(it) } ?: "Unknown release or first air date",
                     style = TextStyle(
                         color = Color.Gray,
                         fontSize = 12.sp,

@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,11 +28,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
-import com.path_studio.moviecatalogue.helper.BackPress
-import kotlinx.coroutines.delay
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
+import com.path_studio.moviecatalogue.helper.BackPress
 import com.path_studio.moviecatalogue.navigations.TmdbScreen
 import com.path_studio.moviecatalogue.navigations.bottomNav.BottomNavItem
 import com.path_studio.moviecatalogue.ui.mainPage.favorite.FavoriteTab
@@ -46,6 +46,7 @@ import com.path_studio.moviecatalogue.ui.ui.theme.Teal700
 import com.path_studio.moviecatalogue.ui.widget.Loader
 import com.path_studio.moviecatalogue.util.Utils.OnLifecycleEvent
 import com.path_studio.moviecatalogue.vo.Status
+import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
 private lateinit var movieViewModel: MovieViewModel
@@ -93,7 +94,7 @@ fun MainScreen(
     val favoriteTvShowAvailability = remember { mutableStateOf(false) }
 
     //bottomNavigation
-    val currentBottomTab = remember { mutableStateOf(0) }
+    val currentBottomTab = rememberSaveable { mutableStateOf(0) }
     val bottomNavItems = listOf(
         BottomNavItem.ListMovie,
         BottomNavItem.Favorites,

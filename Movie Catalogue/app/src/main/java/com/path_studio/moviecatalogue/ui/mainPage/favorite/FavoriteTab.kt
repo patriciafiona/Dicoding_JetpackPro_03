@@ -1,15 +1,10 @@
 package com.path_studio.moviecatalogue.ui.mainPage.favorite
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -30,7 +25,8 @@ import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
 import com.path_studio.moviecatalogue.ui.ui.theme.Purple700
-import com.path_studio.moviecatalogue.ui.widget.*
+import com.path_studio.moviecatalogue.ui.widget.FavMovieTabContentScreen
+import com.path_studio.moviecatalogue.ui.widget.FavTvShowTabContentScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class,
