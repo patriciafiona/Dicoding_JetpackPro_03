@@ -32,6 +32,7 @@ import kotlinx.coroutines.delay
 import com.path_studio.moviecatalogue.R
 import com.path_studio.moviecatalogue.data.source.local.enitity.MovieEntity
 import com.path_studio.moviecatalogue.data.source.local.enitity.TvShowEntity
+import com.path_studio.moviecatalogue.navigations.TmdbScreen
 import com.path_studio.moviecatalogue.navigations.bottomNav.BottomNavItem
 import com.path_studio.moviecatalogue.ui.mainPage.favorite.FavoriteTab
 import com.path_studio.moviecatalogue.ui.mainPage.favorite.viewModel.FavoriteMovieViewModel
@@ -172,7 +173,9 @@ fun MainScreen(
                         Spacer(modifier = Modifier.weight(1f))
 
                         IconButton(
-                            onClick = { /*TODO*/ }
+                            onClick = {
+                                navController.navigate(TmdbScreen.SearchScreen.route)
+                            }
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Search,

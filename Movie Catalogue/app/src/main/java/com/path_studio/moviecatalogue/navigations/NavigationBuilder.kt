@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.path_studio.moviecatalogue.ui.detailMovie.DetailMovieScreen
 import com.path_studio.moviecatalogue.ui.detailTvShow.DetailTvShowScreen
 import com.path_studio.moviecatalogue.ui.mainPage.MainScreen
+import com.path_studio.moviecatalogue.ui.search.SearchScreen
 import com.path_studio.moviecatalogue.ui.splash.SplashScreen
 
 @Composable
@@ -42,6 +43,10 @@ fun NavigationBuilder() {
             }else{
                 DetailTvShowScreen(navController = navigationController, tvShowId = null)
             }
+        }
+
+        composable(route = TmdbScreen.SearchScreen.route) {
+            SearchScreen(navController = navigationController)
         }
 
     }
