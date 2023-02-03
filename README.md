@@ -46,8 +46,8 @@ Challenge reference         : [Dicoding Challenge] (https://www.dicoding.com/cha
 | :-: | :-: |
 | TMDB Github Repository - Main Branch | [Link](https://bit.ly/tmdb-github-main-branch) |
 | TMDB Github Repository - TMDB-Compose-Migration Branch | [Link](https://bit.ly/tmdb-github-migration-branch) |
-| TMDB .apk release v2.0.0 | Comming soon |
-| TMDB PPT & more | Comming soon |
+| TMDB .apk release v2.0.0 | [Link](https://bit.ly/tmdb-apk-v2_0_0) |
+| TMDB PPT & more | [Link](https://bit.ly/tmdb-gdrive) |
 
 ## Results for App 
 | Action                            | Result                                  | Action                            | Result                                  |
