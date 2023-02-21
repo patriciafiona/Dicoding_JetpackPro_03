@@ -56,3 +56,11 @@ Challenge reference         : [Dicoding Challenge] (https://www.dicoding.com/cha
 | Detail Movie     | <img src="https://user-images.githubusercontent.com/32255348/216266292-b5067a6a-04c2-42cb-a643-057ac02aaf0d.gif" width="200" />      | Detail Tv Show     | <img src="https://user-images.githubusercontent.com/32255348/216266318-8b6c45d0-493b-47cc-b067-37df72533324.gif" width="200" />      |
 | Search Feature             | <img src="https://user-images.githubusercontent.com/32255348/216265966-3851717f-9965-4535-8484-94aac78fbd84.gif" width="200" />      | Favorite Feature             | <img src="https://user-images.githubusercontent.com/32255348/216266526-58b93a1e-f3dd-41db-97bb-87c857d82e9b.gif" width="200" />      |
 | Data availability - Connection lost | <img src="https://user-images.githubusercontent.com/32255348/216266978-6176f48a-4000-4c8f-8e48-d090252a6596.gif" width="200" /> |||
+
+## 💖 Support the Project
+Thank you so much already visiting my projects! If you want to support my open source work, please star this repository. 
+
+[![Platform](https://img.shields.io/badge/TMDB-2.0.0-yellow)](https://bit.ly/tmdb-apk-v2_0_0)
+[![Platform](https://img.shields.io/badge/Android-2022.1.1%20Patch%201-green)](https://developer.android.com/studio)
+[![Platform](https://img.shields.io/badge/Kotlin%20Plugin-1.8.0-blue)](https://kotlinlang.org/)
+[![Platform](https://img.shields.io/badge/Compose%20version-1.3.3-orange)](https://developer.android.com/jetpack/androidx/releases/compose-ui)
